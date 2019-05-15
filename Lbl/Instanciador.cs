@@ -111,6 +111,10 @@ namespace Lbl
                                 case "Lbl.Cajas.Caja":
                                         Res = typeof(Lbl.Cajas.Caja);
                                         break;
+                                case "movimiento":
+                                case "Lbl.Cajas.Movimiento":
+                                        Res = typeof(Lbl.Cajas.Movimiento);
+                                        break;
                                 case "chequeras":
                                 case "Lbl.Bancos.Chequera":
                                         Res = typeof(Lbl.Bancos.Chequera);
@@ -140,7 +144,13 @@ namespace Lbl
                                 case "T":
                                         Res = typeof(Lbl.Comprobantes.Ticket);
                                         break;
+                                case "TX":
+                                case "Lbl.Comprobantes.TicketX":
+                                        Res = typeof(Lbl.Comprobantes.TicketX);
+                                        break;
                                 case "Lbl.Comprobantes.ComprobanteDeCompra":
+                                case "Lbl.Comprobantes.Pedido":
+                                case "Lbl.Comprobantes.RemitoCompra":
                                 case "NP":
                                 case "PD":
                                 case "RP":

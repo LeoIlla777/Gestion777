@@ -11,10 +11,18 @@ namespace Lazaro.Base.Util.Impresion
                 protected const double mm = 3.937007874015748031496062992126;
                 protected Lfx.Data.IConnection m_Connection = null;
                 public IDbTransaction Transaction = null;
+                public const int CantidadFilas = 10;
 
                 public int PaginaNumero { get; set; }
+                public int FilaActual { get; set; }
+                public int UltimaFila { get; set; }
+                public int PaginaTotal { get; set; }
+                public int DesdeImprimir { get; set; }
+                public int HastaImprimir { get; set; }
+                public int UltimaEspejo { get; set; }
+                public bool Espejo { get; set; }
 
-                public Impresor(IDbTransaction transaction)
+        public Impresor(IDbTransaction transaction)
                 {
                         this.Transaction = transaction;
                 }

@@ -15,7 +15,7 @@ namespace Lfc.Comprobantes.Recibos
                         this.Definicion = new Lazaro.Pres.Listings.Listing()
                         {
                                 ElementoTipo = typeof(Lbl.Comprobantes.Recibo),
-
+                                Paging = true,
                                 TableName = "recibos",
                                 Joins = new qGen.JoinCollection() { new qGen.Join("personas", "recibos.id_cliente=personas.id_persona") },
                                 KeyColumn = new Lazaro.Pres.Field("recibos.id_recibo", "Cód.", Lfx.Data.InputFieldTypes.Serial, 0),

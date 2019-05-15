@@ -9,13 +9,14 @@ using System.Security.Permissions;
 
 #endregion
 
-[assembly: AssemblyTitle("Componente Lázaro Servidor Fiscal")]
+[assembly: AssemblyTitle("Gestión777")]
 [assembly: AssemblyVersion("2.0.*")]
-[assembly: AssemblyDescription("Componente Lázaro Servidor Fiscal versión 1.0")]
-[assembly: AssemblyCompany("Ernesto Nicolás Carrea")]
-[assembly: AssemblyProduct("Lázaro")]
-[assembly: AssemblyCopyright("Copyright 2004-2017 Ernesto Nicolás Carrea y colaboradores")]
+[assembly: AssemblyDescription("Sistema de gestión comercial Gestión777")]
+[assembly: AssemblyCompany("Excelencia Soluciones Informáticas S.R.L.")]
+[assembly: AssemblyProduct("Gestión777")]
+[assembly: AssemblyCopyright("Copyright 2020 ")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 [assembly: CLSCompliant(true)]
 
+[assembly: log4net.Config.XmlConfigurator(ConfigFile = "log4net.config", Watch = true)]

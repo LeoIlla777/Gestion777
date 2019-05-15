@@ -32,5 +32,9 @@ namespace Lazaro.Pres.Listings
                 public qGen.Where Where { get; set; }
 
                 public bool Sortable { get; set; }
-        }
+
+                public bool Paging { get; set; }
+
+                public List<string[]> Acciones { get; set; }
+    }
 }

@@ -7,9 +7,9 @@ namespace Lbl.Comprobantes
 {
         [Lbl.Atributos.Nomenclatura(NombreSingular = "Comprobante de Compra")]
         [Lbl.Atributos.Datos(TablaDatos = "comprob", CampoId = "id_comprob", TablaImagenes = "comprob_imagenes")]
-        [Lbl.Atributos.Presentacion()]
+        [Lbl.Atributos.Presentacion(PanelExtendido = Lbl.Atributos.PanelExtendido.Automatico)]
 
-        [Entity(TableName = "comprob", IdFieldName = "id_comprob")]
+    [Entity(TableName = "comprob", IdFieldName = "id_comprob")]
         public class ComprobanteDeCompra : ComprobanteConArticulos, Lbl.IElementoConImagen
         {
                 //Requiere permisos de comprobantes con articulos 
@@ -30,11 +30,6 @@ namespace Lbl.Comprobantes
                         this.Compra = true;
                         this.Fecha = DateTime.Now;
                         this.FormaDePago = new Pagos.FormaDePago(this.Connection, Pagos.TiposFormasDePago.CuentaCorriente);
-
-                        if (this.SituacionOrigen == null)
-                                this.SituacionOrigen = new Lbl.Articulos.Situacion(this.Connection, 998); //Proveedor
-                        if (this.SituacionDestino == null)
-                                this.SituacionDestino = new Lbl.Articulos.Situacion(this.Connection, Lfx.Workspace.Master.CurrentConfig.Productos.DepositoPredeterminado);
                 }
 
                 public override Tipo Tipo
@@ -50,15 +45,20 @@ namespace Lbl.Comprobantes
                                 if (this.Compra == false && this.Tipo.EsFacturaNCoND && this.FormaDePago == null)
                                         this.FormaDePago = new Lbl.Pagos.FormaDePago(this.Connection, Lbl.Pagos.TiposFormasDePago.CuentaCorriente);
 
-                                if (this.Tipo.Nomenclatura == "PD" || this.Tipo.Nomenclatura == "NP")
-                                        this.Estado = 50;
+                                //if (this.Tipo.Nomenclatura == "PD" || this.Tipo.Nomenclatura == "NP")
+                                //        this.Estado = 50;
                         }
                 }
 
                 new public ComprobanteDeCompra Convertir(Tipo tipo)
                 {
+                        if (tipo.NombreTipoLbl == "Lbl.Comprobantes.Remito")
+                            tipo.NombreTipoLbl = "Lbl.Comprobantes.RemitoCompra";
                         Lbl.Comprobantes.ComprobanteConArticulos Res = base.Convertir(tipo);
                         Res.Compra = true;
+                        Res.Fecha = DateTime.Now;
+                        if (tipo.NombreTipoLbl == "Lbl.Comprobantes.RemitoCompra")
+                            tipo.NombreTipoLbl = "Lbl.Comprobantes.Remito";
                         return (ComprobanteDeCompra)Res;
                 }
         }

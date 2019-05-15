@@ -17,7 +17,7 @@
     <UpgradeBackupLocation>
     </UpgradeBackupLocation>
     <IsWebBootstrapper>false</IsWebBootstrapper>
-    <ApplicationIcon>Lazaro.ico</ApplicationIcon>
+    <ApplicationIcon>gestion777.ico</ApplicationIcon>
     <ReleaseVersion>1.0</ReleaseVersion>
     <TargetFrameworkProfile>
     </TargetFrameworkProfile>
@@ -138,6 +138,12 @@
     <Compile Include="Comprobantes\Compra\Editar.Designer.cs">
       <DependentUpon>Editar.cs</DependentUpon>
     </Compile>
+    <Compile Include="Comprobantes\EditarNumeroComprobante.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Comprobantes\EditarNumeroComprobante.Designer.cs">
+      <DependentUpon>EditarNumeroComprobante.cs</DependentUpon>
+    </Compile>
     <Compile Include="Comprobantes\Facturas\IvaCompras.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -153,19 +159,25 @@
     <Compile Include="Comprobantes\Facturas\Reimprimir.Designer.cs">
       <DependentUpon>Reimprimir.cs</DependentUpon>
     </Compile>
+    <Compile Include="Comprobantes\Facturas\Filtros.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Comprobantes\Facturas\Filtros.Designer.cs">
+      <DependentUpon>Filtros.cs</DependentUpon>
+    </Compile>
     <Compile Include="Comprobantes\Filtros.Designer.cs">
       <DependentUpon>Filtros.cs</DependentUpon>
     </Compile>
     <Compile Include="Comprobantes\Seleccionar.Designer.cs">
       <DependentUpon>Seleccionar.cs</DependentUpon>
     </Compile>
-    <Compile Include="Comprobantes\Impresoras\Editar.cs">
+    <Compile Include="Comprobantes\Facturas\Impresoras\Editar.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Comprobantes\Impresoras\Editar.Designer.cs">
+    <Compile Include="Comprobantes\Facturas\Impresoras\Editar.Designer.cs">
       <DependentUpon>Editar.cs</DependentUpon>
     </Compile>
-    <Compile Include="Comprobantes\Impresoras\Inicio.cs">
+    <Compile Include="Comprobantes\Facturas\Impresoras\Inicio.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Comprobantes\IniciarNumeracion.cs">
@@ -187,6 +199,9 @@
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Comprobantes\Remitos\Inicio.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Comprobantes\TicketX\Inicio.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Comprobantes\Tipo\AgregarTipoImpresora.cs">
@@ -413,11 +428,11 @@
     <Compile Include="Inicio\Boton.Designer.cs">
       <DependentUpon>Boton.cs</DependentUpon>
     </Compile>
-    <Compile Include="Inicio\Consejo.cs">
+    <Compile Include="Inicio\ControlTareas.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Inicio\Consejo.Designer.cs">
-      <DependentUpon>Consejo.cs</DependentUpon>
+    <Compile Include="Inicio\ControlTareas.Designer.cs">
+      <DependentUpon>ControlTareas.cs</DependentUpon>
     </Compile>
     <Compile Include="Inicio\ControlPersonas.cs">
       <SubType>UserControl</SubType>
@@ -437,11 +452,17 @@
     <Compile Include="Inicio\ControlArticulos.Designer.cs">
       <DependentUpon>ControlArticulos.cs</DependentUpon>
     </Compile>
-    <Compile Include="Inicio\ControlComprobantes.cs">
+    <Compile Include="Inicio\ControlCompras.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Inicio\ControlComprobantes.Designer.cs">
-      <DependentUpon>ControlComprobantes.cs</DependentUpon>
+    <Compile Include="Inicio\ControlCompras.Designer.cs">
+      <DependentUpon>ControlCompras.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Inicio\ControlVentas.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Inicio\ControlVentas.Designer.cs">
+      <DependentUpon>ControlVentas.cs</DependentUpon>
     </Compile>
     <Compile Include="Inicio\Inicio.cs">
       <SubType>Form</SubType>
@@ -474,8 +495,39 @@
     <Compile Include="Misc\Desduplicar.Designer.cs">
       <DependentUpon>Desduplicar.cs</DependentUpon>
     </Compile>
-    <Compile Include="Pagos\FormasDePago\Inicio.cs" />
-    <Compile Include="Pagos\Planes\Inicio.cs" />
+    <Compile Include="Misc\Seguridad.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Misc\Seguridad.Designer.cs">
+      <DependentUpon>Seguridad.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Moneda\Editar.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Moneda\Editar.Designer.cs">
+      <DependentUpon>Editar.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Moneda\Inicio.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Pagos\FormasDePago\Editar.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Pagos\FormasDePago\Editar.Designer.cs">
+      <DependentUpon>Editar.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Pagos\FormasDePago\Inicio.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Pagos\Planes\Editar.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Pagos\Planes\Editar.Designer.cs">
+      <DependentUpon>Editar.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Pagos\Planes\Inicio.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Personas\AltaDuplicada.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -809,11 +861,17 @@
     <EmbeddedResource Include="Comprobantes\Compra\Editar.resx">
       <DependentUpon>Editar.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Comprobantes\EditarNumeroComprobante.resx">
+      <DependentUpon>EditarNumeroComprobante.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Comprobantes\Facturas\Reimprimir.resx">
       <DependentUpon>Reimprimir.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Comprobantes\Impresoras\Editar.resx">
+    <EmbeddedResource Include="Comprobantes\Facturas\Impresoras\Editar.resx">
       <DependentUpon>Editar.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Comprobantes\Facturas\Filtros.resx">
+      <DependentUpon>Filtros.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Comprobantes\IniciarNumeracion.resx">
       <DependentUpon>IniciarNumeracion.cs</DependentUpon>
@@ -936,29 +994,64 @@
     <EmbeddedResource Include="Inicio\Boton.resx">
       <DependentUpon>Boton.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Inicio\Consejo.resx">
-      <DependentUpon>Consejo.cs</DependentUpon>
+    <EmbeddedResource Include="Inicio\ControlTareas.resx">
+      <DependentUpon>ControlTareas.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Inicio\ControlPersonas.resx">
       <DependentUpon>ControlPersonas.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Inicio\ControlTablero.resx">
       <DependentUpon>ControlTablero.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Inicio\ControlArticulos.resx">
       <DependentUpon>ControlArticulos.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="Inicio\ControlComprobantes.resx">
-      <DependentUpon>ControlComprobantes.cs</DependentUpon>
+    <EmbeddedResource Include="Inicio\ControlCompras.resx">
+      <DependentUpon>ControlCompras.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Inicio\ControlVentas.resx">
+      <DependentUpon>ControlVentas.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Inicio\Inicio.resx">
       <DependentUpon>Inicio.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Log\Editar.resx">
       <DependentUpon>Editar.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Misc\Desduplicar.resx">
       <DependentUpon>Desduplicar.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Misc\Seguridad.resx">
+      <DependentUpon>Seguridad.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Moneda\Editar.resx">
+      <DependentUpon>Editar.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Moneda\Inicio.resx">
+      <DependentUpon>Inicio.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Pagos\FormasDePago\Editar.resx">
+      <DependentUpon>Editar.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Pagos\FormasDePago\Inicio.resx">
+      <DependentUpon>Inicio.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Pagos\Planes\Editar.resx">
+      <DependentUpon>Editar.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Pagos\Planes\Inicio.resx">
+      <DependentUpon>Inicio.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Personas\AltaDuplicada.resx">
       <DependentUpon>AltaDuplicada.cs</DependentUpon>
@@ -967,6 +1060,12 @@
     <EmbeddedResource Include="Personas\Editar.resx">
       <DependentUpon>Editar.cs</DependentUpon>
       <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Personas\Grupos\Inicio.resx">
+      <DependentUpon>Inicio.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Personas\Inicio.resx">
+      <DependentUpon>Inicio.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Personas\Usuarios\Editar.resx">
       <DependentUpon>Editar.cs</DependentUpon>
@@ -1100,6 +1199,9 @@
       <DependentUpon>Editar.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
+    <EmbeddedResource Include="Pvs\Inicio.resx">
+      <DependentUpon>Inicio.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Reportes\Facturacion.resx">
       <DependentUpon>Facturacion.cs</DependentUpon>
       <SubType>Designer</SubType>
@@ -1119,13 +1221,25 @@
       <DependentUpon>Editar.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
+    <EmbeddedResource Include="Sucursales\Inicio.resx">
+      <DependentUpon>Inicio.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Tareas\Estados\Editar.resx">
       <DependentUpon>Editar.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
+    <EmbeddedResource Include="Tareas\Estados\Inicio.resx">
+      <DependentUpon>Inicio.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Tareas\Inicio.resx">
+      <DependentUpon>Inicio.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Tareas\Tipos\Editar.resx">
       <DependentUpon>Editar.cs</DependentUpon>
       <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Tareas\Tipos\Inicio.resx">
+      <DependentUpon>Inicio.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Tarjetas\Cupones\Acreditar.resx">
       <DependentUpon>Acreditar.cs</DependentUpon>
@@ -1197,9 +1311,12 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Lazaro.ico" />
+    <Content Include="gestion777.ico" />
+    <Content Include="Resources\if_list-alt_173045.png" />
+    <Content Include="Resources\if_tasks_173108.png" />
+    <Content Include="Resources\if_user_173122.png" />
+    <Content Include="Resources\logo.png" />
     <None Include="Resources\printer-4.png" />
-    <None Include="Resources\printer-2.png" />
     <None Include="Resources\container.png" />
     <None Include="Resources\copy-item.png" />
     <None Include="Resources\dollar.png" />

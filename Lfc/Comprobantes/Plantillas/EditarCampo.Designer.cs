@@ -138,7 +138,8 @@ namespace Lfc.Comprobantes.Plantillas
         "Vera Sans Serif|Bitstream Vera Sans",
         "Vera Monoespaciada|Bitstream Vera Sans Mono",
         "Segoe UI|Segoe UI",
-        "Courier|Courier New"};
+        "Courier|Courier New",
+        "Código de Barra|3 of 9 Barcode"};
                         this.EntradaFuenteNombre.Size = new System.Drawing.Size(256, 24);
                         this.EntradaFuenteNombre.TabIndex = 14;
                         this.EntradaFuenteNombre.TextKey = "*";

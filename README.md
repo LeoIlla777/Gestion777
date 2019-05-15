@@ -1,9 +1,6 @@
-# Lázaro, gestión comercial
+﻿# Gestión777, gestión comercial
 
-Lázaro es una aplicación de facturación y gestión comercial gratuita, moderna y sencilla. Ayuda a hacer la gestión y el control más fácil y más eficiente en empresas pequeñas, medianas y grandes. Además se instala en pocos minutos.
+Gestión777 es una aplicación de facturación y gestión comercial gratuita, moderna y sencilla. Ayuda a hacer la gestión y el control más fácil y más eficiente en empresas pequeñas, medianas y grandes. Además se instala en pocos minutos.
 
-Más información en la página oficial https://www.lazarogestion.com
+Más información en la página oficial https://www.excelenciadigital.net/Gestión777
 
-Sitio de documentación: https://docs.lazarogestion.com
-
-Foro de soporte: https://foro.lazarogestion.com

@@ -42,6 +42,8 @@ namespace Lfc.Comprobantes
                         this.EntradaPv = new Lui.Forms.TextBox();
                         this.EntradaFechas = new Lcc.Entrada.RangoFechas();
                         this.tableLayoutPanel1 = new Lui.Forms.TableLayoutPanel();
+                        this.label13 = new Lui.Forms.Label();
+                        this.EntradaCobrador = new Lcc.Entrada.CodigoDetalle();
                         this.label10 = new Lui.Forms.Label();
                         this.tableLayoutPanel3 = new Lui.Forms.TableLayoutPanel();
                         this.EntradaMontoHasta = new Lui.Forms.TextBox();
@@ -128,6 +130,7 @@ namespace Lfc.Comprobantes
         "Comprob. Facturables|Lbl.Comprobantes.ComprobanteFacturable",
         "Facturas|Lbl.Comprobantes.Factura",
         "Tickets|Lbl.Comprobantes.Ticket",
+        "TicketsX|Lbl.Comprobantes.TicketX",
         "Notas de Crédito|Lbl.Comprobantes.NotaDeCredito",
         "Notas de Débito|Lbl.Comprobantes.NotaDeDebito",
         "Presupuestos|Lbl.Comprobantes.Presupuesto",
@@ -291,6 +294,7 @@ namespace Lfc.Comprobantes
                         this.tableLayoutPanel1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
                                     | System.Windows.Forms.AnchorStyles.Left)
                                     | System.Windows.Forms.AnchorStyles.Right)));
+                        this.tableLayoutPanel1.AutoScroll = true;
                         this.tableLayoutPanel1.ColumnCount = 2;
                         this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
                         this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
@@ -314,7 +318,7 @@ namespace Lfc.Comprobantes
                         this.tableLayoutPanel1.Controls.Add(this.Label1, 0, 9);
                         this.tableLayoutPanel1.Controls.Add(this.tableLayoutPanel2, 1, 3);
                         this.tableLayoutPanel1.Controls.Add(this.EntradaFormaPago, 1, 1);
-                        this.tableLayoutPanel1.Location = new System.Drawing.Point(24, 24);
+                        this.tableLayoutPanel1.Location = new System.Drawing.Point(24, 1);
                         this.tableLayoutPanel1.Name = "tableLayoutPanel1";
                         this.tableLayoutPanel1.RowCount = 10;
                         this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
@@ -327,8 +331,33 @@ namespace Lfc.Comprobantes
                         this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
                         this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
                         this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
-                        this.tableLayoutPanel1.Size = new System.Drawing.Size(586, 366);
+                        this.tableLayoutPanel1.Size = new System.Drawing.Size(586, 468);
                         this.tableLayoutPanel1.TabIndex = 0;
+                        // 
+                        // label13
+                        // 
+                        this.label13.Location = new System.Drawing.Point(3, 314);
+                        this.label13.Name = "label13";
+                        this.label13.Size = new System.Drawing.Size(128, 24);
+                        this.label13.TabIndex = 21;
+                        this.label13.Text = "Cobrador";
+                        this.label13.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+                        // 
+                        // EntradaCobrador
+                        // 
+                        this.EntradaCobrador.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+                        | System.Windows.Forms.AnchorStyles.Right)));
+                        this.EntradaCobrador.AutoTab = true;
+                        this.EntradaCobrador.CanCreate = false;
+                        this.EntradaCobrador.Filter = "(tipo&4)=4";
+                        this.EntradaCobrador.Location = new System.Drawing.Point(137, 317);
+                        this.EntradaCobrador.MaxLength = 200;
+                        this.EntradaCobrador.Name = "EntradaCobrador";
+                        this.EntradaCobrador.NombreTipo = "Lbl.Personas.Persona";
+                        this.EntradaCobrador.Required = false;
+                        this.EntradaCobrador.Size = new System.Drawing.Size(446, 26);
+                        this.EntradaCobrador.TabIndex = 20;
+                        this.EntradaCobrador.Text = "0";
                         // 
                         // label10
                         // 
@@ -417,7 +446,7 @@ namespace Lfc.Comprobantes
                         // Filtros
                         // 
                         this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
-                        this.ClientSize = new System.Drawing.Size(634, 454);
+                        this.ClientSize = new System.Drawing.Size(634, 535);
                         this.Controls.Add(this.tableLayoutPanel1);
                         this.Name = "Filtros";
                         this.Text = "Filtros";
@@ -460,5 +489,7 @@ namespace Lfc.Comprobantes
                 internal Label label12;
                 internal Label label11;
                 internal Lui.Forms.Label Label6;
+                internal Lui.Forms.Label label13;
+                internal Lcc.Entrada.CodigoDetalle EntradaCobrador;
         }
 }

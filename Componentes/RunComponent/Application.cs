@@ -14,11 +14,6 @@ namespace RunComponent
 		//[STAThread]
                 public static void Main(string[] args)
                 {
-
-                        //Console.WriteLine("RunComponent");
-                        //Console.WriteLine("    Ejecuta un componente Lfx fuera del entorno de Lázaro.");
-                        //Console.WriteLine("    Copyright 2004-2017 Ernesto Nicolás Carrea y colaboradores");
-                        //Console.WriteLine("");
                         System.Windows.Forms.Application.ThreadException += new System.Threading.ThreadExceptionEventHandler(ThreadExceptionHandler);
                         AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(GlobalExceptionHandler);
                         System.Windows.Forms.Application.SetUnhandledExceptionMode(UnhandledExceptionMode.CatchException);
@@ -68,57 +63,68 @@ namespace RunComponent
 
                 public static void ExceptionHandler(Exception ex)
                 {
-                        System.Text.StringBuilder Texto = new System.Text.StringBuilder();
-                        Texto.AppendLine("Lugar   : " + ex.Source);
-                        try {
-                                System.Diagnostics.StackTrace Traza = new System.Diagnostics.StackTrace(ex, true);
-                                Texto.AppendLine("Línea   : " + Traza.GetFrame(0).GetFileLineNumber());
-                                Texto.AppendLine("Columna : " + Traza.GetFrame(0).GetFileColumnNumber());
-                        }
-                        catch {
-                                //Nada
-                        }
-                        Texto.AppendLine("Equipo  : " + Lfx.Environment.SystemInformation.MachineName);
-                        Texto.AppendLine("Plataf. : " + Lfx.Environment.SystemInformation.Platform);
-                        Texto.AppendLine("RunTime : " + Lfx.Environment.SystemInformation.RunTime);
-                        Texto.AppendLine("Excepción no controlada: " + ex.ToString());
-                        Texto.AppendLine("");
+            System.Text.StringBuilder Texto = new System.Text.StringBuilder();
+            Texto.AppendLine("Lugar   : " + ex.Source);
+            try
+            {
+                System.Diagnostics.StackTrace Traza = new System.Diagnostics.StackTrace(ex, true);
+                Texto.AppendLine("Línea   : " + Traza.GetFrame(0).GetFileLineNumber());
+                Texto.AppendLine("Columna : " + Traza.GetFrame(0).GetFileColumnNumber());
+            }
+            catch
+            {
+                //Nada
+            }
+            Texto.AppendLine("Equipo  : " + Lfx.Environment.SystemInformation.MachineName);
+            Texto.AppendLine("Plataf. : " + Lfx.Environment.SystemInformation.Platform);
+            Texto.AppendLine("RunTime : " + Lfx.Environment.SystemInformation.RunTime);
+            Texto.AppendLine("Excepción no controlada: " + ex.ToString());
+            Texto.AppendLine("");
 
-                        Texto.AppendLine("Lazaro versión " + System.Diagnostics.FileVersionInfo.GetVersionInfo(Lfx.Environment.Folders.ApplicationFolder + "Lazaro.exe").ProductVersion + " del " + new System.IO.FileInfo(Lfx.Environment.Folders.ApplicationFolder + "Lazaro.exe").LastWriteTime.ToString());
-                        System.IO.DirectoryInfo Dir = new System.IO.DirectoryInfo(Lfx.Environment.Folders.ApplicationFolder);
-                        foreach (System.IO.FileInfo DirItem in Dir.GetFiles("*.dll")) {
-                                Texto.AppendLine(DirItem.Name + " versión " + System.Diagnostics.FileVersionInfo.GetVersionInfo(DirItem.FullName).ProductVersion + " del " + new System.IO.FileInfo(DirItem.FullName).LastWriteTime.ToString());
-                        }
+            Texto.AppendLine("Gestion versión " + System.Diagnostics.FileVersionInfo.GetVersionInfo(Lfx.Environment.Folders.ApplicationFolder + "Lazaro.exe").ProductVersion + " del " + new System.IO.FileInfo(Lfx.Environment.Folders.ApplicationFolder + "Lazaro.exe").LastWriteTime.ToString());
+            System.IO.DirectoryInfo Dir = new System.IO.DirectoryInfo(Lfx.Environment.Folders.ApplicationFolder);
+            foreach (System.IO.FileInfo DirItem in Dir.GetFiles("*.dll"))
+            {
+                Texto.AppendLine(DirItem.Name + " versión " + System.Diagnostics.FileVersionInfo.GetVersionInfo(DirItem.FullName).ProductVersion + " del " + new System.IO.FileInfo(DirItem.FullName).LastWriteTime.ToString());
+            }
 
-                        Dir = new System.IO.DirectoryInfo(Lfx.Environment.Folders.ComponentsFolder);
-                        foreach (System.IO.FileInfo DirItem in Dir.GetFiles("*.dll")) {
-                                Texto.AppendLine(DirItem.Name + " versión " + System.Diagnostics.FileVersionInfo.GetVersionInfo(DirItem.FullName).ProductVersion + " del " + new System.IO.FileInfo(DirItem.FullName).LastWriteTime.ToString());
-                        }
+            Dir = new System.IO.DirectoryInfo(Lfx.Environment.Folders.ComponentsFolder);
+            foreach (System.IO.FileInfo DirItem in Dir.GetFiles("*.dll"))
+            {
+                Texto.AppendLine(DirItem.Name + " versión " + System.Diagnostics.FileVersionInfo.GetVersionInfo(DirItem.FullName).ProductVersion + " del " + new System.IO.FileInfo(DirItem.FullName).LastWriteTime.ToString());
+            }
 
-                        Texto.AppendLine("Traza:");
-                        Texto.AppendLine(ex.StackTrace);
+            Texto.AppendLine("Traza:");
+            Texto.AppendLine(ex.StackTrace);
 
-                        MailMessage Mensaje = new MailMessage();
-                        Mensaje.To.Add(new MailAddress("error@lazarogestion.com"));
-                        Mensaje.From = new MailAddress(Lbl.Sys.Config.Actual.UsuarioConectado.Id.ToString() + "@" + Lfx.Environment.SystemInformation.MachineName, Lbl.Sys.Config.Actual.UsuarioConectado.Nombre + " en " + Lbl.Sys.Config.Empresa.Nombre);
-                        try {
-                                //No sé por qué, pero una vez dió un error al poner el asunto
-                                Mensaje.Subject = ex.Message;
-                        }
-                        catch {
-                                Mensaje.Subject = "Excepción no controlada";
-                                Texto.Insert(0, ex.Message + System.Environment.NewLine);
-                        }
+            MailMessage Mensaje = new MailMessage();
+            Mensaje.To.Add(new MailAddress("leoilla777@gmail.com"));
+            Mensaje.From = new MailAddress(Lbl.Sys.Config.Actual.UsuarioConectado.Id.ToString() + "@" + Lfx.Environment.SystemInformation.MachineName, Lbl.Sys.Config.Actual.UsuarioConectado.Nombre + " en " + Lbl.Sys.Config.Empresa.Nombre);
+            try
+            {
+                //No sé por qué, pero una vez dió un error al poner el asunto
+                Mensaje.Subject = ex.Message;
+            }
+            catch
+            {
+                Mensaje.Subject = "Excepción no controlada";
+                Texto.Insert(0, ex.Message + System.Environment.NewLine);
+            }
 
-                        Mensaje.Body = Texto.ToString();
+            Mensaje.Body = Texto.ToString();
 
-                        SmtpClient Cliente = new SmtpClient("mail.lazarogestion.com");
-                        try {
-                                Cliente.Send(Mensaje);
-                        }
-                        catch {
-                                // Nada
-                        }
-                }
+
+            SmtpClient Cliente = new SmtpClient("smtp.gmail.com", 587);
+            Cliente.EnableSsl = true;
+            Cliente.Credentials = new System.Net.NetworkCredential("leonardoillanez@alumnos.materiabiz.com", "donjuan2e");
+            try
+            {
+                Cliente.Send(Mensaje);
+            }
+            catch
+            {
+                // Nada
+            }
+        }
 	}
 }

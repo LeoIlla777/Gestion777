@@ -9,7 +9,7 @@ namespace Lfc.Tarjetas.Cupones
         public partial class Inicio : Lfc.FormularioListado
         {
                 protected internal string m_Tabla = "tarjetas_cupones";
-                protected internal int m_Cliente, m_FormaDePago, m_Plan, m_Estado = -2;
+                protected internal int m_Cliente, m_FormaDePago, m_Plan, m_Estado = -2, m_Sucursal;
                 protected internal Lfx.Types.DateRange m_Fecha = new Lfx.Types.DateRange("*");
                 protected internal qGen.Select m_SelectCommand;
 
@@ -31,7 +31,7 @@ namespace Lfc.Tarjetas.Cupones
                         {
                                 ElementoTipo = typeof(Lbl.Pagos.Cupon),
                                 TableName = "tarjetas_cupones",
-                                Joins = new qGen.JoinCollection() { new qGen.Join("formaspago", "tarjetas_cupones.id_tarjeta=formaspago.id_formapago"), new qGen.Join("personas", "tarjetas_cupones.id_cliente=personas.id_persona") },
+                                Joins = new qGen.JoinCollection() { new qGen.Join("formaspago", "tarjetas_cupones.id_tarjeta=formaspago.id_formapago"), new qGen.Join("personas", "tarjetas_cupones.id_cliente=personas.id_persona"), new qGen.Join("comprob", "tarjetas_cupones.id_comprob=comprob.id_comprob") },
                                 KeyColumn = new Lazaro.Pres.Field("tarjetas_cupones.id_cupon", "Cód.", Lfx.Data.InputFieldTypes.Serial, 28),
 
                                 Columns = new Lazaro.Pres.FieldCollection()
@@ -41,8 +41,9 @@ namespace Lfc.Tarjetas.Cupones
 				        new Lazaro.Pres.Field("tarjetas_cupones.numero", "Cupón", Lfx.Data.InputFieldTypes.Text, 100),
                                         new Lazaro.Pres.Field("tarjetas_cupones.importe", "Importe", Lfx.Data.InputFieldTypes.Currency, 100),
 				        new Lazaro.Pres.Field("tarjetas_cupones.estado", "Estado", 120, SetEstados),
-				        new Lazaro.Pres.Field("tarjetas_cupones.fecha", "Fecha", Lfx.Data.InputFieldTypes.Date, 120)
-			        },
+				        new Lazaro.Pres.Field("tarjetas_cupones.fecha", "Fecha", Lfx.Data.InputFieldTypes.DateTime, 120),
+                        new Lazaro.Pres.Field("comprob.id_sucursal", "Sucursal", Lfx.Data.InputFieldTypes.Text, 120)
+                    },
                                 OrderBy = "tarjetas_cupones.id_cupon DESC"
                         };
 
@@ -66,12 +67,14 @@ namespace Lfc.Tarjetas.Cupones
                                 FormFiltros.EntradaEstado.TextKey = m_Estado.ToString();
                                 FormFiltros.EntradaCliente.Text = m_Cliente.ToString();
                                 FormFiltros.EntradaFechas.Rango = m_Fecha;
+                                FormFiltros.EntradaSucursal.Text = m_Sucursal.ToString();
                                 if (FormFiltros.ShowDialog() == DialogResult.OK) {
                                         m_FormaDePago = FormFiltros.EntradaFormaDePago.ValueInt;
                                         m_Plan = FormFiltros.EntradaPlan.ValueInt;
                                         m_Estado = Lfx.Types.Parsing.ParseInt(FormFiltros.EntradaEstado.TextKey);
                                         m_Cliente = FormFiltros.EntradaCliente.ValueInt;
                                         m_Fecha = FormFiltros.EntradaFechas.Rango;
+                                        m_Sucursal = FormFiltros.EntradaSucursal.ValueInt;
                                         this.RefreshList();
                                         return new Lfx.Types.SuccessOperationResult();
                                 } else {
@@ -98,6 +101,9 @@ namespace Lfc.Tarjetas.Cupones
                         if (m_Fecha.HasRange)
                                 this.CustomFilters.AddWithValue("tarjetas_cupones.fecha", m_Fecha.From, m_Fecha.To);
 
+                        if (m_Sucursal > 0)
+                                this.CustomFilters.AddWithValue("comprob.id_sucursal", m_Sucursal);
+
                         base.OnBeginRefreshList();
                 }
 
@@ -123,6 +129,14 @@ namespace Lfc.Tarjetas.Cupones
                                         this.Contadores[2].AddValue(row.Fields["importe"].ValueDecimal);
                                         item.ForeColor = Color.Gray;
                                         break;
+                        }
+
+                        int sucursal = row.Fields["id_sucursal"].ValueInt;
+                        if (sucursal > 0)
+                        {
+                            Lfx.Data.Row Vend = Lfx.Workspace.Master.Tables["sucursales"].FastRows[sucursal];
+                            if (Vend != null)
+                                item.SubItems["comprob.id_sucursal"].Text = Vend.Fields["nombre"].Value.ToString();
                         }
 
                         base.OnItemAdded(item, row);

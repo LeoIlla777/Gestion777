@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
+using log4net;
 
 namespace Lfc
 {
@@ -21,6 +22,7 @@ namespace Lfc
                 protected Dictionary<string, int> FormFieldToSubItem = new Dictionary<string, int>();
                 protected Dictionary<string, int> SubItemToFormField = new Dictionary<string, int>();
                 protected int m_Limit = 2000;
+                protected string m_NombrePagina = "";
                 protected qGen.Where m_CustomFilters = new qGen.Where();
                 protected qGen.Where m_FixedFilters = new qGen.Where();
 
@@ -32,6 +34,13 @@ namespace Lfc
                 // Labels
                 protected List<int> m_Labels = null;
                 protected string m_LabelField = null;
+
+                //Paging
+                public int TotPag = 1;
+                public int CurrentPage = 0;
+                public short dirPag = 1;
+                public string FilterPage = "";
+                public int[] LimitPage = new int[4] { 20, 200, 2000, 20000 };
 
                 private Dictionary<int, ListViewItem> ItemListado = new Dictionary<int, ListViewItem>();
                 private Lui.Forms.ListViewColumnSorter Sorter = new Lui.Forms.ListViewColumnSorter();
@@ -188,6 +197,15 @@ namespace Lfc
                         }
                 }
 
+                public string NombrePagina {
+                    get {
+                        return m_NombrePagina;
+                    }
+                    set {
+                        m_NombrePagina = value;
+                    }
+                }
+
                 public string GroupingColumnName
                 {
                         get
@@ -220,6 +238,9 @@ namespace Lfc
                 {
                         if (this.SearchText != text) {
                                 this.SearchText = text;
+                                FilterPage = "";
+                                CurrentPage = 0;
+                                TotPag = 1;
                                 this.RefreshList();
                         }
                 }
@@ -551,10 +572,10 @@ namespace Lfc
                                                                 Lfx.Workspace.Master.RunTime.Toast("No tiene permiso para desactivar registros.", "Aviso");
                                                         }
                                                 } else {
-                                                        Lui.Forms.YesNoDialog Pregunta = new Lui.Forms.YesNoDialog("Los elementos de este listado no se pueden eliminar ni desactivar. ¿Le gustaría ver una página web con más información sobre el tema?", "Eliminación");
-                                                        Pregunta.DialogButtons = Lui.Forms.DialogButtons.YesNo;
-                                                        if (Pregunta.ShowDialog() == DialogResult.OK)
-                                                                Help.ShowHelp(this, "http://www.lazarogestion.com/?q=node/49");
+                                                        //Lui.Forms.YesNoDialog Pregunta = new Lui.Forms.YesNoDialog("Los elementos de este listado no se pueden eliminar ni desactivar. ¿Le gustaría ver una página web con más información sobre el tema?", "Eliminación");
+                                                        //Pregunta.DialogButtons = Lui.Forms.DialogButtons.YesNo;
+                                                        //if (Pregunta.ShowDialog() == DialogResult.OK)
+                                                        //        Help.ShowHelp(this, "http://www.lazaroLazaro.com/?q=node/49");
                                                 }
                                                 break;
                                 }
@@ -801,6 +822,8 @@ namespace Lfc
                         this.Fill(this.SelectCommand());
 
                         this.OnEndRefreshList();
+                        if (this.Definicion != null && this.Definicion.Paging && Lfx.Workspace.Master != null && Lfx.Workspace.Master.RunTime != null)
+                            Lfx.Workspace.Master.RunTime.Paging(this);
                 }
 
                 protected qGen.Select SelectCommand()
@@ -977,212 +1000,322 @@ namespace Lfc
                 protected bool CancelFill = false;
                 protected void Fill(qGen.Select command)
                 {
-                        if (this.Listado.Columns.Count == 0)
-                                this.SetupListviewColumns();
+                    if (this.Listado != null && this.Listado.Columns.Count == 0)
+                        this.SetupListviewColumns();
 
-                        CancelFill = false;
+                    CancelFill = false;
 
-                        if (this.Connection == null || command == null)
-                                return;
+                    if (this.Connection == null || command == null)
+                        return;
 
-                        if (command.Window == null) {
-                                if (Lfx.Workspace.Master.SlowLink)
-                                        command.Window = new qGen.Window(1000 > m_Limit ? 1000 : m_Limit);
-                                else if (m_Limit > 0)
-                                        command.Window = new qGen.Window(m_Limit);
-                                else
-                                        command.Window = null;
+                    if (command.Order != null && command.Order == "if (articulos.id_categoria is null")
+                        command.Order = "Precio";
+
+                    if (command.Window == null) {
+                        if (Lfx.Workspace.Master.SlowLink)
+                        {
+                            //command.Window = new qGen.Window(CurrentPage, m_Limit);
+                            command.Window = new qGen.Window(1000 > m_Limit ? 1000 : m_Limit);
                         }
-
-                        System.Data.DataTable Tabla = this.Connection.Select(command);
-
-                        ListViewItem CurItem = null;
-
-                        if (Listado.SelectedItems.Count > 0)
-                                CurItem = (ListViewItem)Listado.SelectedItems[0].Clone();
+                        else if (m_Limit > 0)
+                        {
+                            command.Window = new qGen.Window(m_Limit);
+                            //command.Window = new qGen.Window(CurrentPage, m_Limit);
+                        }
                         else
-                                CurItem = null;
+                            command.Window = null;
+                    }
+                    int canRowPag = 0;
 
-                        bool Actualizando;
-                        if (ItemListado.Count > 0) {
-                                Actualizando = true;
-                                EtiquetaCantidad.Text = "Actualizando...";
-                        } else {
-                                Actualizando = false;
-                                //Listado.Items.Clear();
-                                EtiquetaCantidad.Text = "Cargando...";
+                    if (this.Definicion.Paging)
+                    {
+                        qGen.Select Auxcommand = new qGen.Select() {
+                            Columns = new SqlIdentifierCollection("Count(*)"),
+                            ForUpdate = command.ForUpdate,
+                            Group = command.Group,
+                            HavingClause = command.HavingClause,
+                            Joins = command.Joins,
+                            Order = command.Order,
+                            Tables = command.Tables,
+                            WhereClause = command.WhereClause,
+                            Window = command.Window
+                        };
+                        Auxcommand.Window = null;
+                        try
+                        {
+                            System.Data.DataTable AuxTabla = this.Connection.Select(Auxcommand);
+                            if (AuxTabla != null && AuxTabla.Rows.Count > 0)
+                            {
+                                canRowPag = int.Parse(AuxTabla.Rows[0][0].ToString());
+                            }
+                            else
+                            {
+                                canRowPag = 10;
+                            }
                         }
-                        PicEsperar.Visible = true;
-                        EtiquetaCantidad.Refresh();
-                        PicEsperar.Refresh();
+                        catch (Exception ex)
+                        {
+                            canRowPag = 10;
+                            ILog Log = LogManager.GetLogger(typeof(Application));
+                            Log.Error(ex.Message);
+                        }
+                        TotPag = (int)(Math.Ceiling(decimal.Parse(canRowPag.ToString()) / (decimal)(Limit)));
 
+                        if (FilterPage != "")
+                        {
+                            string nomCamOrd = command.Order;
+                            if (nomCamOrd.EndsWith(" DESC"))
+                                nomCamOrd = nomCamOrd.Substring(0, nomCamOrd.Length - 5).Trim();
+
+                            switch (dirPag)
+                            {
+                                case -1:
+                                case 1:
+                                    //command.WhereClause.AddWithValue(nomCamOrd, ComparisonOperators.LessThan, FilterPage);
+                                    //command.WhereClause.AddWithValue(nomCamOrd, ComparisonOperators.GreaterThan, FilterPage);
+                                    command.Window = new qGen.Window(m_Limit * CurrentPage, m_Limit);
+                                    break;
+                                case 2:
+                                    command.Window = new qGen.Window(canRowPag - m_Limit, m_Limit);
+                                    break;
+                            }
+                        }
+
+                        if (this.Definicion.Paging && Lfx.Workspace.Master != null && Lfx.Workspace.Master.RunTime != null)
+                            Lfx.Workspace.Master.RunTime.Paging(CurrentPage, TotPag);
+                    }
+
+                    System.Data.DataTable Tabla = this.Connection.Select(command);
+
+                    if (Tabla.Rows.Count > 0 && canRowPag > 0 && Tabla.Rows.Count != canRowPag)
+                    {
+                        string orden = command.Order;
+                        int index = orden.IndexOf(".");
+                        orden = orden.Substring(index + 1);
+                        if (orden.EndsWith(" DESC"))
+                            orden = orden.Substring(0, orden.Length - 5).Trim();
+                        if (dirPag == 1 && (CurrentPage + 1) != TotPag)
+                            FilterPage = Tabla.Rows[Tabla.Rows.Count - 1][orden].ToString();
+                        else if (CurrentPage == 0 && dirPag == -1)
+                            FilterPage = Tabla.Rows[Tabla.Rows.Count - 1][orden].ToString();
+                        else
+                            FilterPage = Tabla.Rows[0][orden].ToString();
+                    }
+
+                    ListViewItem CurItem = null;
+
+                    if (this.Listado != null && Listado.SelectedItems.Count > 0)
+                        CurItem = (ListViewItem)Listado.SelectedItems[0].Clone();
+                    else
+                        CurItem = null;
+
+                    bool Actualizando;
+                    if (ItemListado.Count > 0) {
+                        Actualizando = true;
+                        EtiquetaCantidad.Text = "Actualizando...";
+                    } else {
+                        Actualizando = false;
+                        //Listado.Items.Clear();
+                        EtiquetaCantidad.Text = "Cargando...";
+                    }
+                    PicEsperar.Visible = true;
+                    EtiquetaCantidad.Refresh();
+                    PicEsperar.Refresh();
+
+                    if (this.Listado != null)
+                    {
                         Listado.ListViewItemSorter = null;
                         Listado.SuspendLayout();
                         Listado.BeginUpdate();
+                    }
 
-                        foreach (ListViewItem Itm in ItemListado.Values) {
-                                Itm.Tag = null;
-                        }
+                    foreach (ListViewItem Itm in ItemListado.Values) {
+                        Itm.Tag = null;
+                    }
 
-                        if (Tabla != null && Tabla.Rows.Count > 0) {
-                                int FillCount = 0;
-                                foreach (System.Data.DataRow DtRow in Tabla.Rows) {
-                                        Lfx.Data.Row Registro = (Lfx.Data.Row)DtRow;
+                    if (Tabla != null && Tabla.Rows.Count > 0) {
+                        int FillCount = 0;
+                        foreach (System.Data.DataRow DtRow in Tabla.Rows) {
+                            Lfx.Data.Row Registro = (Lfx.Data.Row)DtRow;
 
-                                        string NombreCampoId = Lazaro.Orm.Data.ColumnValue.GetNameOnly(this.Definicion.KeyColumn.Name);
-                                        int ItemId = Registro.Fields[NombreCampoId].ValueInt;
+                            string NombreCampoId = Lazaro.Orm.Data.ColumnValue.GetNameOnly(this.Definicion.KeyColumn.Name);
+                            int ItemId = Registro.Fields[NombreCampoId].ValueInt;
 
-                                        if (CancelFill) {
-                                                if (Listado.Created) {
-                                                        Listado.EndUpdate();
-                                                        Listado.ResumeLayout();
-                                                }
-                                                return;
-                                        }
-
-                                        ListViewItem Itm;
-                                        string ItemKey = ItemId.ToString();
-                                        if (ItemListado.ContainsKey(ItemId)) {
-                                                Itm = this.FormatListViewItem(ItemListado[ItemId], ItemId, Registro);
-                                                if (Listado.Items.Contains(Itm) == false)
-                                                        Listado.Items.Add(Itm);
-                                        } else {
-                                                Itm = this.FormatListViewItem(new ListViewItem(ItemKey), ItemId, Registro);
-                                                ItemListado.Add(ItemId, Itm);
-                                                Listado.Items.Add(Itm);
-                                        }
-
-                                        Itm.Tag = Registro;
-
-                                        // Agrego el item a un grupo, si hay agrupación activa
-                                        if (m_GroupingColumnName != null) {
-                                                string FormattedGroupingValue = this.FormatValue(Registro[m_GroupingColumnName], this.Definicion.Columns[m_GroupingColumnName]);
-                                                if (LastGroupingValue != FormattedGroupingValue) {
-                                                        LastGroupingValue = FormattedGroupingValue;
-                                                        if (Listado.Groups[LastGroupingValue] != null)
-                                                                LastGroup = Listado.Groups[LastGroupingValue];
-                                                        else
-                                                                LastGroup = Listado.Groups.Add(LastGroupingValue, LastGroupingValue);
-                                                }
-                                        }
-                                        Itm.Group = LastGroup;
-
-                                        OnItemAdded(Itm, Registro);
-
-                                        if (CurItem != null && Itm.Text == CurItem.Text)
-                                                CurItem = Itm;
-
-                                        if ((++FillCount % 100) == 0) {
-                                                // Cuando ya tengo algunos como para mostrar, actualizo el listview
-                                                // así parece que el listado ya cargó, cuando en realidad sigue cargando
-                                                double Pct = Math.Round(FillCount * 100D / Tabla.Rows.Count);
-                                                if (Actualizando) {
-                                                        EtiquetaCantidad.Text = "Actualizando, " + Pct.ToString() + "%";
-                                                        System.Windows.Forms.Application.DoEvents();
-                                                } else {
-                                                        EtiquetaCantidad.Text = "Cargando, " + Pct.ToString() + "%";
-                                                        Listado.EndUpdate();
-                                                        Listado.ResumeLayout(true);
-                                                        System.Windows.Forms.Application.DoEvents();
-                                                        Listado.BeginUpdate();
-                                                        Listado.SuspendLayout();
-                                                }
-                                        }
+                            if (CancelFill) {
+                                if (Listado!=null && Listado.Created) {
+                                    try
+                                    {
+                                        Listado.EndUpdate();
+                                        Listado.ResumeLayout();
+                                    }
+                                    catch (Exception ex)
+                                    {
+                                        MessageBox.Show(ex.Message, "In Created");
+                                    }
                                 }
-                        }
+                                return;
+                            }
 
-                        foreach (ListViewItem Itm in Listado.Items) {
-                                if (Itm.Tag == null) {
-                                        Listado.Items.Remove(Itm);
+                            ListViewItem Itm;
+                            string ItemKey = ItemId.ToString();
+                            if (ItemListado.ContainsKey(ItemId)) {
+                                Itm = this.FormatListViewItem(ItemListado[ItemId], ItemId, Registro);
+                                if (Listado.Items.Contains(Itm) == false)
+                                    Listado.Items.Add(Itm);
+                            } else {
+                                Itm = this.FormatListViewItem(new ListViewItem(ItemKey), ItemId, Registro);
+                                ItemListado.Add(ItemId, Itm);
+                                Listado.Items.Add(Itm);
+                            }
+
+                            Itm.Tag = Registro;
+
+                            // Agrego el item a un grupo, si hay agrupación activa
+                            if (m_GroupingColumnName != null) {
+                                string FormattedGroupingValue = this.FormatValue(Registro[m_GroupingColumnName], this.Definicion.Columns[m_GroupingColumnName]);
+                                if (LastGroupingValue != FormattedGroupingValue) {
+                                    LastGroupingValue = FormattedGroupingValue;
+                                    if (Listado.Groups[LastGroupingValue] != null)
+                                        LastGroup = Listado.Groups[LastGroupingValue];
+                                    else
+                                        LastGroup = Listado.Groups.Add(LastGroupingValue, LastGroupingValue);
                                 }
-                        }
+                            }
+                            Itm.Group = LastGroup;
 
-                        if (Listado.Items.Count > 0 && Listado.SelectedItems.Count == 0) {
-                                Listado.Items[0].Focused = true;
-                                Listado.Items[0].Selected = true;
-                        }
+                            OnItemAdded(Itm, Registro);
 
-                        if (Listado.Items.Count == 0) {
-                                EtiquetaCantidad.Text = "";
-                                EtiquetaCantidad.TextStyle = Lazaro.Pres.DisplayStyles.TextStyles.Default;
-                        } else if (Listado.Items.Count == m_Limit) {
-                                int Cantidad;
-                                try {
-                                        qGen.Select SelCount = this.SelectCommand(true, null);
-                                        Cantidad = this.Connection.FieldInt(SelCount);
-                                } catch {
-                                        Cantidad = 0;
+                            if (CurItem != null && Itm.Text == CurItem.Text)
+                                CurItem = Itm;
+
+                            if ((++FillCount % 100) == 0) {
+                                // Cuando ya tengo algunos como para mostrar, actualizo el listview
+                                // así parece que el listado ya cargó, cuando en realidad sigue cargando
+                                double Pct = Math.Round(FillCount * 100D / Tabla.Rows.Count);
+                                if (Actualizando) {
+                                    EtiquetaCantidad.Text = "Actualizando, " + Pct.ToString() + "%";
+                                    System.Windows.Forms.Application.DoEvents();
+                                } else if (this.Listado != null) {
+                                    EtiquetaCantidad.Text = "Cargando, " + Pct.ToString() + "%";
+                                    try
+                                    {
+                                        Listado.EndUpdate();
+                                        Listado.ResumeLayout(true);
+                                    }
+                                    catch (Exception ex)
+                                    {
+                                        MessageBox.Show(ex.Message, "Layout(true)");
+                                    }
+                                    System.Windows.Forms.Application.DoEvents();
+                                    Listado.BeginUpdate();
+                                    Listado.SuspendLayout();
                                 }
+                            }
+                        }
+                    }
 
-                                if (Cantidad > 0)
-                                        EtiquetaCantidad.Text = "Mostrando sólo los primeros " + m_Limit.ToString() + " de un total de " + Cantidad.ToString();
-                                else
-                                        EtiquetaCantidad.Text = "Mostrando sólo los primeros " + m_Limit.ToString();
-                                EtiquetaCantidad.TextStyle = Lazaro.Pres.DisplayStyles.TextStyles.Small;
-                        } else {
-                                EtiquetaCantidad.Text = Listado.Items.Count.ToString() + " elementos";
-                                EtiquetaCantidad.TextStyle = Lazaro.Pres.DisplayStyles.TextStyles.Default;
+                    foreach (ListViewItem Itm in Listado.Items) {
+                        if (Itm.Tag == null) {
+                            Listado.Items.Remove(Itm);
+                        }
+                    }
+
+                    if (this.Listado != null && Listado.Items.Count > 0 && Listado.SelectedItems.Count == 0) {
+                        Listado.Items[0].Focused = true;
+                        Listado.Items[0].Selected = true;
+                    }
+
+                    if (this.Listado != null && Listado.Items.Count == 0) {
+                        EtiquetaCantidad.Text = "";
+                        EtiquetaCantidad.TextStyle = Lazaro.Pres.DisplayStyles.TextStyles.Default;
+                    } else if (this.Listado != null && Listado.Items.Count == m_Limit) {
+                        int Cantidad;
+                        try {
+                            qGen.Select SelCount = this.SelectCommand(true, null);
+                            Cantidad = this.Connection.FieldInt(SelCount);
+                        } catch {
+                            Cantidad = 0;
                         }
 
+                        if (Cantidad > 0)
+                            EtiquetaCantidad.Text = "Mostrando sólo los primeros " + m_Limit.ToString() + " de un total de " + Cantidad.ToString();
+                        else
+                            EtiquetaCantidad.Text = "Mostrando sólo los primeros " + m_Limit.ToString();
+                        EtiquetaCantidad.TextStyle = Lazaro.Pres.DisplayStyles.TextStyles.Small;
+                    } else if (this.Listado != null) {
+                        EtiquetaCantidad.Text = Listado.Items.Count.ToString() + " elementos";
+                        EtiquetaCantidad.TextStyle = Lazaro.Pres.DisplayStyles.TextStyles.Default;
+                    }
 
-                        // Muestro los totales de grupo
-                        if (m_GroupingColumnName != null) {
-                                foreach (ListViewGroup Grp in Listado.Groups) {
-                                        Grp.Header = Grp.Name + " (" + Grp.Items.Count.ToString() + ")";
-                                        ListViewItem Itm = Listado.Items.Add("Subtotales");
-                                        Itm.Font = new Font(Itm.Font, FontStyle.Bold);
-                                        Itm.BackColor = Color.Lavender;
-                                        foreach (ColumnHeader Col in Listado.Columns) {
-                                                if (Col.Name != this.Definicion.KeyColumn.Name) {
-                                                        Itm.Group = Grp;
-                                                        object ColFunc = this.Definicion.Columns[Col.Name].TotalFunction;
-                                                        if (ColFunc == null) {
-                                                                Itm.SubItems.Add("");
-                                                        } else if (ColFunc is Lazaro.Pres.Spreadsheet.QuickFunctions) {
-                                                                Lazaro.Pres.Spreadsheet.QuickFunctions QuickFunc = (Lazaro.Pres.Spreadsheet.QuickFunctions)(this.Definicion.Columns[Col.Name].TotalFunction);
-                                                                switch (QuickFunc) {
-                                                                        case Lazaro.Pres.Spreadsheet.QuickFunctions.Count:
-                                                                                Itm.SubItems.Add(Grp.Items.Count.ToString());
-                                                                                break;
-                                                                        case Lazaro.Pres.Spreadsheet.QuickFunctions.Sum:
-                                                                                decimal Res = 0;
-                                                                                foreach (ListViewItem SubItm in Grp.Items) {
-                                                                                        Lfx.Data.Row Rw = SubItm.Tag as Lfx.Data.Row;
-                                                                                        if (Rw != null)
-                                                                                                Res += Rw.Fields[Col.Name].ValueDecimal;
-                                                                                }
-                                                                                Itm.SubItems.Add(Lfx.Types.Formatting.FormatCurrency(Res));
-                                                                                break;
-                                                                        default:
-                                                                                Itm.SubItems.Add("");
-                                                                                break;
-                                                                }
-                                                        } else {
-                                                                Itm.SubItems.Add(ColFunc.ToString());
-                                                        }
+
+                    // Muestro los totales de grupo
+                    if (m_GroupingColumnName != null) {
+                        foreach (ListViewGroup Grp in Listado.Groups) {
+                            Grp.Header = Grp.Name + " (" + Grp.Items.Count.ToString() + ")";
+                            ListViewItem Itm = Listado.Items.Add("Subtotales");
+                            Itm.Font = new Font(Itm.Font, FontStyle.Bold);
+                            Itm.BackColor = Color.Lavender;
+                            foreach (ColumnHeader Col in Listado.Columns) {
+                                if (Col.Name != this.Definicion.KeyColumn.Name) {
+                                    Itm.Group = Grp;
+                                    object ColFunc = this.Definicion.Columns[Col.Name].TotalFunction;
+                                    if (ColFunc == null) {
+                                        Itm.SubItems.Add("");
+                                    } else if (ColFunc is Lazaro.Pres.Spreadsheet.QuickFunctions) {
+                                        Lazaro.Pres.Spreadsheet.QuickFunctions QuickFunc = (Lazaro.Pres.Spreadsheet.QuickFunctions)(this.Definicion.Columns[Col.Name].TotalFunction);
+                                        switch (QuickFunc) {
+                                            case Lazaro.Pres.Spreadsheet.QuickFunctions.Count:
+                                                Itm.SubItems.Add(Grp.Items.Count.ToString());
+                                                break;
+                                            case Lazaro.Pres.Spreadsheet.QuickFunctions.Sum:
+                                                decimal Res = 0;
+                                                foreach (ListViewItem SubItm in Grp.Items) {
+                                                    Lfx.Data.Row Rw = SubItm.Tag as Lfx.Data.Row;
+                                                    if (Rw != null)
+                                                        Res += Rw.Fields[Col.Name].ValueDecimal;
                                                 }
+                                                Itm.SubItems.Add(Lfx.Types.Formatting.FormatCurrency(Res));
+                                                break;
+                                            default:
+                                                Itm.SubItems.Add("");
+                                                break;
                                         }
+                                    } else {
+                                        Itm.SubItems.Add(ColFunc.ToString());
+                                    }
                                 }
+                            }
                         }
+                    }
 
 
-                        if (this.Sorter != null && this.Sorter.SortOrder != SortOrder.None) {
-                                Listado.ListViewItemSorter = this.Sorter;
-                                Listado.Sort();
+                    if (this.Listado != null && this.Sorter != null && this.Sorter.SortOrder != SortOrder.None) {
+                        Listado.ListViewItemSorter = this.Sorter;
+                        Listado.Sort();
+                    }
+
+                    if (this.Listado != null)
+                    {
+                        try
+                        {
+                            Listado.EndUpdate();
+                            Listado.ResumeLayout();
                         }
-
-                        Listado.EndUpdate();
-                        Listado.ResumeLayout();
-
-                        PicEsperar.Visible = false;
-
-                        if (CurItem != null) {
-                                CurItem.Selected = true;
-                                CurItem.Focused = true;
-                                CurItem.EnsureVisible();
+                        catch (Exception ex)
+                        {
+                            MessageBox.Show(ex.Message, "Final");
                         }
+                    }
 
-                        CancelFill = true;
+                    PicEsperar.Visible = false;
+
+                    if (CurItem != null) {
+                        CurItem.Selected = true;
+                        CurItem.Focused = true;
+                        CurItem.EnsureVisible();
+                    }
+
+                    CancelFill = true;
                 }
 
 
@@ -1661,5 +1794,219 @@ namespace Lfc
                         RefreshTimer.Stop();
                         CancelFill = true;
                 }
+
+
+        private void Listado_Click(object sender, EventArgs e)
+        {
+            if (this.Definicion.Paging)
+            {
+                ContextMenuStrip menuStrip = new ContextMenuStrip();
+
+                menuStrip.Items.Add("Página " + (CurrentPage + 1).ToString() + " de " + TotPag.ToString(), null);
+                menuStrip.Items.Add(new ToolStripSeparator());
+                menuStrip.Items[0].Tag = "Info";
+                menuStrip.Items[0].Enabled = false;
+                menuStrip.Items[0].Name = "menuStrip0";
+                menuStrip.Items.Add("Anterior", null);
+                menuStrip.Items[2].Name = "menuStrip1";
+                menuStrip.Items[2].Enabled = CurrentPage > 0;
+                menuStrip.Items.Add("Siguiente", null);
+                menuStrip.Items[3].Name = "menuStrip2";
+                menuStrip.Items[3].Enabled = (CurrentPage + 1) < TotPag;
+
+                ToolStripMenuItem[] items = new ToolStripMenuItem[5];
+                items[0] = new ToolStripMenuItem(LimitPage[0].ToString() + " Registros");
+                items[0].Name = "menuStripReg1";
+                items[0].CheckOnClick = true;
+                items[0].Checked = Limit == LimitPage[0];
+                items[0].Click += new EventHandler(SubMenu_Click);
+                items[1] = new ToolStripMenuItem(LimitPage[1].ToString() + " Registros");
+                items[1].Name = "menuStripReg2";
+                items[1].CheckOnClick = true;
+                items[1].Checked = Limit == LimitPage[1];
+                items[1].Click += new EventHandler(SubMenu_Click);
+                items[2] = new ToolStripMenuItem(LimitPage[2].ToString() + " Registros");
+                items[2].Name = "menuStripReg3";
+                items[2].CheckOnClick = true;
+                items[2].Checked = Limit == LimitPage[2];
+                items[2].Click += new EventHandler(SubMenu_Click);
+
+                items[3] = new ToolStripMenuItem(LimitPage[3].ToString() + " Registros");
+                items[3].Name = "menuStripReg4";
+                items[3].CheckOnClick = true;
+                items[3].Checked = Limit > LimitPage[3] && Limit < 9999999;
+                items[3].Click += new EventHandler(SubMenu_Click);
+
+                items[4] = new ToolStripMenuItem("Sin límites de registros");
+                items[4].Name = "menuStripReg5";
+                items[4].CheckOnClick = true;
+                items[4].Checked = Limit == 9999999;
+                items[4].Click += new EventHandler(SubMenu_Click);
+
+                ToolStripMenuItem stripMenuItem = new ToolStripMenuItem("Registros a mostrar", null, items);
+                menuStrip.Items.Add(stripMenuItem);
+                menuStrip.Items.Add(new ToolStripSeparator());
+
+                switch (this.Definicion.TableName)
+                {
+                    case "articulos":
+                        menuStrip.Items.Add("Conformación", null);
+                        menuStrip.Items[6].Name = "verConformacion";
+                        menuStrip.Items.Add("Ver Cuotas", null);
+                        menuStrip.Items[7].Name = "verCuotas";
+                        break;
+                    case "comprob":
+                        if (this.NombrePagina == "FacturaVenta")
+                        {
+                            if (Listado.SelectedItems.Count > 0)
+                            {
+                                int ID = int.Parse(Listado.SelectedItems[0].Text);
+                                string impr = Listado.SelectedItems[0].SubItems[2].Text.Trim();
+                                if (impr.Length > 5)
+                                {
+                                    impr = impr.Substring(5);
+                                    if (impr == "00000000")
+                                    {
+                                        menuStrip.Items.Add("Asignar Número", null);
+                                        menuStrip.Items[6].Name = "asignarNumero";
+                                    }
+                                }
+                            }
+                        }
+                        break;
+                }
+
+                menuStrip.ItemClicked += new ToolStripItemClickedEventHandler(Menu_Click);
+                Listado.ContextMenuStrip = menuStrip;
+            }
         }
+
+        private void SubMenu_Click(object sender, EventArgs e)
+        {
+            string nameObj = ((ToolStripMenuItem)sender).Name;
+            switch (nameObj)
+            {
+                case "menuStripReg1":
+                    Limit = LimitPage[0];
+                    break;
+                case "menuStripReg2":
+                    Limit = LimitPage[1];
+                    break;
+                case "menuStripReg3":
+                    Limit = LimitPage[2];
+                    break;
+                case "menuStripReg4":
+                    Limit = LimitPage[3];
+                    break;
+                case "menuStripReg5":
+                    Limit = 9999999;
+                    break;
+            }
+            if (this.Definicion.Paging && Lfx.Workspace.Master != null && Lfx.Workspace.Master.RunTime != null)
+                Lfx.Workspace.Master.RunTime.Paging(CurrentPage, TotPag);
+            Lfx.Workspace.Master.CurrentConfig.WriteLocalSetting("Paginar", this.ElementoTipo.Name, Limit);
+            RefreshList();
+        }
+
+        private void Menu_Click(object sender, ToolStripItemClickedEventArgs e)
+        {
+            switch (e.ClickedItem.Name)
+            {
+                case "menuStrip1":
+                    if (CurrentPage > 0)
+                    {
+                        CurrentPage = CurrentPage - 1;
+                        dirPag = -1;
+                        if (this.Definicion.Paging && Lfx.Workspace.Master != null && Lfx.Workspace.Master.RunTime != null)
+                            Lfx.Workspace.Master.RunTime.Paging(CurrentPage, TotPag);
+                    }
+                    break;
+                case "menuStrip2":
+                    if ((CurrentPage + 1) < TotPag)
+                    {
+                        CurrentPage = CurrentPage + 1;
+                        dirPag = 1;
+                        if (this.Definicion.Paging && Lfx.Workspace.Master != null && Lfx.Workspace.Master.RunTime != null)
+                            Lfx.Workspace.Master.RunTime.Paging(CurrentPage, TotPag);
+                    }
+                    break;
+                case "verConformacion":
+                    if (Listado.SelectedItems.Count > 0)
+                    {
+                        int ID = int.Parse(Listado.SelectedItems[0].Text);
+                        Lbl.Articulos.Articulo articulo = new Lbl.Articulos.Articulo(this.Connection, ID);
+                        Articulos.VerConformacion FormularioDetalles = new Articulos.VerConformacion();
+                        FormularioDetalles.MdiParent = this.ParentForm.MdiParent;
+                        FormularioDetalles.Mostrar(articulo);
+                        FormularioDetalles.MaximizeBox = FormularioDetalles.MinimizeBox = false;
+                        FormularioDetalles.Show();
+                    }
+                    break;
+                case "verCuotas":
+                    if (Listado.SelectedItems.Count > 0)
+                    {
+                        int ID = int.Parse(Listado.SelectedItems[0].Text);
+                        string impr = Listado.SelectedItems[0].SubItems[2].Text;
+                        decimal imporPvp = decimal.Parse(impr);
+                        using (Lcc.VerCuotas verCuotas = new Lcc.VerCuotas())
+                        {
+                            verCuotas.Mostrar(Listado.SelectedItems[0].SubItems["articulos.nombre"].Text, imporPvp);
+                            verCuotas.ShowDialog();
+                        }
+                    }
+                    break;
+                case "asignarNumero":
+                    if (Listado.SelectedItems.Count > 0)
+                    {
+                        int ID = int.Parse(Listado.SelectedItems[0].Text);
+                        Lbl.Comprobantes.ComprobanteConArticulos comAsig = new Lbl.Comprobantes.ComprobanteConArticulos(this.Connection, ID);
+                        if (comAsig.Nombre.Trim().Substring(5) == "00000000")
+                        {
+                            System.Data.IDbTransaction Trans = null;
+                            try
+                            {
+                                Trans = comAsig.Connection.BeginTransaction(System.Data.IsolationLevel.Serializable);
+
+                                int numeroNuevo = 0;
+                                while (numeroNuevo != 0)
+                                {
+                                    System.Data.DataTable Tabla = comAsig.Connection.Select("select pv,numero,nombre from comprob where pv=" + comAsig.PV + " and tipo_fac='" + comAsig.TipoFac + "' and id_comprob<" + comAsig.Id + " order by id_comprob limit 1;");
+                                    if (Tabla != null && Tabla.Rows.Count > 0)
+                                    {
+                                        int tempNumero = 0;
+                                        if (!int.TryParse(Tabla.Rows[0]["numero"].ToString(), out tempNumero))
+                                            tempNumero = 0;
+
+                                        if (tempNumero != 0)
+                                        {
+                                            numeroNuevo = tempNumero + 1;
+                                            break;
+                                        }
+                                    }
+                                }
+                                if (numeroNuevo != 0)
+                                {
+                                    // Marco la factura como impresa y numerada
+                                    new Lbl.Comprobantes.Numerador(comAsig).Numerar(numeroNuevo, true);
+
+                                    // Mover stock si corresponde
+                                    comAsig.MoverExistencias(false);
+
+                                    // Asentar pagos si corresponde
+                                    comAsig.AsentarPago(false);
+
+                                    Trans.Commit();
+                                }
+                            }
+                            catch { }
+                        }
+                    }
+                    break;
+            }
+            RefreshList();
+        }
+
+
+
+    }
 }

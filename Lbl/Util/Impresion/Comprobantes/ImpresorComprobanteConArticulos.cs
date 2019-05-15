@@ -26,11 +26,14 @@ namespace Lazaro.Base.Util.Impresion.Comprobantes
                 {
                         if (this.Comprobante.Impreso && this.Reimpresion == false)
                                 this.Reimpresion = true;
+                        Lfx.Types.OperationResult ResultadoImprimir = null;
+                        if (this.Comprobante.Tipo.Nomenclatura  != "NP" && this.Comprobante.Tipo.Nomenclatura != "PD")
+                        {
+                            ResultadoImprimir = this.Comprobante.VerificarSeries();
 
-                        Lfx.Types.OperationResult ResultadoImprimir = this.Comprobante.VerificarSeries();
-
-                        if (ResultadoImprimir.Success == false)
+                            if (ResultadoImprimir.Success == false)
                                 return ResultadoImprimir;
+                        }
 
                         if (this.Comprobante.Tipo.EsFactura && this.Comprobante.FormaDePago == null)
                                 throw new InvalidOperationException("La factura no tiene forma de pago.");
@@ -56,11 +59,17 @@ namespace Lazaro.Base.Util.Impresion.Comprobantes
                         if (this.Reimpresion == false && ResultadoImprimir.Success == true && this.ImprimiLocal) {
                                 //Resto el stock si corresponde
                                 this.Comprobante.MoverExistencias(false);
-
                                 // Asentar pagos si corresponde
-                                this.Comprobante.AsentarPago(false);
+                                if (this.Comprobante.FormaDePago != null)
+                                {
+                                    if (this.Comprobante.FormaDePago.Tipo == Lbl.Pagos.TiposFormasDePago.Efectivo)
+                                        this.Comprobante.AsentarPago(false);
+                                    else if (this.Comprobante.FormaDePago.Tipo == Lbl.Pagos.TiposFormasDePago.ChequeTerceros)
+                                        this.Comprobante.AsentarPago(false);
+                                    else
+                                        this.Comprobante.AsentarPago(false);
+                                }
                         }
-
                         return ResultadoImprimir;
                 }
 
@@ -73,17 +82,21 @@ namespace Lazaro.Base.Util.Impresion.Comprobantes
                                 case "CODIGOS":
                                 case "CÓDIGOS":
                                         Res = null;
-                                        for (int i = 0; i < this.Comprobante.Articulos.Count; i++) {
+                                        for (int i = 0; i < this.Comprobante.Articulos.Count; i++)
+                                        {
+                                            if (i >= DesdeImprimir && i <= HastaImprimir)
+                                            {
                                                 // FIXME: que imprima el código seleccionado por el usuario, no siempre el autonumérico
                                                 string CodigoImprimir;
                                                 if (this.Comprobante.Articulos[i].Articulo == null)
-                                                        CodigoImprimir = "";
+                                                    CodigoImprimir = "";
                                                 else
-                                                        CodigoImprimir = this.Comprobante.Articulos[i].Articulo.Id.ToString();
+                                                    CodigoImprimir = this.Comprobante.Articulos[i].Articulo.Id.ToString();
                                                 if (Res == null)
-                                                        Res = CodigoImprimir;
+                                                    Res = CodigoImprimir;
                                                 else
-                                                        Res += System.Environment.NewLine + CodigoImprimir;
+                                                    Res += System.Environment.NewLine + CodigoImprimir;
+                                            }
                                         }
                                         return Res;
 
@@ -95,51 +108,76 @@ namespace Lazaro.Base.Util.Impresion.Comprobantes
                                                 if (Res == null) {
                                                         Res = "";
                                                 }
-                                                Res += Lfx.Types.Formatting.FormatNumberForPrint(this.Comprobante.Articulos[i].Cantidad, Lbl.Sys.Config.Articulos.Decimales) + System.Environment.NewLine;
+                                                if (i >= DesdeImprimir && i <= HastaImprimir)
+                                                    Res += Lfx.Types.Formatting.FormatNumberForPrint(this.Comprobante.Articulos[i].Cantidad, Lbl.Sys.Config.Articulos.Decimales) + System.Environment.NewLine;
                                         }
                                         return Res;
 
                                 case "ARTICULOS.IVA":
                                 case "ARTÍCULOS.IVA":
                                         Res = null;
-                                        for (int i = 0; i < this.Comprobante.Articulos.Count; i++) {
-                                                if (Res == null) {
-                                                        Res = "";
+                                        for (int i = 0; i < this.Comprobante.Articulos.Count; i++)
+                                        {
+                                            if (i >= DesdeImprimir && i <= HastaImprimir)
+                                            {
+                                                if (Res == null)
+                                                {
+                                                    Res = "";
                                                 }
-                                                Res += this.Comprobante.Articulos[i].ObtenerAlicuota().Porcentaje.ToString("0.0") + "%" + System.Environment.NewLine;
+                                                Lbl.Impuestos.Alicuota aliC = this.Comprobante.Articulos[i].ObtenerAlicuota();
+                                                if (aliC != null)
+                                                    Res += aliC.Porcentaje.ToString("0.0") + "%" + System.Environment.NewLine;
+                                                else
+                                                    Res += System.Environment.NewLine;
+                                            }
                                         }
                                         return Res;
 
                                 case "ARTICULOS.IVADISCRIMINADO":
                                 case "ARTÍCULOS.IVADISCRIMINADO":
                                         Res = null;
-                                        for (int i = 0; i < this.Comprobante.Articulos.Count; i++) {
-                                                if (Res == null) {
-                                                        Res = "";
+                                        for (int i = 0; i < this.Comprobante.Articulos.Count; i++)
+                                        {
+                                            if (i >= DesdeImprimir && i <= HastaImprimir)
+                                            {
+                                                if (Res == null)
+                                                {
+                                                    Res = "";
                                                 }
                                                 Res += Lfx.Types.Formatting.FormatCurrencyForPrint(this.Comprobante.Articulos[i].ImporteUnitarioIvaDiscriminado, Lfx.Workspace.Master.CurrentConfig.Moneda.DecimalesFinal) + System.Environment.NewLine;
+                                            }
                                         }
                                         return Res;
 
                                 case "ARTÍCULOS.IMPORTESCONIVA":
                                 case "ARTICULOS.IMPORTESCONIVA":
                                         Res = "";
-                                        for (int i = 0; i < this.Comprobante.Articulos.Count; i++) {
-                                                if (Res == null) {
-                                                        Res = "";
+                                        for (int i = 0; i < this.Comprobante.Articulos.Count; i++)
+                                        {
+                                            if (i >= DesdeImprimir && i <= HastaImprimir)
+                                            {
+                                                if (Res == null)
+                                                {
+                                                    Res = "";
                                                 }
                                                 Res += Lfx.Types.Formatting.FormatCurrencyForPrint(this.Comprobante.Articulos[i].ImporteAImprimir, Lfx.Workspace.Master.CurrentConfig.Moneda.DecimalesFinal) + System.Environment.NewLine;
+                                            }
                                         }
                                         return Res;
 
                                 case "ARTÍCULOS.UNITARIOSCONIVA":
                                 case "ARTICULOS.UNITARIOSCONIVA":
                                         Res = null;
-                                        for (int i = 0; i < this.Comprobante.Articulos.Count; i++) {
-                                                if (Res == null) {
-                                                        Res = "";
+                                        for (int i = 0; i < this.Comprobante.Articulos.Count; i++)
+                                        {
+                                            if (i >= DesdeImprimir && i <= HastaImprimir)
+                                            {
+                                                if (Res == null)
+                                                {
+                                                    Res = "";
                                                 }
                                                 Res += Lfx.Types.Formatting.FormatCurrencyForPrint(this.Comprobante.Articulos[i].ImporteUnitarioConIvaFinal, Lfx.Workspace.Master.CurrentConfig.Moneda.DecimalesFinal) + System.Environment.NewLine;
+                                            }
                                         }
                                         return Res;
 
@@ -164,33 +202,121 @@ namespace Lazaro.Base.Util.Impresion.Comprobantes
                                         int NumeroIvaArt = Lfx.Types.Parsing.ParseInt(nombreCampo.Substring(nombreCampo.Length - 1));
                                         Res = null;
                                         for (int i = 0; i < this.Comprobante.Articulos.Count; i++) {
+                                            if (i >= DesdeImprimir && i <= HastaImprimir)
+                                            {
                                                 if (Res == null)
-                                                        Res = Lfx.Types.Formatting.FormatCurrencyForPrint(this.Comprobante.Articulos[i].ImporteConIvaFinalAlicuota(NumeroIvaArt), Lfx.Workspace.Master.CurrentConfig.Moneda.DecimalesFinal);
+                                                    Res = Lfx.Types.Formatting.FormatCurrencyForPrint(this.Comprobante.Articulos[i].ImporteConIvaFinalAlicuota(NumeroIvaArt), Lfx.Workspace.Master.CurrentConfig.Moneda.DecimalesFinal);
                                                 else
-                                                        Res += System.Environment.NewLine + Lfx.Types.Formatting.FormatCurrencyForPrint(this.Comprobante.Articulos[i].ImporteConIvaFinalAlicuota(NumeroIvaArt), Lfx.Workspace.Master.CurrentConfig.Moneda.DecimalesFinal);
+                                                    Res += System.Environment.NewLine + Lfx.Types.Formatting.FormatCurrencyForPrint(this.Comprobante.Articulos[i].ImporteConIvaFinalAlicuota(NumeroIvaArt), Lfx.Workspace.Master.CurrentConfig.Moneda.DecimalesFinal);
+                                            }
                                         }
                                         return Res;
 
+                                case "IVA27":
+                                case "IVA21":
+                                case "IVA105":
+                                case "IVA025":
+                                case "IVA05":
+                                case "IVA0":
+                                    return Lfx.Types.Formatting.FormatCurrencyForPrint(0, Lfx.Workspace.Master.CurrentConfig.Moneda.DecimalesFinal);
+                                case "ARTÍCULOS.FULLDETALLES":
+                                case "ARTICULOS.FULLDETALLES":
+                                        Res = null;
+                                        int CantidadDeArticulosContinuo = this.Comprobante.Articulos.Count;
+                                        PaginaTotal = (int)(Math.Ceiling(this.Comprobante.Articulos.Count / (decimal)CantidadFilas));
+                                        UltimaEspejo = DesdeImprimir;
+                                        DesdeImprimir = Espejo ? UltimaEspejo : UltimaFila;
+                                        HastaImprimir = DesdeImprimir + CantidadFilas;
 
+                                        for (int i = 0; i < CantidadDeArticulosContinuo; i++)
+                                        {
+                                            string NombreArticulo = "";
+                                            if (i >= DesdeImprimir && i <= HastaImprimir)
+                                            {
+                                                if (this.Comprobante.Articulos[i].Articulo == null)
+                                                    NombreArticulo = this.Comprobante.Articulos[i].Nombre;
+                                                else
+                                                    NombreArticulo = this.Comprobante.Articulos[i].Articulo.ToString();
+                                                if (Res == null)
+                                                    Res = NombreArticulo;
+                                                else
+                                                    Res += System.Environment.NewLine + NombreArticulo;
+
+                                                Res += "  (x" + Lfx.Types.Formatting.FormatNumberForPrint(this.Comprobante.Articulos[i].Cantidad, Lbl.Sys.Config.Articulos.Decimales) + ")";
+                                                Res += "   $ " + Lfx.Types.Formatting.FormatCurrencyForPrint(this.Comprobante.Articulos[i].ImporteAImprimir, Lfx.Workspace.Master.CurrentConfig.Moneda.DecimalesFinal);
+                                                FilaActual = i;
+                                            }
+                                        }
+                                        if (!Espejo)
+                                            UltimaFila = FilaActual + 1;
+                                        if (UltimaFila >= CantidadDeArticulosContinuo)
+                                        {
+                                            int CanARestar = HastaImprimir - FilaActual;
+                                            if (this.Comprobante.Descuento != 0)
+                                                Res += System.Environment.NewLine + "Descuento: " + Lfx.Types.Formatting.FormatNumberForPrint(this.Comprobante.Descuento, 2) + "%";
+                                            if (this.Comprobante.Recargo != 0)
+                                            {
+                                                if (CanARestar < 1)
+                                                    Res += System.Environment.NewLine + "Recargo: " + Lfx.Types.Formatting.FormatNumberForPrint(this.Comprobante.Descuento, 2) + "%   ---> Página " + PaginaNumero.ToString();
+                                                else
+                                                    Res += System.Environment.NewLine + "Recargo: " + Lfx.Types.Formatting.FormatNumberForPrint(this.Comprobante.Descuento, 2) + "%";
+                                            }
+                                            else
+                                            {
+                                                for (int resto = 0; resto < CanARestar; resto++)
+                                                    Res += System.Environment.NewLine;
+                                                Res += System.Environment.NewLine + "        Página " + PaginaNumero.ToString();
+                                            }
+                                        }
+                                        else
+                                        {
+                                            HastaImprimir = UltimaFila;
+                                            //No es última página
+                                            Res += System.Environment.NewLine + "        Página " + PaginaNumero.ToString();
+                                            Res += System.Environment.NewLine + "        Continúa en pág. " + (PaginaNumero + 1).ToString();
+                                        }
+                                        return Res;
                                 case "ARTICULOS.DETALLES":
                                 case "ARTÍCULOS.DETALLES":
                                 case "DETALLES":
                                         Res = null;
-                                        for (int i = 0; i < this.Comprobante.Articulos.Count; i++) {
-                                                string NombreArticulo;
-                                                if (this.Comprobante.Articulos[i].Articulo == null)
+                                        int CantidadDeArticulos = this.Comprobante.Articulos.Count;
+                                        PaginaTotal = (int)(Math.Ceiling(this.Comprobante.Articulos.Count / (decimal)CantidadFilas));
+                                        UltimaEspejo = DesdeImprimir;
+                                        DesdeImprimir = Espejo ? UltimaEspejo : UltimaFila;
+                                        HastaImprimir = DesdeImprimir + CantidadFilas;
+
+                                        for (int i = 0; i < CantidadDeArticulos; i++) {
+                                                string NombreArticulo = "";
+                                                if (i >= DesdeImprimir && i <= HastaImprimir)
+                                                {
+                                                    if (this.Comprobante.Articulos[i].Articulo == null)
                                                         NombreArticulo = this.Comprobante.Articulos[i].Nombre;
-                                                else
+                                                    else
                                                         NombreArticulo = this.Comprobante.Articulos[i].Articulo.ToString();
-                                                if (Res == null)
+                                                    if (Res == null)
                                                         Res = NombreArticulo;
-                                                else
+                                                    else
                                                         Res += System.Environment.NewLine + NombreArticulo;
+                                                    FilaActual = i;
+                                                }
                                         }
-                                        if (this.Comprobante.Descuento != 0)
+                                        if (!Espejo)
+                                            UltimaFila = FilaActual + 1;
+                                        if (UltimaFila >= CantidadDeArticulos)
+                                        {
+                                            if (this.Comprobante.Descuento != 0)
                                                 Res += System.Environment.NewLine + "Descuento: " + Lfx.Types.Formatting.FormatNumberForPrint(this.Comprobante.Descuento, 2) + "%";
-                                        if (this.Comprobante.Recargo != 0)
+                                            if (this.Comprobante.Recargo != 0)
                                                 Res += System.Environment.NewLine + "Recargo: " + Lfx.Types.Formatting.FormatNumberForPrint(this.Comprobante.Descuento, 2) + "%";
+                                        }
+                                        else
+                                        {
+                                            HastaImprimir = UltimaFila;
+                                            //No es última página
+                                            Res += System.Environment.NewLine + "        Página " + PaginaNumero.ToString();
+                                            Res += System.Environment.NewLine + "        Continúa en pág. " + (PaginaNumero + 1).ToString();
+                                        }
                                         return Res;
 
                                 case "ARTICULOS.UNITARIOSORIGINALES":
@@ -198,11 +324,14 @@ namespace Lazaro.Base.Util.Impresion.Comprobantes
                                         Res = null;
                                         for (int i = 0; i < this.Comprobante.Articulos.Count; i++) {
                                                 Lbl.Comprobantes.DetalleArticulo Det = this.Comprobante.Articulos[i];
-                                                string Linea = Lfx.Types.Formatting.FormatCurrencyForPrint(Det.ImporteUnitario, Lfx.Workspace.Master.CurrentConfig.Moneda.DecimalesFinal);
-                                                if (Res == null)
+                                                if (i >= DesdeImprimir && i <= HastaImprimir)
+                                                {
+                                                    string Linea = Lfx.Types.Formatting.FormatCurrencyForPrint(Det.ImporteUnitario, Lfx.Workspace.Master.CurrentConfig.Moneda.DecimalesFinal);
+                                                    if (Res == null)
                                                         Res = Linea;
-                                                else
+                                                    else
                                                         Res += System.Environment.NewLine + Linea;
+                                                }
                                         }
                                         return Res;
 
@@ -212,17 +341,20 @@ namespace Lazaro.Base.Util.Impresion.Comprobantes
                                 case "PRECIOS":
                                         Res = null;
                                         for (int i = 0; i < this.Comprobante.Articulos.Count; i++) {
-                                                Lbl.Comprobantes.DetalleArticulo Det = this.Comprobante.Articulos[i];
-                                                string Linea;
-                                                if (Comprobante.Tipo.DiscriminaIva) {
-                                                        Linea = Lfx.Types.Formatting.FormatCurrencyForPrint(Det.ImporteUnitarioSinIvaFinal, Lfx.Workspace.Master.CurrentConfig.Moneda.DecimalesFinal);
-                                                } else {
-                                                        Linea = Lfx.Types.Formatting.FormatCurrencyForPrint(Det.ImporteUnitarioConIvaFinal, Lfx.Workspace.Master.CurrentConfig.Moneda.DecimalesFinal);
+                                                if (i >= DesdeImprimir && i <= HastaImprimir)
+                                                { 
+                                                    Lbl.Comprobantes.DetalleArticulo Det = this.Comprobante.Articulos[i];
+                                                    string Linea;
+                                                    if (Comprobante.Tipo.DiscriminaIva) {
+                                                            Linea = Lfx.Types.Formatting.FormatCurrencyForPrint(Det.ImporteUnitarioSinIvaFinal, Lfx.Workspace.Master.CurrentConfig.Moneda.DecimalesFinal);
+                                                    } else {
+                                                            Linea = Lfx.Types.Formatting.FormatCurrencyForPrint(Det.ImporteUnitarioConIvaFinal, Lfx.Workspace.Master.CurrentConfig.Moneda.DecimalesFinal);
+                                                    }
+                                                    if (Res == null)
+                                                            Res = Linea;
+                                                    else
+                                                            Res += System.Environment.NewLine + Linea;
                                                 }
-                                                if (Res == null)
-                                                        Res = Linea;
-                                                else
-                                                        Res += System.Environment.NewLine + Linea;
                                         }
                                         return Res;
 
@@ -231,6 +363,8 @@ namespace Lazaro.Base.Util.Impresion.Comprobantes
                                 case "DESCUENTOS":
                                         Res = null;
                                         for (int i = 0; i < this.Comprobante.Articulos.Count; i++) {
+                                            if (i >= DesdeImprimir && i <= HastaImprimir)
+                                            {
                                                 Lbl.Comprobantes.DetalleArticulo Det = this.Comprobante.Articulos[i];
                                                 string Linea;
                                                 if (Det.Descuento == 0)
@@ -241,6 +375,7 @@ namespace Lazaro.Base.Util.Impresion.Comprobantes
                                                         Res = Linea;
                                                 else
                                                         Res += System.Environment.NewLine + Linea;
+                                            }
                                         }
                                         return Res;
 
@@ -249,12 +384,16 @@ namespace Lazaro.Base.Util.Impresion.Comprobantes
                                 case "IMPORTES":
                                         Res = null;
                                         for (int i = 0; i < this.Comprobante.Articulos.Count; i++) {
+                                            if (i >= DesdeImprimir && i <= HastaImprimir)
+                                            {
                                                 Lbl.Comprobantes.DetalleArticulo Det = this.Comprobante.Articulos[i];
                                                 string Linea = Lfx.Types.Formatting.FormatCurrencyForPrint(Det.ImporteAImprimir, Lfx.Workspace.Master.CurrentConfig.Moneda.DecimalesFinal);
-                                                if (Res == null) {
-                                                        Res = "";
+                                                if (Res == null)
+                                                {
+                                                    Res = "";
                                                 }
                                                 Res += Linea + System.Environment.NewLine;
+                                            }
                                         }
                                         return Res;
 

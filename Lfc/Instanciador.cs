@@ -34,6 +34,12 @@ namespace Lfc
                         return Res;
                 }
 
+                public static Type InferirFormularioListado2(Type tipo)
+                {
+                        Type Res = Lfx.Components.Manager.RegisteredTypes.GetHandler(tipo, "list_2");
+                        return Res;
+                }
+
 
                 public static Lfc.FormularioListado InstanciarFormularioListado(Type tipo, string args)
                 {

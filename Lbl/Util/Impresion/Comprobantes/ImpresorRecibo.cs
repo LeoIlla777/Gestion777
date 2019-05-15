@@ -88,32 +88,79 @@ namespace Lazaro.Base.Util.Impresion.Comprobantes
 
                                 case "VALORES":
                                         System.Text.StringBuilder Valores = new System.Text.StringBuilder();
-                                        foreach (Lbl.Comprobantes.Cobro Pg in Recibo.Cobros) {
-                                                switch (Pg.FormaDePago.Tipo) {
-                                                        case Lbl.Pagos.TiposFormasDePago.Efectivo:
-                                                                Valores.AppendLine("Efectivo                 : " + Lbl.Sys.Config.Moneda.Simbolo + " " + Lfx.Types.Formatting.FormatCurrency(Pg.Importe, Lfx.Workspace.Master.CurrentConfig.Moneda.Decimales));
-                                                                break;
-                                                        case Lbl.Pagos.TiposFormasDePago.ChequeTerceros:
-                                                        case Lbl.Pagos.TiposFormasDePago.ChequePropio:
-                                                                Valores.AppendLine("Cheque                   : " + Lbl.Sys.Config.Moneda.Simbolo + " " + Lfx.Types.Formatting.FormatCurrency(Pg.Importe, Lfx.Workspace.Master.CurrentConfig.Moneda.Decimales));
-                                                                Valores.AppendLine("                           Nº " + Pg.Cheque.Numero + " del banco " + Pg.Cheque.Banco.ToString());
-                                                                Valores.AppendLine("                           emitido por " + Pg.Cheque.Emisor);
-                                                                Valores.AppendLine("                           el día " + Lfx.Types.Formatting.FormatDate(Pg.Cheque.FechaEmision));
-                                                                Valores.AppendLine("                           pagadero el " + Lfx.Types.Formatting.FormatDate(Pg.Cheque.FechaCobro));
-                                                                break;
-                                                        case Lbl.Pagos.TiposFormasDePago.Tarjeta:
-                                                                Valores.AppendLine("Pago con Tarjeta         : " + Lbl.Sys.Config.Moneda.Simbolo + " " + Lfx.Types.Formatting.FormatCurrency(Pg.Importe, Lfx.Workspace.Master.CurrentConfig.Moneda.Decimales));
-                                                                Valores.AppendLine("                           cupón " + Pg.Cupon.ToString());
-                                                                break;
-                                                        case Lbl.Pagos.TiposFormasDePago.Caja:
-                                                                Valores.AppendLine("Ingreso en Cuenta        : " + Lbl.Sys.Config.Moneda.Simbolo + " " + Lfx.Types.Formatting.FormatCurrency(Pg.Importe, Lfx.Workspace.Master.CurrentConfig.Moneda.Decimales));
-                                                                Valores.AppendLine("                           cuenta " + Pg.CajaDestino.ToString());
-                                                                break;
-                                                        default:
-                                                                Valores.AppendLine("Otro Pago                : " + Lbl.Sys.Config.Moneda.Simbolo + " " + Lfx.Types.Formatting.FormatCurrency(Pg.Importe, Lfx.Workspace.Master.CurrentConfig.Moneda.Decimales));
-                                                                Valores.AppendLine("                           " + Pg.ToString());
-                                                                break;
+                                        if (Recibo.Pagos != null)
+                                        {
+                                            foreach (Lbl.Comprobantes.Pago Pg in Recibo.Pagos)
+                                            {
+                                                switch (Pg.FormaDePago.Tipo)
+                                                {
+                                                    case Lbl.Pagos.TiposFormasDePago.Efectivo:
+                                                        Valores.AppendLine("Efectivo                 : " + Lbl.Sys.Config.Moneda.Simbolo + " " + Lfx.Types.Formatting.FormatCurrency(Pg.Importe, Lfx.Workspace.Master.CurrentConfig.Moneda.Decimales));
+                                                        break;
+                                                    case Lbl.Pagos.TiposFormasDePago.ChequeTerceros:
+                                                    case Lbl.Pagos.TiposFormasDePago.ChequePropio:
+                                                        Valores.AppendLine("Cheque                   : " + Lbl.Sys.Config.Moneda.Simbolo + " " + Lfx.Types.Formatting.FormatCurrency(Pg.Importe, Lfx.Workspace.Master.CurrentConfig.Moneda.Decimales));
+                                                        Valores.AppendLine("                           Nº " + Pg.Cheque.Numero + " del banco " + Pg.Cheque.Banco.ToString());
+                                                        Valores.AppendLine("                           emitido por " + Pg.Cheque.Emisor);
+                                                        Valores.AppendLine("                           el día " + Lfx.Types.Formatting.FormatDate(Pg.Cheque.FechaEmision));
+                                                        Valores.AppendLine("                           pagadero el " + Lfx.Types.Formatting.FormatDate(Pg.Cheque.FechaCobro));
+                                                        break;
+                                                    case Lbl.Pagos.TiposFormasDePago.Tarjeta:
+                                                        Valores.AppendLine("Pago con Tarjeta         : " + Lbl.Sys.Config.Moneda.Simbolo + " " + Lfx.Types.Formatting.FormatCurrency(Pg.Importe, Lfx.Workspace.Master.CurrentConfig.Moneda.Decimales));
+                                                        Valores.AppendLine("                           tarjeta " + Pg.ConceptoTexto.ToString());
+                                                        break;
+                                                    case Lbl.Pagos.TiposFormasDePago.Caja:
+                                                        Valores.AppendLine("Ingreso en Cuenta        : " + Lbl.Sys.Config.Moneda.Simbolo + " " + Lfx.Types.Formatting.FormatCurrency(Pg.Importe, Lfx.Workspace.Master.CurrentConfig.Moneda.Decimales));
+                                                        Valores.AppendLine("                           cuenta " + Pg.CajaOrigen.ToString());
+                                                        break;
+                                                    default:
+                                                        Valores.AppendLine("Otro Pago                : " + Lbl.Sys.Config.Moneda.Simbolo + " " + Lfx.Types.Formatting.FormatCurrency(Pg.Importe, Lfx.Workspace.Master.CurrentConfig.Moneda.Decimales));
+                                                        Valores.AppendLine("                           " + Pg.ToString());
+                                                        break;
                                                 }
+                                            }
+                                        }
+                                        else
+                                        {
+                                            foreach (Lbl.Comprobantes.Cobro Pg in Recibo.Cobros)
+                                            {
+                                                switch (Pg.FormaDePago.Tipo)
+                                                {
+                                                    case Lbl.Pagos.TiposFormasDePago.Efectivo:
+                                                        Valores.AppendLine("Efectivo                 : " + Lbl.Sys.Config.Moneda.Simbolo + " " + Lfx.Types.Formatting.FormatCurrency(Pg.Importe, Lfx.Workspace.Master.CurrentConfig.Moneda.Decimales));
+                                                        break;
+                                                    case Lbl.Pagos.TiposFormasDePago.ChequeTerceros:
+                                                    case Lbl.Pagos.TiposFormasDePago.ChequePropio:
+                                                        Valores.AppendLine("Cheque                   : " + Lbl.Sys.Config.Moneda.Simbolo + " " + Lfx.Types.Formatting.FormatCurrency(Pg.Importe, Lfx.Workspace.Master.CurrentConfig.Moneda.Decimales));
+                                                        Valores.AppendLine("                           Nº " + Pg.Cheque.Numero + " del banco " + Pg.Cheque.Banco.ToString());
+                                                        Valores.AppendLine("                           emitido por " + Pg.Cheque.Emisor);
+                                                        Valores.AppendLine("                           el día " + Lfx.Types.Formatting.FormatDate(Pg.Cheque.FechaEmision));
+                                                        Valores.AppendLine("                           pagadero el " + Lfx.Types.Formatting.FormatDate(Pg.Cheque.FechaCobro));
+                                                        break;
+                                                    case Lbl.Pagos.TiposFormasDePago.Tarjeta:
+                                                        Valores.AppendLine("Pago con Tarjeta         : " + Lbl.Sys.Config.Moneda.Simbolo + " " + Lfx.Types.Formatting.FormatCurrency(Pg.Importe, Lfx.Workspace.Master.CurrentConfig.Moneda.Decimales));
+                                                        Valores.AppendLine("                           cupón " + Pg.Cupon.ToString());
+                                                        break;
+                                                    case Lbl.Pagos.TiposFormasDePago.Caja:
+                                                        Valores.AppendLine("Ingreso en Cuenta        : " + Lbl.Sys.Config.Moneda.Simbolo + " " + Lfx.Types.Formatting.FormatCurrency(Pg.Importe, Lfx.Workspace.Master.CurrentConfig.Moneda.Decimales));
+                                                        Valores.AppendLine("                           cuenta " + Pg.CajaDestino.ToString());
+                                                        break;
+                                                    default:
+                                                        Valores.AppendLine("Otro Pago                : " + Lbl.Sys.Config.Moneda.Simbolo + " " + Lfx.Types.Formatting.FormatCurrency(Pg.Importe, Lfx.Workspace.Master.CurrentConfig.Moneda.Decimales));
+                                                        Valores.AppendLine("                           " + Pg.ToString());
+                                                        break;
+                                                }
+                                            }
+                                        }
+
+                                        //Agrego las facturas que corresponde al recibo.
+                                        if (Recibo.Facturas != null)
+                                        {
+                                            Valores.AppendLine("*********    COMPROBANTES    *********");
+                                            foreach (Lbl.Comprobantes.ComprobanteImporte fac in Recibo.Facturas)
+                                            {
+                                                Valores.AppendLine(fac.Comprobante.Nombre);
+                                            }
                                         }
                                         return Valores.ToString();
                                 default:

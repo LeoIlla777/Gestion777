@@ -60,6 +60,10 @@ namespace Lazaro.WinMain
                                 case "LIST":
                                         return ExecListar(comando);
 
+                                case "LISTAR_2":
+                                case "LIST_2":
+                                        return ExecListar2(comando);
+
                                 case "IMPRIMIR":
                                         return ExecImprimir(comando);
 
@@ -113,12 +117,6 @@ namespace Lazaro.WinMain
                                                 case "DATA":
                                                         Lbl.Servicios.Verificador Ver = new Lbl.Servicios.Verificador(Lfx.Workspace.Master.MasterConnection);
                                                         Ver.CheckDatabase();
-                                                        break;
-                                                case "STRUCT":
-                                                        System.Threading.ThreadStart ThreadVerif = delegate { Lfx.Workspace.Master.CheckAndUpdateDatabaseVersion(true, false); };
-                                                        System.Threading.Thread ThrVerif = new System.Threading.Thread(ThreadVerif);
-                                                        ThrVerif.IsBackground = true;
-                                                        ThrVerif.Start();
                                                         break;
                                         }
                                         break;
@@ -189,25 +187,66 @@ namespace Lazaro.WinMain
                                         break;
 
                                 case "FISCAL":
-                                        string SubComandoFiscal = Lfx.Types.Strings.GetNextToken(ref comando, " ").Trim().ToUpper();
+                    string SubComandoFiscal = Lfx.Types.Strings.GetNextToken(ref comando, " ").Trim().ToUpper();
 
-                                        switch (SubComandoFiscal) {
-                                                case "INICIAR":
-                                                        if (Lfx.Environment.SystemInformation.DesignMode == true) {
-                                                                ExecInternal("RUN ServidorFiscal.ServidorFiscal", null);
-                                                        } else {
-                                                                Lfx.Environment.Shell.Execute(Lfx.Environment.Folders.ApplicationFolder + "ServidorFiscal.exe", null, System.Diagnostics.ProcessWindowStyle.Normal, false);
-                                                        }
-                                                        break;
-                                                case "PANEL":
-                                                        Lazaro.WinMain.Misc.Fiscal OFormFiscal = (Lazaro.WinMain.Misc.Fiscal)BuscarVentana("Lazaro.Misc.Fiscal");
-                                                        if (OFormFiscal == null)
-                                                                OFormFiscal = new Lazaro.WinMain.Misc.Fiscal();
-                                                        OFormFiscal.ShowDialog();
-                                                        break;
+                    switch (SubComandoFiscal)
+                    {
+                        case "INICIAR":
+                            try
+                            {
+                                if (Lfx.Environment.SystemInformation.DesignMode == true)
+                                {
+                                    System.Diagnostics.Process[] tempProc = System.Diagnostics.Process.GetProcessesByName("ServidorFiscal.exe");
+                                    if (tempProc.Length == 0)
+                                    {
+                                        tempProc = System.Diagnostics.Process.GetProcessesByName("ServidorFiscal");
+                                        if (tempProc.Length==0)
+                                            Lfx.Environment.Shell.Execute(@"C:\Users\Leona\Source\Workspaces\Excelencia\Excelencia-Gestion\Sistema\bin\Debug\Components\" + "Fiscal.exe", null, System.Diagnostics.ProcessWindowStyle.Normal, false);
+                                    }
+                                }
+                                else
+                                {
+                                    System.Diagnostics.Process[] tempProc = System.Diagnostics.Process.GetProcessesByName("ServidorFiscal.exe");
+                                    foreach (System.Diagnostics.Process pro in tempProc)
+                                    {
+                                        pro.CloseMainWindow();
+                                        pro.WaitForExit();
+                                    }
+                                    foreach (System.Diagnostics.Process pro in tempProc)
+                                    {
+                                        try
+                                        {
+                                            pro.Kill();
+                                            pro.WaitForExit();
                                         }
-                                        break;
+                                        catch
+                                        {
+                                            //Nada.
+                                        }
+                                    }
 
+                                    tempProc = System.Diagnostics.Process.GetProcessesByName("ServidorFiscal");
+                                    if (tempProc.Length == 0)
+                                        Lfx.Environment.Shell.Execute(Lfx.Environment.Folders.ApplicationFolder + @"\Components\ServidorFiscal.exe", null, System.Diagnostics.ProcessWindowStyle.Normal, false);                               }
+                            }
+                            catch
+                            {
+                                MessageBox.Show("No se inicio el servidor fiscal.", "¡Atención!");
+                            }
+                            break;
+                        case "PANEL":
+                            Lazaro.WinMain.Misc.Fiscal OFormFiscal = (Lazaro.WinMain.Misc.Fiscal)BuscarVentana("Lazaro.Misc.Fiscal");
+                            if (OFormFiscal == null)
+                                OFormFiscal = new Lazaro.WinMain.Misc.Fiscal();
+                            OFormFiscal.ShowDialog();
+                            break;
+                    }
+                    break;
+                case "CHAT":
+                    //Mensajeria.Chat.Inicio chat = new Mensajeria.Chat.Inicio();
+                    //Mensajeria.Chat.ChatControl cControl = chat.IniciarChat(Lbl.Sys.Config.Actual.UsuarioConectado.Persona, estacion);
+                    //chat.Show();
+                    break;
                                 case "MENSAJE":
                                 case "MESSAGE":
                                         Lfx.Workspace.Master.RunTime.Toast(comando, "Mensaje remoto de " + estacion);
@@ -384,6 +423,28 @@ namespace Lazaro.WinMain
 
                         return FormularioListado;
                 }
+
+        private static object ExecListar2(string comando)
+        {
+            string SubComandoListado = Lfx.Types.Strings.GetNextToken(ref comando, " ").Trim();
+            Lfc.FormularioListado FormularioListado = null;
+
+            Type TipoLbl = Lbl.Instanciador.InferirTipo(SubComandoListado);
+            if (Lbl.Sys.Config.Actual.UsuarioConectado.TienePermiso(TipoLbl, Lbl.Sys.Permisos.Operaciones.Listar))
+            {
+                Type TipoListado = Lfc.Instanciador.InferirFormularioListado2(TipoLbl);
+                if (TipoListado == null)
+                    throw new NotImplementedException("LISTAR_2 " + SubComandoListado);
+                else
+                    FormularioListado = Lfc.Instanciador.InstanciarFormularioListado(TipoListado, comando.Length > 0 ? comando : null);
+            }
+            else
+            {
+                return new Lfx.Types.NoAccessOperationResult();
+            }
+
+            return FormularioListado;
+        }
 
 
                 private static object ExecCrearEditar(bool crear, string comando)

@@ -4,12 +4,12 @@ using System.Text;
 
 namespace Lbl.Servicios.Importar
 {
-        public class FiltroLazaro : Filtro
+        public class FiltroGestion : Filtro
         {
-                public FiltroLazaro(Lfx.Data.IConnection dataBase, Opciones opciones)
+                public FiltroGestion(Lfx.Data.IConnection dataBase, Opciones opciones)
                         : base(dataBase, opciones)
                 {
-                        this.Nombre = "Filtro de importación de Lázaro";
+                        this.Nombre = "Filtro de importación de Gestión";
                 }
         }
 }

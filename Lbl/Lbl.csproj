@@ -17,7 +17,8 @@
     <UpgradeBackupLocation>
     </UpgradeBackupLocation>
     <IsWebBootstrapper>false</IsWebBootstrapper>
-    <ApplicationIcon>Lazaro.ico</ApplicationIcon>
+    <ApplicationIcon>
+    </ApplicationIcon>
     <CodePage>65001</CodePage>
     <ReleaseVersion>1.0</ReleaseVersion>
     <PublishUrl>publish\</PublishUrl>
@@ -122,6 +123,7 @@
     <Compile Include="Archivos\Salida\CitiVentas.cs" />
     <Compile Include="Archivos\Salida\CitiCompras.cs" />
     <Compile Include="Archivos\Salida\IArchivoSalida.cs" />
+    <Compile Include="Articulos\CodBar.cs" />
     <Compile Include="Articulos\ColeccionDatosSeguimiento.cs" />
     <Compile Include="Articulos\DatosSeguimiento.cs" />
     <Compile Include="Articulos\ItemReceta.cs" />
@@ -139,10 +141,12 @@
     <Compile Include="ColeccionCodigoDetalle.cs" />
     <Compile Include="Componentes\Cargador.cs" />
     <Compile Include="Componentes\Componente.cs" />
+    <Compile Include="Comprobantes\ClienteFree.cs" />
     <Compile Include="Comprobantes\ColeccionComprobanteImporte.cs" />
     <Compile Include="Comprobantes\ComprobanteImporte.cs" />
     <Compile Include="Comprobantes\Factura.cs" />
     <Compile Include="Comprobantes\Lote.cs" />
+    <Compile Include="Comprobantes\TicketX.cs" />
     <Compile Include="Consultas\Consulta.cs" />
     <Compile Include="Consultas\Parametro.cs" />
     <Compile Include="Controller\BaseController.cs" />
@@ -153,6 +157,11 @@
     <Compile Include="CuentasCorrientes\Movimiento.cs" />
     <Compile Include="Entidades\ClaveUnica.cs" />
     <Compile Include="IEntidad.cs" />
+    <Compile Include="Licencias\ArrayFill.cs" />
+    <Compile Include="Licencias\Base64.cs" />
+    <Compile Include="Licencias\Crypto.cs" />
+    <Compile Include="Licencias\License.cs" />
+    <Compile Include="Log.cs" />
     <Compile Include="Notificaciones\Administrador.cs" />
     <Compile Include="Notificaciones\ColeccionUsuarioConectado.cs" />
     <Compile Include="Notificaciones\INotificacion.cs" />
@@ -190,6 +199,8 @@
     <Compile Include="Personas\Claves\Nif.cs" />
     <Compile Include="Personas\Claves\Ruc.cs" />
     <Compile Include="Personas\Claves\Rut.cs" />
+    <Compile Include="Personas\Cotiza.cs" />
+    <Compile Include="Personas\Descuentos.cs" />
     <Compile Include="Personas\Tipo.cs" />
     <Compile Include="Personas\TiposCuenta.cs" />
     <Compile Include="Personas\Usuario.cs" />
@@ -266,6 +277,9 @@
     <Compile Include="Util\Comprobantes\GeneradorPdf.cs" />
     <Compile Include="Util\Comprobantes\IGenerador.cs" />
     <Compile Include="Util\Comprobantes\Impresion.cs" />
+    <Compile Include="Util\Impresion\Caja\ImpresorMovimiento.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Util\Impresion\Comprobantes\Fiscal\Comando.cs" />
     <Compile Include="Util\Impresion\Comprobantes\Fiscal\Enums.cs" />
     <Compile Include="Util\Impresion\Comprobantes\Fiscal\EstadoAuxiliar.cs" />
@@ -288,6 +302,12 @@
     <Compile Include="Util\Impresion\Comprobantes\ImpresorRecibo.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Util\Impresion\Comprobantes\ImpresorTarea.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Util\Impresion\Comprobantes\ImpresorTarea2.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Util\Impresion\Impresor.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -301,6 +321,7 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Util\Impresion\Instanciador.cs" />
+    <Compile Include="Util\Log.cs" />
     <Compile Include="Vencimientos\Frecuencias.cs" />
     <Compile Include="Vencimientos\Vencimiento.cs" />
     <Compile Include="ElementoDeDatos.cs" />
@@ -378,7 +399,7 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Lazaro.ico" />
+    <Content Include="favicon.ico" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Util\Impresion\Comprobantes\Afip\" />

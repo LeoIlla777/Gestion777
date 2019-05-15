@@ -9,6 +9,7 @@ namespace Lfc.Comprobantes.Presupuestos
                         : base()
                 {
                         this.Definicion.ElementoTipo = typeof(Lbl.Comprobantes.Presupuesto);
+                        this.Definicion.Paging = true;
                 }
 
                 public Inicio(string comand)

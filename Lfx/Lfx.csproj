@@ -7,7 +7,7 @@
     <ProjectGuid>{BC643FE8-57FF-4E26-AAF2-19B229BE9B16}</ProjectGuid>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ApplicationIcon>Lazaro.ico</ApplicationIcon>
+    <ApplicationIcon>gestion777.ico</ApplicationIcon>
     <AssemblyKeyContainerName>
     </AssemblyKeyContainerName>
     <AssemblyName>Lfx</AssemblyName>
@@ -141,11 +141,13 @@
     <Compile Include="Components\RegisteredType.cs" />
     <Compile Include="Components\RegisteredTypeCollection.cs" />
     <Compile Include="Data\Aggregate.cs" />
+    <Compile Include="Data\FacCompraTag.cs" />
     <Compile Include="Data\Grouping.cs" />
     <Compile Include="Data\IConnection.cs" />
     <Compile Include="Data\InputFieldTypes.cs" />
     <Compile Include="Data\Structure.cs" />
     <Compile Include="DependencyInjection\IContainer.cs" />
+    <Compile Include="Encrypt.cs" />
     <Compile Include="RuntimeServices.cs" />
     <Compile Include="Types\DomainException.cs" />
     <Compile Include="Types\Exceptions\Exception.cs" />
@@ -243,13 +245,6 @@
     <EmbeddedResource Include="Data\Struct\db_upd_pre.sql" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Data\Struct\db_upd26_pre.sql" />
-    <EmbeddedResource Include="Data\Struct\db_upd27_post.sql" />
-    <EmbeddedResource Include="Data\Struct\db_upd27_pre.sql" />
-    <EmbeddedResource Include="Data\Struct\db_upd26_post.sql" />
-    <Content Include="Lazaro.ico" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="..\log4net.config">
       <Link>log4net.config</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -262,6 +257,9 @@
       <Project>{01085c08-19ad-4390-9822-1895ac99167a}</Project>
       <Name>Orm</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="gestion777.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

@@ -107,5 +107,35 @@ namespace Lfx.Config
                                         return this.CajaDiaria;
                         }
                 }
-        }
+
+                public string Cuit {
+                    get {
+                        return ConfigManager.Connection.FieldString("SELECT valor FROM sys_config WHERE nombre='Sistema.Empresa.CUIT' AND id_sucursal=0");
+                    }
+                }
+                public string RazonSocial {
+                    get {
+                        return ConfigManager.Connection.FieldString("SELECT valor FROM sys_config WHERE nombre='Sistema.Empresa.RazonSocial' AND id_sucursal=0");
+                    }
+                }
+
+                public string InicioActividad {
+                    get {
+                        return ConfigManager.Connection.FieldString("SELECT valor FROM sys_config WHERE nombre='Sistema.Empresa.InicioDeActividades' AND id_sucursal=0");
+                    }
+                }
+
+                public string IngresosBrutos {
+                    get {
+                        return ConfigManager.Connection.FieldString("SELECT valor FROM sys_config WHERE nombre='Sistema.Empresa.NumeroIngresosBrutos' AND id_sucursal=0");
+                    }
+                }
+
+                public string IVA {
+                    get {
+                        return ConfigManager.Connection.FieldString("SELECT nombre FROM situaciones WHERE id_situacion=(SELECT valor FROM sys_config WHERE nombre='Sistema.Empresa.Situacion' AND id_sucursal=0)");
+                    }
+                }
+
+    }
 }

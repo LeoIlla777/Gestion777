@@ -408,7 +408,7 @@ namespace Lfx.Backups
                                         Progreso.ChangeStatus("Acomodando estructuras");
                                         Lfx.Workspace.Master.Structure.TagList.Clear();
                                         Lfx.Workspace.Master.Structure.LoadFromFile(this.BackupPath + Carpeta + "dbstruct.xml");
-                                        Lfx.Workspace.Master.CheckAndUpdateDatabaseVersion(true, true);
+                                        //Lfx.Workspace.Master.CheckAndUpdateDatabaseVersion(true, true);
 
                                         using (BackupReader Lector = new BackupReader(this.BackupPath + Carpeta + "dbdata.lbd"))
                                         using (IDbTransaction Trans = ConnRestaurar.BeginTransaction()) {

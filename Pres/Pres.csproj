@@ -110,8 +110,10 @@
     <Compile Include="Spreadsheet\CellCollection.cs" />
     <Compile Include="Spreadsheet\ColumnHeader.cs" />
     <Compile Include="Spreadsheet\ColumnHeaderCollection.cs" />
+    <Compile Include="Spreadsheet\ExcelReg.cs" />
     <Compile Include="Spreadsheet\ExternalPrograms.cs" />
     <Compile Include="Spreadsheet\Formula.cs" />
+    <Compile Include="Spreadsheet\HeaderLeo.cs" />
     <Compile Include="Spreadsheet\HeaderRow.cs" />
     <Compile Include="Spreadsheet\PrintModes.cs" />
     <Compile Include="Spreadsheet\QuickFunctions.cs" />
@@ -120,6 +122,7 @@
     <Compile Include="Spreadsheet\SaveFormats.cs" />
     <Compile Include="Spreadsheet\Sheet.cs" />
     <Compile Include="Spreadsheet\Workbook.cs" />
+    <Compile Include="Spreadsheet\WorkBookLeo.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Properties\Resources.resx">
@@ -158,6 +161,7 @@
     <Content Include="Resources\search.png" />
     <Content Include="Resources\star.png" />
     <Content Include="Resources\tag.png" />
+    <None Include="Resources\tareas.png" />
     <Content Include="Resources\unlock.png" />
     <Content Include="Resources\van.png" />
   </ItemGroup>

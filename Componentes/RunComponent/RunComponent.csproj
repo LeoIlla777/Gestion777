@@ -7,7 +7,7 @@
     <ProjectGuid>{605FD6A7-13A6-45A3-9C5D-DAF1CEF01DBB}</ProjectGuid>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ApplicationIcon>Lazaro.ico</ApplicationIcon>
+    <ApplicationIcon>gestion777.ico</ApplicationIcon>
     <AssemblyKeyContainerName>
     </AssemblyKeyContainerName>
     <AssemblyName>RunComponent</AssemblyName>
@@ -123,9 +123,6 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Lazaro.ico" />
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\..\Lbl\Lbl.csproj">
       <Project>{56F39851-6542-405C-9F47-E8414B757EF6}</Project>
       <Name>Lbl</Name>
@@ -144,6 +141,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="gestion777.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

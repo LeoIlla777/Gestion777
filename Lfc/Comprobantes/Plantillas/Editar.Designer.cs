@@ -66,6 +66,7 @@ namespace Lfc.Comprobantes.Plantillas
                         this.ListaCampos.BorderStyle = System.Windows.Forms.BorderStyle.None;
                         this.ListaCampos.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.ColCampo});
+                        this.ListaCampos.FieldName = null;
                         this.ListaCampos.FullRowSelect = true;
                         this.ListaCampos.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
                         this.ListaCampos.HideSelection = false;
@@ -73,6 +74,7 @@ namespace Lfc.Comprobantes.Plantillas
                         this.ListaCampos.Location = new System.Drawing.Point(0, 0);
                         this.ListaCampos.MultiSelect = false;
                         this.ListaCampos.Name = "ListaCampos";
+                        this.ListaCampos.ReadOnly = false;
                         this.ListaCampos.Size = new System.Drawing.Size(192, 246);
                         this.ListaCampos.Sorting = System.Windows.Forms.SortOrder.Ascending;
                         this.ListaCampos.TabIndex = 0;
@@ -95,7 +97,7 @@ namespace Lfc.Comprobantes.Plantillas
                         this.EntradaMargenes.SetData = new string[] {
         "Predeterminados|0",
         "Personalizados|1"};
-                        this.EntradaMargenes.Size = new System.Drawing.Size(116, 39);
+                        this.EntradaMargenes.Size = new System.Drawing.Size(116, 40);
                         this.EntradaMargenes.TabIndex = 12;
                         this.EntradaMargenes.TextKey = "1";
                         this.EntradaMargenes.TextChanged += new System.EventHandler(this.EntradaMargenes_TextChanged);
@@ -162,7 +164,7 @@ namespace Lfc.Comprobantes.Plantillas
                         this.EntradaLandscape.SetData = new string[] {
         "alto|0",
         "apaisado|1"};
-                        this.EntradaLandscape.Size = new System.Drawing.Size(96, 39);
+                        this.EntradaLandscape.Size = new System.Drawing.Size(96, 40);
                         this.EntradaLandscape.TabIndex = 10;
                         this.EntradaLandscape.TextKey = "0";
                         this.EntradaLandscape.TextChanged += new System.EventHandler(this.EntradaPapelTamano_TextChanged);
@@ -191,8 +193,9 @@ namespace Lfc.Comprobantes.Plantillas
         "Vera Sans Serif|Bitstream Vera Sans",
         "Vera Monoespaciada|Bitstream Vera Sans Mono",
         "Segoe UI|Segoe UI",
-        "Courier|Courier New"};
-                        this.EntradaFuente.Size = new System.Drawing.Size(256, 90);
+        "Courier|Courier New",
+        "Código de Barra|3 of 9 Barcode"};
+                        this.EntradaFuente.Size = new System.Drawing.Size(256, 91);
                         this.EntradaFuente.TabIndex = 18;
                         this.EntradaFuente.TextKey = "*";
                         this.EntradaFuente.TextChanged += new System.EventHandler(this.EntradaFuenteFuenteTamano_TextChanged);
@@ -218,7 +221,7 @@ namespace Lfc.Comprobantes.Plantillas
         "A4|a4",
         "A5|a5",
         "Continuo|cont"};
-                        this.EntradaPapelTamano.Size = new System.Drawing.Size(88, 90);
+                        this.EntradaPapelTamano.Size = new System.Drawing.Size(88, 91);
                         this.EntradaPapelTamano.TabIndex = 9;
                         this.EntradaPapelTamano.TextKey = "a4";
                         this.EntradaPapelTamano.TextChanged += new System.EventHandler(this.EntradaPapelTamano_TextChanged);
@@ -388,7 +391,7 @@ namespace Lfc.Comprobantes.Plantillas
                         this.EntradaTipo.SetData = new string[] {
         "En blanco|1",
         "Preimpresa|0"};
-                        this.EntradaTipo.Size = new System.Drawing.Size(144, 56);
+                        this.EntradaTipo.Size = new System.Drawing.Size(144, 40);
                         this.EntradaTipo.TabIndex = 7;
                         this.EntradaTipo.TextKey = "0";
                         this.EntradaTipo.TextChanged += new System.EventHandler(this.EntradaTipo_TextChanged);
@@ -440,6 +443,7 @@ namespace Lfc.Comprobantes.Plantillas
         "Recibos de cobro y pago|Lbl.Comprobantes.Recibo",
         "Sólo recibos de cobro|Lbl.Comprobantes.ReciboDeCobro",
         "Sólo recibos de pago|Lbl.Comprobantes.ReciboDePago",
+        "Sólo Ticket X|Lbl.Comprobantes.TicketX",
         "Presupuestos|Lbl.Comprobantes.Presupuesto",
         "Notas de crédito A|NCA",
         "Notas de crédito B|NCB",
@@ -452,9 +456,9 @@ namespace Lfc.Comprobantes.Plantillas
         "Notas de débito E|NDE",
         "Notas de débito M|NDM",
         "Tipo personalizado|*"};
-                        this.EntradaCodigo.Size = new System.Drawing.Size(296, 90);
+                        this.EntradaCodigo.Size = new System.Drawing.Size(296, 91);
                         this.EntradaCodigo.TabIndex = 1;
-                        this.EntradaCodigo.TextKey = "";
+                        this.EntradaCodigo.TextKey = "Lbl.Comprobantes.ComprobanteFacturable";
                         this.EntradaCodigo.TextChanged += new System.EventHandler(this.EntradaCodigo_TextChanged);
                         // 
                         // PanelDiseno

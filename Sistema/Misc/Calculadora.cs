@@ -49,75 +49,75 @@ namespace Lazaro.WinMain.Misc
 
 		private void InitializeComponent()
 		{
-                        System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Calculadora));
-                        this.EntradaHistorial = new System.Windows.Forms.TextBox();
-                        this.EntradaFormula = new Lui.Forms.TextBox();
-                        this.EtiquetaResultado = new Lui.Forms.Label();
-                        this.SuspendLayout();
-                        // 
-                        // EntradaHistorial
-                        // 
-                        this.EntradaHistorial.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Calculadora));
+            this.EntradaHistorial = new System.Windows.Forms.TextBox();
+            this.EntradaFormula = new Lui.Forms.TextBox();
+            this.EtiquetaResultado = new Lui.Forms.Label();
+            this.SuspendLayout();
+            // 
+            // EntradaHistorial
+            // 
+            this.EntradaHistorial.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-                        this.EntradaHistorial.BorderStyle = System.Windows.Forms.BorderStyle.None;
-                        this.EntradaHistorial.Font = new System.Drawing.Font("Bitstream Vera Sans Mono", 10F);
-                        this.EntradaHistorial.Location = new System.Drawing.Point(24, 72);
-                        this.EntradaHistorial.Multiline = true;
-                        this.EntradaHistorial.Name = "EntradaHistorial";
-                        this.EntradaHistorial.Size = new System.Drawing.Size(272, 240);
-                        this.EntradaHistorial.TabIndex = 0;
-                        this.EntradaHistorial.TabStop = false;
-                        this.EntradaHistorial.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-                        this.EntradaHistorial.WordWrap = false;
-                        // 
-                        // EntradaFormula
-                        // 
-                        this.EntradaFormula.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            this.EntradaHistorial.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.EntradaHistorial.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
+            this.EntradaHistorial.Location = new System.Drawing.Point(24, 72);
+            this.EntradaHistorial.Multiline = true;
+            this.EntradaHistorial.Name = "EntradaHistorial";
+            this.EntradaHistorial.Size = new System.Drawing.Size(272, 240);
+            this.EntradaHistorial.TabIndex = 0;
+            this.EntradaHistorial.TabStop = false;
+            this.EntradaHistorial.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.EntradaHistorial.WordWrap = false;
+            // 
+            // EntradaFormula
+            // 
+            this.EntradaFormula.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-                        this.EntradaFormula.AutoNav = false;
-                        this.EntradaFormula.Location = new System.Drawing.Point(24, 320);
-                        this.EntradaFormula.Name = "EntradaFormula";
-                        this.EntradaFormula.Size = new System.Drawing.Size(272, 29);
-                        this.EntradaFormula.TabIndex = 1;
-                        this.EntradaFormula.TextStyle = Lazaro.Pres.DisplayStyles.TextStyles.Big;
-                        this.EntradaFormula.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtFormula_KeyDown);
-                        // 
-                        // EtiquetaResultado
-                        // 
-                        this.EtiquetaResultado.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.EntradaFormula.AutoNav = false;
+            this.EntradaFormula.Location = new System.Drawing.Point(24, 320);
+            this.EntradaFormula.Name = "EntradaFormula";
+            this.EntradaFormula.Size = new System.Drawing.Size(272, 29);
+            this.EntradaFormula.TabIndex = 1;
+            this.EntradaFormula.TextStyle = Lazaro.Pres.DisplayStyles.TextStyles.Big;
+            this.EntradaFormula.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtFormula_KeyDown);
+            // 
+            // EtiquetaResultado
+            // 
+            this.EtiquetaResultado.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-                        this.EtiquetaResultado.Location = new System.Drawing.Point(24, 24);
-                        this.EtiquetaResultado.Name = "EtiquetaResultado";
-                        this.EtiquetaResultado.Size = new System.Drawing.Size(272, 47);
-                        this.EtiquetaResultado.TabIndex = 3;
-                        this.EtiquetaResultado.Text = "0.00 ";
-                        this.EtiquetaResultado.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-                        this.EtiquetaResultado.TextStyle = Lazaro.Pres.DisplayStyles.TextStyles.Bigger;
-                        // 
-                        // Calculadora
-                        // 
-                        this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
-                        this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
-                        this.ClientSize = new System.Drawing.Size(319, 372);
-                        this.Controls.Add(this.EtiquetaResultado);
-                        this.Controls.Add(this.EntradaFormula);
-                        this.Controls.Add(this.EntradaHistorial);
-                        this.ForeColor = System.Drawing.SystemColors.ControlText;
-                        this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
-                        this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-                        this.Name = "Calculadora";
-                        this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-                        this.Text = "Calculadora";
-                        this.TopMost = true;
-                        this.Activated += new System.EventHandler(this.FormCalculadora_Enter);
-                        this.Deactivate += new System.EventHandler(this.FormCalculadora_Leave);
-                        this.Load += new System.EventHandler(this.FormCalculadora_Load);
-                        this.Enter += new System.EventHandler(this.FormCalculadora_Enter);
-                        this.Leave += new System.EventHandler(this.FormCalculadora_Leave);
-                        this.ResumeLayout(false);
-                        this.PerformLayout();
+            this.EtiquetaResultado.Location = new System.Drawing.Point(24, 24);
+            this.EtiquetaResultado.Name = "EtiquetaResultado";
+            this.EtiquetaResultado.Size = new System.Drawing.Size(272, 47);
+            this.EtiquetaResultado.TabIndex = 3;
+            this.EtiquetaResultado.Text = "0.00 ";
+            this.EtiquetaResultado.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.EtiquetaResultado.TextStyle = Lazaro.Pres.DisplayStyles.TextStyles.Bigger;
+            // 
+            // Calculadora
+            // 
+            this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
+            this.ClientSize = new System.Drawing.Size(319, 372);
+            this.Controls.Add(this.EtiquetaResultado);
+            this.Controls.Add(this.EntradaFormula);
+            this.Controls.Add(this.EntradaHistorial);
+            this.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.Name = "Calculadora";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+            this.Text = "Calculadora";
+            this.TopMost = true;
+            this.Activated += new System.EventHandler(this.FormCalculadora_Enter);
+            this.Deactivate += new System.EventHandler(this.FormCalculadora_Leave);
+            this.Load += new System.EventHandler(this.FormCalculadora_Load);
+            this.Enter += new System.EventHandler(this.FormCalculadora_Enter);
+            this.Leave += new System.EventHandler(this.FormCalculadora_Leave);
+            this.ResumeLayout(false);
+            this.PerformLayout();
 
 		}
 

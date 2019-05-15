@@ -7,7 +7,7 @@
     <ProjectGuid>{06B1A167-AAC4-468A-A763-9C99E52B2CB3}</ProjectGuid>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ApplicationIcon>Resources\lazaro.ico</ApplicationIcon>
+    <ApplicationIcon>Resources\gestion777.ico</ApplicationIcon>
     <AssemblyKeyContainerName>
     </AssemblyKeyContainerName>
     <AssemblyName>Lazaro</AssemblyName>
@@ -138,12 +138,6 @@
     <Compile Include="Misc\AcercaDe.Designer.cs">
       <DependentUpon>AcercaDe.cs</DependentUpon>
     </Compile>
-    <Compile Include="Misc\ActualizarAhora.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Misc\ActualizarAhora.Designer.cs">
-      <DependentUpon>ActualizarAhora.cs</DependentUpon>
-    </Compile>
     <Compile Include="Backup\Manager.Designer.cs">
       <DependentUpon>Manager.cs</DependentUpon>
     </Compile>
@@ -239,9 +233,6 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <EmbeddedResource Include="Misc\ActualizarAhora.resx">
-      <DependentUpon>ActualizarAhora.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Config\Inicial.resx">
       <DependentUpon>Inicial.cs</DependentUpon>
       <SubType>Designer</SubType>
@@ -311,6 +302,10 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Componentes\ServidorFiscal\ServidorFiscal.csproj">
+      <Project>{2c1839db-8ece-4d57-ad57-541e81cd36c1}</Project>
+      <Name>ServidorFiscal</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Lbl\Lbl.csproj">
       <Project>{56F39851-6542-405C-9F47-E8414B757EF6}</Project>
       <Name>Lbl</Name>
@@ -397,14 +392,97 @@
     <None Include="app.config" />
     <None Include="app.manifest" />
     <None Include="packages.config" />
-    <None Include="Resources\lazaro.ico" />
     <None Include="Resources\ajax-loader.gif" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\lazaro-120-v.png" />
+    <None Include="Resources\icono64.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\icon64.png" />
+    <None Include="Resources\icono-120-v.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\favicon.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\gestion777.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\archivos16.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\calendario16.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\cheque16.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\cheques16.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\commerce16.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\credito16.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\dolar16.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\if_calculator_8404.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\impresora16.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\key16.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\laptop16.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\money16.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\persona16.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\qrcode16.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\stop.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\tarjeta16.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\tarjetaid16.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\backward.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\creative16.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\fax16.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\fbackward.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\fforward.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\forward.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\gears16.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\login16.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\th.png" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

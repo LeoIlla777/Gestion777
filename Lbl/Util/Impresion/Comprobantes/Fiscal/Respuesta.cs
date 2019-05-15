@@ -9,6 +9,7 @@ namespace Lazaro.Base.Util.Impresion.Comprobantes.Fiscal
                 public ErroresFiscales Error;
                 public string Lugar;
                 public bool HacerCierreZ;
+                public bool HacerCierreX;
                 public string Mensaje;
                 public CodigosComandosFiscales CodigoComando;
                 public int Secuencia;

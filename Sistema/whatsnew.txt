@@ -1,5 +1,5 @@
 ﻿*** 2017-05-22
 
-* Lázaro ahora se ve mejor en pantallas de alta resolución (HiDPI).
+* Ahora se ve mejor en pantallas de alta resolución (HiDPI).
 * Nuevo instalador local, que no requiere privilegios para actualizar.
 * Nueva fuente predeterminada (Segoe UI).

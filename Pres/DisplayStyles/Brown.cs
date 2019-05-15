@@ -10,7 +10,7 @@ namespace Lazaro.Pres.DisplayStyles
                 {
                         get
                         {
-                                return System.Drawing.Color.SaddleBrown;
+                                return Color.FromArgb(66, 122, 162);//System.Drawing.Color.SaddleBrown;
                         }
                 }
 
@@ -19,7 +19,7 @@ namespace Lazaro.Pres.DisplayStyles
                 {
                         get
                         {
-                                return System.Drawing.Color.Brown;
+                                return Color.DarkBlue;//System.Drawing.Color.Brown;
                         }
                 }
 
@@ -28,7 +28,15 @@ namespace Lazaro.Pres.DisplayStyles
                 {
                         get
                         {
-                                return System.Drawing.Color.Sienna;
+                                return Color.LightBlue;//System.Drawing.Color.Sienna;
+                        }
+                }
+
+                public override Bitmap Icon
+                {
+                        get
+                        {
+                                return (Bitmap)(Properties.Resources.ResourceManager.GetObject("tareas"));
                         }
                 }
         }

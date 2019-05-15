@@ -31,12 +31,12 @@ namespace Lfc.Reportes
                 private System.Windows.Forms.PictureBox pictureBox9;
                 internal Lui.Forms.Button BotonPorDiaDelMes;
                 private Lui.Forms.Chart ChartMes;
-                private Label label5;
-                private PictureBox pictureBox5;
-                private Label label6;
-                private PictureBox pictureBox6;
-                private Label label10;
-                private PictureBox pictureBox10;
+        private Lui.Forms.Label label5;
+        private PictureBox pictureBox5;
+        private Lui.Forms.Label label6;
+        private PictureBox pictureBox6;
+        private Lui.Forms.Label label10;
+        private PictureBox pictureBox10;
                 private System.ComponentModel.IContainer components = null;
 
                 public Facturacion()
@@ -70,372 +70,376 @@ namespace Lfc.Reportes
                 /// </summary>
                 private void InitializeComponent()
                 {
-                        this.Chart = new Lui.Forms.Chart();
-                        this.PorMes = new Lui.Forms.Button();
-                        this.PorRentabilidad = new Lui.Forms.Button();
-                        this.ChartRent = new Lui.Forms.Chart();
-                        this.pictureBox1 = new System.Windows.Forms.PictureBox();
-                        this.label1 = new Lui.Forms.Label();
-                        this.label2 = new Lui.Forms.Label();
-                        this.pictureBox2 = new System.Windows.Forms.PictureBox();
-                        this.label3 = new Lui.Forms.Label();
-                        this.pictureBox3 = new System.Windows.Forms.PictureBox();
-                        this.label4 = new Lui.Forms.Label();
-                        this.pictureBox4 = new System.Windows.Forms.PictureBox();
-                        this.ListadoAnual = new Lui.Forms.ListView();
-                        this.lvAnualMes = new System.Windows.Forms.ColumnHeader();
-                        this.lvAnualMonto = new System.Windows.Forms.ColumnHeader();
-                        this.label7 = new Lui.Forms.Label();
-                        this.pictureBox7 = new System.Windows.Forms.PictureBox();
-                        this.label8 = new Lui.Forms.Label();
-                        this.pictureBox8 = new System.Windows.Forms.PictureBox();
-                        this.ChartMes = new Lui.Forms.Chart();
-                        this.BotonPorDiaDelMes = new Lui.Forms.Button();
-                        this.label9 = new Lui.Forms.Label();
-                        this.pictureBox9 = new System.Windows.Forms.PictureBox();
-                        this.label5 = new Lui.Forms.Label();
-                        this.pictureBox5 = new System.Windows.Forms.PictureBox();
-                        this.label6 = new Lui.Forms.Label();
-                        this.pictureBox6 = new System.Windows.Forms.PictureBox();
-                        this.label10 = new Lui.Forms.Label();
-                        this.pictureBox10 = new System.Windows.Forms.PictureBox();
-                        ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
-                        ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
-                        ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).BeginInit();
-                        ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).BeginInit();
-                        ((System.ComponentModel.ISupportInitialize)(this.pictureBox7)).BeginInit();
-                        ((System.ComponentModel.ISupportInitialize)(this.pictureBox8)).BeginInit();
-                        ((System.ComponentModel.ISupportInitialize)(this.pictureBox9)).BeginInit();
-                        ((System.ComponentModel.ISupportInitialize)(this.pictureBox5)).BeginInit();
-                        ((System.ComponentModel.ISupportInitialize)(this.pictureBox6)).BeginInit();
-                        ((System.ComponentModel.ISupportInitialize)(this.pictureBox10)).BeginInit();
-                        this.SuspendLayout();
-                        // 
-                        // Chart
-                        // 
-                        this.Chart.BackColor = System.Drawing.Color.White;
-                        this.Chart.Location = new System.Drawing.Point(156, 8);
-                        this.Chart.Name = "Chart";
-                        this.Chart.Size = new System.Drawing.Size(420, 164);
-                        this.Chart.TabIndex = 0;
-                        this.Chart.Title = "Comparativa por Año";
-                        this.Chart.VerticalGrid = true;
-                        // 
-                        // PorMes
-                        // 
-                        this.PorMes.DialogResult = System.Windows.Forms.DialogResult.None;
-                        this.PorMes.Image = null;
-                        this.PorMes.ImagePos = Lui.Forms.ImagePositions.Top;
-                        this.PorMes.Location = new System.Drawing.Point(48, 136);
-                        this.PorMes.Name = "PorMes";
-                        this.PorMes.Size = new System.Drawing.Size(100, 40);
-                        this.PorMes.SubLabelPos = Lui.Forms.SubLabelPositions.Bottom;
-                        this.PorMes.Subtext = "";
-                        this.PorMes.TabIndex = 1;
-                        this.PorMes.Text = "Mostrar";
-                        this.PorMes.Click += new System.EventHandler(this.PorMes_Click);
-                        // 
-                        // PorRentabilidad
-                        // 
-                        this.PorRentabilidad.DialogResult = System.Windows.Forms.DialogResult.None;
-                        this.PorRentabilidad.Image = null;
-                        this.PorRentabilidad.ImagePos = Lui.Forms.ImagePositions.Top;
-                        this.PorRentabilidad.Location = new System.Drawing.Point(48, 308);
-                        this.PorRentabilidad.Name = "PorRentabilidad";
-                        this.PorRentabilidad.Size = new System.Drawing.Size(100, 40);
-                        this.PorRentabilidad.SubLabelPos = Lui.Forms.SubLabelPositions.Bottom;
-                        this.PorRentabilidad.Subtext = "";
-                        this.PorRentabilidad.TabIndex = 2;
-                        this.PorRentabilidad.Text = "Mostrar";
-                        this.PorRentabilidad.Click += new System.EventHandler(this.PorRentabilidad_Click);
-                        // 
-                        // ChartRent
-                        // 
-                        this.ChartRent.BackColor = System.Drawing.Color.White;
-                        this.ChartRent.Location = new System.Drawing.Point(156, 180);
-                        this.ChartRent.Name = "ChartRent";
-                        this.ChartRent.Size = new System.Drawing.Size(420, 164);
-                        this.ChartRent.TabIndex = 3;
-                        this.ChartRent.Title = "Rentabilidad";
-                        this.ChartRent.VerticalGrid = true;
-                        // 
-                        // pictureBox1
-                        // 
-                        this.pictureBox1.BackColor = System.Drawing.Color.Green;
-                        this.pictureBox1.Location = new System.Drawing.Point(12, 20);
-                        this.pictureBox1.Name = "pictureBox1";
-                        this.pictureBox1.Size = new System.Drawing.Size(20, 8);
-                        this.pictureBox1.TabIndex = 4;
-                        this.pictureBox1.TabStop = false;
-                        // 
-                        // label1
-                        // 
-                        this.label1.Location = new System.Drawing.Point(40, 76);
-                        this.label1.Name = "label1";
-                        this.label1.Size = new System.Drawing.Size(108, 16);
-                        this.label1.TabIndex = 5;
-                        this.label1.Text = "Año ante pasado";
-                        this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-                        // 
-                        // label2
-                        // 
-                        this.label2.Location = new System.Drawing.Point(40, 56);
-                        this.label2.Name = "label2";
-                        this.label2.Size = new System.Drawing.Size(108, 16);
-                        this.label2.TabIndex = 7;
-                        this.label2.Text = "Año pasado";
-                        this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-                        // 
-                        // pictureBox2
-                        // 
-                        this.pictureBox2.BackColor = System.Drawing.Color.DarkGreen;
-                        this.pictureBox2.Location = new System.Drawing.Point(32, 40);
-                        this.pictureBox2.Name = "pictureBox2";
-                        this.pictureBox2.Size = new System.Drawing.Size(20, 8);
-                        this.pictureBox2.TabIndex = 6;
-                        this.pictureBox2.TabStop = false;
-                        // 
-                        // label3
-                        // 
-                        this.label3.Location = new System.Drawing.Point(40, 16);
-                        this.label3.Name = "label3";
-                        this.label3.Size = new System.Drawing.Size(108, 16);
-                        this.label3.TabIndex = 9;
-                        this.label3.Text = "Este año";
-                        this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-                        // 
-                        // pictureBox3
-                        // 
-                        this.pictureBox3.BackColor = System.Drawing.Color.Gainsboro;
-                        this.pictureBox3.Location = new System.Drawing.Point(12, 80);
-                        this.pictureBox3.Name = "pictureBox3";
-                        this.pictureBox3.Size = new System.Drawing.Size(20, 8);
-                        this.pictureBox3.TabIndex = 8;
-                        this.pictureBox3.TabStop = false;
-                        // 
-                        // label4
-                        // 
-                        this.label4.Location = new System.Drawing.Point(60, 36);
-                        this.label4.Name = "label4";
-                        this.label4.Size = new System.Drawing.Size(88, 16);
-                        this.label4.TabIndex = 11;
-                        this.label4.Text = "Costo";
-                        this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-                        // 
-                        // pictureBox4
-                        // 
-                        this.pictureBox4.BackColor = System.Drawing.Color.Silver;
-                        this.pictureBox4.Location = new System.Drawing.Point(12, 60);
-                        this.pictureBox4.Name = "pictureBox4";
-                        this.pictureBox4.Size = new System.Drawing.Size(20, 8);
-                        this.pictureBox4.TabIndex = 10;
-                        this.pictureBox4.TabStop = false;
-                        // 
-                        // lvAnual
-                        // 
-                        this.ListadoAnual.BorderStyle = System.Windows.Forms.BorderStyle.None;
-                        this.ListadoAnual.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Facturacion));
+            this.Chart = new Lui.Forms.Chart();
+            this.PorMes = new Lui.Forms.Button();
+            this.PorRentabilidad = new Lui.Forms.Button();
+            this.ChartRent = new Lui.Forms.Chart();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.label1 = new Lui.Forms.Label();
+            this.label2 = new Lui.Forms.Label();
+            this.pictureBox2 = new System.Windows.Forms.PictureBox();
+            this.label3 = new Lui.Forms.Label();
+            this.pictureBox3 = new System.Windows.Forms.PictureBox();
+            this.label4 = new Lui.Forms.Label();
+            this.pictureBox4 = new System.Windows.Forms.PictureBox();
+            this.ListadoAnual = new Lui.Forms.ListView();
+            this.lvAnualMes = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.lvAnualMonto = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.label7 = new Lui.Forms.Label();
+            this.pictureBox7 = new System.Windows.Forms.PictureBox();
+            this.label8 = new Lui.Forms.Label();
+            this.pictureBox8 = new System.Windows.Forms.PictureBox();
+            this.ChartMes = new Lui.Forms.Chart();
+            this.BotonPorDiaDelMes = new Lui.Forms.Button();
+            this.label9 = new Lui.Forms.Label();
+            this.pictureBox9 = new System.Windows.Forms.PictureBox();
+            this.label5 = new Lui.Forms.Label();
+            this.pictureBox5 = new System.Windows.Forms.PictureBox();
+            this.label6 = new Lui.Forms.Label();
+            this.pictureBox6 = new System.Windows.Forms.PictureBox();
+            this.label10 = new Lui.Forms.Label();
+            this.pictureBox10 = new System.Windows.Forms.PictureBox();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox7)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox8)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox9)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox5)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox6)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox10)).BeginInit();
+            this.SuspendLayout();
+            // 
+            // Chart
+            // 
+            this.Chart.BackColor = System.Drawing.Color.White;
+            this.Chart.Location = new System.Drawing.Point(156, 8);
+            this.Chart.Name = "Chart";
+            this.Chart.Size = new System.Drawing.Size(420, 164);
+            this.Chart.TabIndex = 0;
+            this.Chart.Title = "Comparativa por Año";
+            this.Chart.VerticalGrid = true;
+            // 
+            // PorMes
+            // 
+            this.PorMes.DialogResult = System.Windows.Forms.DialogResult.None;
+            this.PorMes.Image = null;
+            this.PorMes.ImagePos = Lui.Forms.ImagePositions.Top;
+            this.PorMes.Location = new System.Drawing.Point(48, 136);
+            this.PorMes.Name = "PorMes";
+            this.PorMes.Size = new System.Drawing.Size(100, 40);
+            this.PorMes.SubLabelPos = Lui.Forms.SubLabelPositions.Bottom;
+            this.PorMes.Subtext = "";
+            this.PorMes.TabIndex = 1;
+            this.PorMes.Text = "Mostrar";
+            this.PorMes.Click += new System.EventHandler(this.PorMes_Click);
+            // 
+            // PorRentabilidad
+            // 
+            this.PorRentabilidad.DialogResult = System.Windows.Forms.DialogResult.None;
+            this.PorRentabilidad.Image = null;
+            this.PorRentabilidad.ImagePos = Lui.Forms.ImagePositions.Top;
+            this.PorRentabilidad.Location = new System.Drawing.Point(48, 308);
+            this.PorRentabilidad.Name = "PorRentabilidad";
+            this.PorRentabilidad.Size = new System.Drawing.Size(100, 40);
+            this.PorRentabilidad.SubLabelPos = Lui.Forms.SubLabelPositions.Bottom;
+            this.PorRentabilidad.Subtext = "";
+            this.PorRentabilidad.TabIndex = 2;
+            this.PorRentabilidad.Text = "Mostrar";
+            this.PorRentabilidad.Click += new System.EventHandler(this.PorRentabilidad_Click);
+            // 
+            // ChartRent
+            // 
+            this.ChartRent.BackColor = System.Drawing.Color.White;
+            this.ChartRent.Location = new System.Drawing.Point(156, 180);
+            this.ChartRent.Name = "ChartRent";
+            this.ChartRent.Size = new System.Drawing.Size(420, 164);
+            this.ChartRent.TabIndex = 3;
+            this.ChartRent.Title = "Rentabilidad";
+            this.ChartRent.VerticalGrid = true;
+            // 
+            // pictureBox1
+            // 
+            this.pictureBox1.BackColor = System.Drawing.Color.Green;
+            this.pictureBox1.Location = new System.Drawing.Point(12, 20);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(20, 8);
+            this.pictureBox1.TabIndex = 4;
+            this.pictureBox1.TabStop = false;
+            // 
+            // label1
+            // 
+            this.label1.Location = new System.Drawing.Point(40, 76);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(108, 16);
+            this.label1.TabIndex = 5;
+            this.label1.Text = "Año ante pasado";
+            this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // label2
+            // 
+            this.label2.Location = new System.Drawing.Point(40, 56);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(108, 16);
+            this.label2.TabIndex = 7;
+            this.label2.Text = "Año pasado";
+            this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // pictureBox2
+            // 
+            this.pictureBox2.BackColor = System.Drawing.Color.DarkGreen;
+            this.pictureBox2.Location = new System.Drawing.Point(32, 40);
+            this.pictureBox2.Name = "pictureBox2";
+            this.pictureBox2.Size = new System.Drawing.Size(20, 8);
+            this.pictureBox2.TabIndex = 6;
+            this.pictureBox2.TabStop = false;
+            // 
+            // label3
+            // 
+            this.label3.Location = new System.Drawing.Point(40, 16);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(108, 16);
+            this.label3.TabIndex = 9;
+            this.label3.Text = "Este año";
+            this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // pictureBox3
+            // 
+            this.pictureBox3.BackColor = System.Drawing.Color.Gainsboro;
+            this.pictureBox3.Location = new System.Drawing.Point(12, 80);
+            this.pictureBox3.Name = "pictureBox3";
+            this.pictureBox3.Size = new System.Drawing.Size(20, 8);
+            this.pictureBox3.TabIndex = 8;
+            this.pictureBox3.TabStop = false;
+            // 
+            // label4
+            // 
+            this.label4.Location = new System.Drawing.Point(60, 36);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(88, 16);
+            this.label4.TabIndex = 11;
+            this.label4.Text = "Costo";
+            this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // pictureBox4
+            // 
+            this.pictureBox4.BackColor = System.Drawing.Color.Silver;
+            this.pictureBox4.Location = new System.Drawing.Point(12, 60);
+            this.pictureBox4.Name = "pictureBox4";
+            this.pictureBox4.Size = new System.Drawing.Size(20, 8);
+            this.pictureBox4.TabIndex = 10;
+            this.pictureBox4.TabStop = false;
+            // 
+            // ListadoAnual
+            // 
+            this.ListadoAnual.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.ListadoAnual.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.lvAnualMes,
             this.lvAnualMonto});
-                        this.ListadoAnual.FullRowSelect = true;
-                        this.ListadoAnual.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
-                        this.ListadoAnual.LabelWrap = false;
-                        this.ListadoAnual.Location = new System.Drawing.Point(584, 8);
-                        this.ListadoAnual.MultiSelect = false;
-                        this.ListadoAnual.Name = "lvAnual";
-                        this.ListadoAnual.Scrollable = false;
-                        this.ListadoAnual.Size = new System.Drawing.Size(176, 336);
-                        this.ListadoAnual.TabIndex = 16;
-                        this.ListadoAnual.UseCompatibleStateImageBehavior = false;
-                        this.ListadoAnual.View = System.Windows.Forms.View.Details;
-                        // 
-                        // lvAnualMes
-                        // 
-                        this.lvAnualMes.Text = "";
-                        this.lvAnualMes.Width = 96;
-                        // 
-                        // lvAnualMonto
-                        // 
-                        this.lvAnualMonto.Text = "Monto";
-                        this.lvAnualMonto.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-                        this.lvAnualMonto.Width = 64;
-                        // 
-                        // label7
-                        // 
-                        this.label7.Location = new System.Drawing.Point(40, 380);
-                        this.label7.Name = "label7";
-                        this.label7.Size = new System.Drawing.Size(108, 16);
-                        this.label7.TabIndex = 22;
-                        this.label7.Text = "Mes pasado";
-                        this.label7.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-                        // 
-                        // pictureBox7
-                        // 
-                        this.pictureBox7.BackColor = System.Drawing.Color.DarkGray;
-                        this.pictureBox7.Location = new System.Drawing.Point(12, 384);
-                        this.pictureBox7.Name = "pictureBox7";
-                        this.pictureBox7.Size = new System.Drawing.Size(20, 8);
-                        this.pictureBox7.TabIndex = 21;
-                        this.pictureBox7.TabStop = false;
-                        // 
-                        // label8
-                        // 
-                        this.label8.Location = new System.Drawing.Point(40, 360);
-                        this.label8.Name = "label8";
-                        this.label8.Size = new System.Drawing.Size(108, 16);
-                        this.label8.TabIndex = 20;
-                        this.label8.Text = "Este mes";
-                        this.label8.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-                        // 
-                        // pictureBox8
-                        // 
-                        this.pictureBox8.BackColor = System.Drawing.Color.Green;
-                        this.pictureBox8.Location = new System.Drawing.Point(12, 364);
-                        this.pictureBox8.Name = "pictureBox8";
-                        this.pictureBox8.Size = new System.Drawing.Size(20, 8);
-                        this.pictureBox8.TabIndex = 19;
-                        this.pictureBox8.TabStop = false;
-                        // 
-                        // ChartMes
-                        // 
-                        this.ChartMes.BackColor = System.Drawing.Color.White;
-                        this.ChartMes.Location = new System.Drawing.Point(156, 352);
-                        this.ChartMes.Name = "ChartMes";
-                        this.ChartMes.Size = new System.Drawing.Size(604, 124);
-                        this.ChartMes.TabIndex = 18;
-                        this.ChartMes.Title = "Comparativa por Día del Mes";
-                        this.ChartMes.VerticalGrid = true;
-                        // 
-                        // BotonPorDiaDelMes
-                        // 
-                        this.BotonPorDiaDelMes.DialogResult = System.Windows.Forms.DialogResult.None;
-                        this.BotonPorDiaDelMes.Image = null;
-                        this.BotonPorDiaDelMes.ImagePos = Lui.Forms.ImagePositions.Top;
-                        this.BotonPorDiaDelMes.Location = new System.Drawing.Point(48, 480);
-                        this.BotonPorDiaDelMes.Name = "BotonPorDiaDelMes";
-                        this.BotonPorDiaDelMes.Size = new System.Drawing.Size(100, 40);
-                        this.BotonPorDiaDelMes.SubLabelPos = Lui.Forms.SubLabelPositions.Bottom;
-                        this.BotonPorDiaDelMes.Subtext = "";
-                        this.BotonPorDiaDelMes.TabIndex = 17;
-                        this.BotonPorDiaDelMes.Text = "Mostrar";
-                        this.BotonPorDiaDelMes.Click += new System.EventHandler(this.BotonPorDiaDelMes_Click);
-                        // 
-                        // label9
-                        // 
-                        this.label9.Location = new System.Drawing.Point(40, 400);
-                        this.label9.Name = "label9";
-                        this.label9.Size = new System.Drawing.Size(108, 16);
-                        this.label9.TabIndex = 24;
-                        this.label9.Text = "Mes ante pasado";
-                        this.label9.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-                        // 
-                        // pictureBox9
-                        // 
-                        this.pictureBox9.BackColor = System.Drawing.Color.DarkGray;
-                        this.pictureBox9.Location = new System.Drawing.Point(12, 404);
-                        this.pictureBox9.Name = "pictureBox9";
-                        this.pictureBox9.Size = new System.Drawing.Size(20, 8);
-                        this.pictureBox9.TabIndex = 23;
-                        this.pictureBox9.TabStop = false;
-                        // 
-                        // label5
-                        // 
-                        this.label5.Location = new System.Drawing.Point(36, 228);
-                        this.label5.Name = "label5";
-                        this.label5.Size = new System.Drawing.Size(108, 16);
-                        this.label5.TabIndex = 30;
-                        this.label5.Text = "Gastos";
-                        this.label5.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-                        // 
-                        // pictureBox5
-                        // 
-                        this.pictureBox5.BackColor = System.Drawing.Color.Red;
-                        this.pictureBox5.Location = new System.Drawing.Point(8, 232);
-                        this.pictureBox5.Name = "pictureBox5";
-                        this.pictureBox5.Size = new System.Drawing.Size(20, 8);
-                        this.pictureBox5.TabIndex = 29;
-                        this.pictureBox5.TabStop = false;
-                        // 
-                        // label6
-                        // 
-                        this.label6.Location = new System.Drawing.Point(36, 208);
-                        this.label6.Name = "label6";
-                        this.label6.Size = new System.Drawing.Size(108, 16);
-                        this.label6.TabIndex = 28;
-                        this.label6.Text = "Facturación";
-                        this.label6.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-                        // 
-                        // pictureBox6
-                        // 
-                        this.pictureBox6.BackColor = System.Drawing.Color.Goldenrod;
-                        this.pictureBox6.Location = new System.Drawing.Point(8, 212);
-                        this.pictureBox6.Name = "pictureBox6";
-                        this.pictureBox6.Size = new System.Drawing.Size(20, 8);
-                        this.pictureBox6.TabIndex = 27;
-                        this.pictureBox6.TabStop = false;
-                        // 
-                        // label10
-                        // 
-                        this.label10.Location = new System.Drawing.Point(36, 188);
-                        this.label10.Name = "label10";
-                        this.label10.Size = new System.Drawing.Size(108, 16);
-                        this.label10.TabIndex = 26;
-                        this.label10.Text = "Rentabilidad";
-                        this.label10.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-                        // 
-                        // pictureBox10
-                        // 
-                        this.pictureBox10.BackColor = System.Drawing.Color.Green;
-                        this.pictureBox10.Location = new System.Drawing.Point(8, 192);
-                        this.pictureBox10.Name = "pictureBox10";
-                        this.pictureBox10.Size = new System.Drawing.Size(20, 8);
-                        this.pictureBox10.TabIndex = 25;
-                        this.pictureBox10.TabStop = false;
-                        // 
-                        // Facturacion
-                        // 
-                        this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
-                        this.ClientSize = new System.Drawing.Size(768, 480);
-                        this.Controls.Add(this.label5);
-                        this.Controls.Add(this.pictureBox5);
-                        this.Controls.Add(this.label6);
-                        this.Controls.Add(this.pictureBox6);
-                        this.Controls.Add(this.label10);
-                        this.Controls.Add(this.pictureBox10);
-                        this.Controls.Add(this.label9);
-                        this.Controls.Add(this.pictureBox9);
-                        this.Controls.Add(this.label7);
-                        this.Controls.Add(this.pictureBox7);
-                        this.Controls.Add(this.label8);
-                        this.Controls.Add(this.pictureBox8);
-                        this.Controls.Add(this.ChartMes);
-                        this.Controls.Add(this.BotonPorDiaDelMes);
-                        this.Controls.Add(this.ListadoAnual);
-                        this.Controls.Add(this.label4);
-                        this.Controls.Add(this.pictureBox4);
-                        this.Controls.Add(this.label3);
-                        this.Controls.Add(this.pictureBox3);
-                        this.Controls.Add(this.label2);
-                        this.Controls.Add(this.pictureBox2);
-                        this.Controls.Add(this.label1);
-                        this.Controls.Add(this.pictureBox1);
-                        this.Controls.Add(this.ChartRent);
-                        this.Controls.Add(this.PorRentabilidad);
-                        this.Controls.Add(this.PorMes);
-                        this.Controls.Add(this.Chart);
-                        this.Name = "Facturacion";
-                        this.Text = "Facturación";
-                        ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
-                        ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
-                        ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).EndInit();
-                        ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).EndInit();
-                        ((System.ComponentModel.ISupportInitialize)(this.pictureBox7)).EndInit();
-                        ((System.ComponentModel.ISupportInitialize)(this.pictureBox8)).EndInit();
-                        ((System.ComponentModel.ISupportInitialize)(this.pictureBox9)).EndInit();
-                        ((System.ComponentModel.ISupportInitialize)(this.pictureBox5)).EndInit();
-                        ((System.ComponentModel.ISupportInitialize)(this.pictureBox6)).EndInit();
-                        ((System.ComponentModel.ISupportInitialize)(this.pictureBox10)).EndInit();
-                        this.ResumeLayout(false);
+            this.ListadoAnual.FieldName = null;
+            this.ListadoAnual.FullRowSelect = true;
+            this.ListadoAnual.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
+            this.ListadoAnual.LabelWrap = false;
+            this.ListadoAnual.Location = new System.Drawing.Point(584, 8);
+            this.ListadoAnual.MultiSelect = false;
+            this.ListadoAnual.Name = "ListadoAnual";
+            this.ListadoAnual.ReadOnly = false;
+            this.ListadoAnual.Scrollable = false;
+            this.ListadoAnual.Size = new System.Drawing.Size(176, 336);
+            this.ListadoAnual.TabIndex = 16;
+            this.ListadoAnual.UseCompatibleStateImageBehavior = false;
+            this.ListadoAnual.View = System.Windows.Forms.View.Details;
+            // 
+            // lvAnualMes
+            // 
+            this.lvAnualMes.Text = "";
+            this.lvAnualMes.Width = 96;
+            // 
+            // lvAnualMonto
+            // 
+            this.lvAnualMonto.Text = "Monto";
+            this.lvAnualMonto.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.lvAnualMonto.Width = 64;
+            // 
+            // label7
+            // 
+            this.label7.Location = new System.Drawing.Point(40, 380);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(108, 16);
+            this.label7.TabIndex = 22;
+            this.label7.Text = "Mes pasado";
+            this.label7.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // pictureBox7
+            // 
+            this.pictureBox7.BackColor = System.Drawing.Color.DarkGray;
+            this.pictureBox7.Location = new System.Drawing.Point(12, 384);
+            this.pictureBox7.Name = "pictureBox7";
+            this.pictureBox7.Size = new System.Drawing.Size(20, 8);
+            this.pictureBox7.TabIndex = 21;
+            this.pictureBox7.TabStop = false;
+            // 
+            // label8
+            // 
+            this.label8.Location = new System.Drawing.Point(40, 360);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(108, 16);
+            this.label8.TabIndex = 20;
+            this.label8.Text = "Este mes";
+            this.label8.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // pictureBox8
+            // 
+            this.pictureBox8.BackColor = System.Drawing.Color.Green;
+            this.pictureBox8.Location = new System.Drawing.Point(12, 364);
+            this.pictureBox8.Name = "pictureBox8";
+            this.pictureBox8.Size = new System.Drawing.Size(20, 8);
+            this.pictureBox8.TabIndex = 19;
+            this.pictureBox8.TabStop = false;
+            // 
+            // ChartMes
+            // 
+            this.ChartMes.BackColor = System.Drawing.Color.White;
+            this.ChartMes.Location = new System.Drawing.Point(156, 352);
+            this.ChartMes.Name = "ChartMes";
+            this.ChartMes.Size = new System.Drawing.Size(604, 124);
+            this.ChartMes.TabIndex = 18;
+            this.ChartMes.Title = "Comparativa por Día del Mes";
+            this.ChartMes.VerticalGrid = true;
+            // 
+            // BotonPorDiaDelMes
+            // 
+            this.BotonPorDiaDelMes.DialogResult = System.Windows.Forms.DialogResult.None;
+            this.BotonPorDiaDelMes.Image = null;
+            this.BotonPorDiaDelMes.ImagePos = Lui.Forms.ImagePositions.Top;
+            this.BotonPorDiaDelMes.Location = new System.Drawing.Point(48, 480);
+            this.BotonPorDiaDelMes.Name = "BotonPorDiaDelMes";
+            this.BotonPorDiaDelMes.Size = new System.Drawing.Size(100, 40);
+            this.BotonPorDiaDelMes.SubLabelPos = Lui.Forms.SubLabelPositions.Bottom;
+            this.BotonPorDiaDelMes.Subtext = "";
+            this.BotonPorDiaDelMes.TabIndex = 17;
+            this.BotonPorDiaDelMes.Text = "Mostrar";
+            this.BotonPorDiaDelMes.Click += new System.EventHandler(this.BotonPorDiaDelMes_Click);
+            // 
+            // label9
+            // 
+            this.label9.Location = new System.Drawing.Point(40, 400);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(108, 16);
+            this.label9.TabIndex = 24;
+            this.label9.Text = "Mes ante pasado";
+            this.label9.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // pictureBox9
+            // 
+            this.pictureBox9.BackColor = System.Drawing.Color.DarkGray;
+            this.pictureBox9.Location = new System.Drawing.Point(12, 404);
+            this.pictureBox9.Name = "pictureBox9";
+            this.pictureBox9.Size = new System.Drawing.Size(20, 8);
+            this.pictureBox9.TabIndex = 23;
+            this.pictureBox9.TabStop = false;
+            // 
+            // label5
+            // 
+            this.label5.Location = new System.Drawing.Point(36, 228);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(108, 16);
+            this.label5.TabIndex = 30;
+            this.label5.Text = "Gastos";
+            this.label5.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // pictureBox5
+            // 
+            this.pictureBox5.BackColor = System.Drawing.Color.Red;
+            this.pictureBox5.Location = new System.Drawing.Point(8, 232);
+            this.pictureBox5.Name = "pictureBox5";
+            this.pictureBox5.Size = new System.Drawing.Size(20, 8);
+            this.pictureBox5.TabIndex = 29;
+            this.pictureBox5.TabStop = false;
+            // 
+            // label6
+            // 
+            this.label6.Location = new System.Drawing.Point(36, 208);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(108, 16);
+            this.label6.TabIndex = 28;
+            this.label6.Text = "Facturación";
+            this.label6.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // pictureBox6
+            // 
+            this.pictureBox6.BackColor = System.Drawing.Color.Goldenrod;
+            this.pictureBox6.Location = new System.Drawing.Point(8, 212);
+            this.pictureBox6.Name = "pictureBox6";
+            this.pictureBox6.Size = new System.Drawing.Size(20, 8);
+            this.pictureBox6.TabIndex = 27;
+            this.pictureBox6.TabStop = false;
+            // 
+            // label10
+            // 
+            this.label10.Location = new System.Drawing.Point(36, 188);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(108, 16);
+            this.label10.TabIndex = 26;
+            this.label10.Text = "Rentabilidad";
+            this.label10.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // pictureBox10
+            // 
+            this.pictureBox10.BackColor = System.Drawing.Color.Green;
+            this.pictureBox10.Location = new System.Drawing.Point(8, 192);
+            this.pictureBox10.Name = "pictureBox10";
+            this.pictureBox10.Size = new System.Drawing.Size(20, 8);
+            this.pictureBox10.TabIndex = 25;
+            this.pictureBox10.TabStop = false;
+            // 
+            // Facturacion
+            // 
+            this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
+            this.ClientSize = new System.Drawing.Size(768, 480);
+            this.Controls.Add(this.label5);
+            this.Controls.Add(this.pictureBox5);
+            this.Controls.Add(this.label6);
+            this.Controls.Add(this.pictureBox6);
+            this.Controls.Add(this.label10);
+            this.Controls.Add(this.pictureBox10);
+            this.Controls.Add(this.label9);
+            this.Controls.Add(this.pictureBox9);
+            this.Controls.Add(this.label7);
+            this.Controls.Add(this.pictureBox7);
+            this.Controls.Add(this.label8);
+            this.Controls.Add(this.pictureBox8);
+            this.Controls.Add(this.ChartMes);
+            this.Controls.Add(this.BotonPorDiaDelMes);
+            this.Controls.Add(this.ListadoAnual);
+            this.Controls.Add(this.label4);
+            this.Controls.Add(this.pictureBox4);
+            this.Controls.Add(this.label3);
+            this.Controls.Add(this.pictureBox3);
+            this.Controls.Add(this.label2);
+            this.Controls.Add(this.pictureBox2);
+            this.Controls.Add(this.label1);
+            this.Controls.Add(this.pictureBox1);
+            this.Controls.Add(this.ChartRent);
+            this.Controls.Add(this.PorRentabilidad);
+            this.Controls.Add(this.PorMes);
+            this.Controls.Add(this.Chart);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.Name = "Facturacion";
+            this.Text = "Facturación";
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox7)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox8)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox9)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox5)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox6)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox10)).EndInit();
+            this.ResumeLayout(false);
 
                 }
                 #endregion

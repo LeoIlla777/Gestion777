@@ -8,22 +8,25 @@ using System.Windows.Forms;
 
 namespace Lazaro.WinMain.Errores
 {
-        public partial class ExcepcionNoControlada : Lui.Forms.Form
-        {
-                public ExcepcionNoControlada()
-                {
-                        this.DisplayStyle = Lazaro.Pres.DisplayStyles.Template.Current.White;
-                        InitializeComponent();
-                }
-
-                private void BotonCerrar_Click(object sender, EventArgs e)
-                {
-                        this.Close();
-                }
-
-                private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
-                {
-                        Help.ShowHelp(this, "http://www.lazarogestion.com/soporte");
-                }
+    public partial class ExcepcionNoControlada : Lui.Forms.Form
+    {
+        public string ErrorMsg {
+            get {
+                return lblError.Text;
+            }
+            set {
+                lblError.Text = value;
+            }
         }
+        public ExcepcionNoControlada()
+        {
+            this.DisplayStyle = Lazaro.Pres.DisplayStyles.Template.Current.White;
+            InitializeComponent();
+        }
+
+        private void BotonCerrar_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
+    }
 }

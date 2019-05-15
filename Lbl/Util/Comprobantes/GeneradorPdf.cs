@@ -105,7 +105,7 @@ namespace Lazaro.Base.Util.Comprobantes
                         Res.Language = "es_AR";
                         Res.Info.Title = Comprob.ToString();
                         Res.Info.Author = Lbl.Sys.Config.Empresa.RazonSocial;
-                        Res.Info.Creator = "Lázaro Gestión; http://www.lazarogestion.com";
+                        Res.Info.Creator = "Gestión Gestión; http://www.GestionLazaro.com";
                         Res.Info.Subject = "Factura electrónica autorizada por AFIP, CAE " + Comprob.CaeNumero;
 
                         var Pagina = new PdfPage(Res)

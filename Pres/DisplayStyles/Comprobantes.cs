@@ -10,7 +10,7 @@ namespace Lazaro.Pres.DisplayStyles
                 {
                         get
                         {
-                                return (Bitmap)(global::Lazaro.Pres.Properties.Resources.ResourceManager.GetObject("comprobante"));
+                                return (Bitmap)(Properties.Resources.ResourceManager.GetObject("comprobante"));
                         }
                 }
         }

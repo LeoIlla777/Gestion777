@@ -414,8 +414,8 @@ namespace Lbl
                                         }
                                 }
                         }
-
-                        this.GuardarEtiquetas();
+                        if (this.Existe)
+                            this.GuardarEtiquetas();
                         this.GuardarLog();
                         Lfx.Workspace.Master.NotifyTableChange(this.TablaDatos, this.Id);
 
@@ -426,10 +426,112 @@ namespace Lbl
                         return new Lfx.Types.SuccessOperationResult();
 		}
 
-                /// <summary>
-                /// Guarda los cambios que se hayan efectuado en las etiquetas.
-                /// </summary>
-                public void GuardarEtiquetas()
+        public virtual Lfx.Types.OperationResult Guardar(Lfx.Data.IConnection conn)
+        {
+            if (this.Id == 0)
+            {
+                // Acabo de insertar, averiguo mi propio id
+                this.ActualizarId();
+            }
+            else
+            {
+                // Es un registro antiguo, lo elimino de la caché
+                Lfx.Workspace.Master.Tables[this.TablaDatos].FastRows.RemoveFromCache(this.Id);
+            }
+            this.Registro.IsModified = false;
+            this.Registro.IsNew = false;
+
+            if (this.m_ImagenCambio)
+            {
+                // Hay cambios en el campo imagen
+                if (this.Imagen == null)
+                {
+                    // Eliminó la imagen
+                    if (this.TablaImagenes == this.TablaDatos)
+                    {
+                        // La imagen reside en un campo de la misma tabla
+                        qGen.Update ActualizarImagen = new qGen.Update(this.TablaImagenes);
+                        ActualizarImagen.ColumnValues.AddWithValue("imagen", null);
+                        ActualizarImagen.WhereClause = new qGen.Where(this.CampoId, this.Id);
+                        conn.ExecuteNonQuery(ActualizarImagen);
+                    }
+                    else
+                    {
+                        // Usa una tabla separada para las imágenes
+                        qGen.Delete EliminarImagen = new qGen.Delete(this.TablaImagenes);
+                        EliminarImagen.WhereClause = new qGen.Where(this.CampoId, this.Id);
+                        conn.ExecuteNonQuery(EliminarImagen);
+                    }
+                    Lbl.Sys.Config.ActionLog(conn, Sys.Log.Acciones.Save, this, "Se eliminó la imagen");
+                }
+                else
+                {
+                    // Cargar imagen nueva
+                    using (System.IO.MemoryStream ByteStream = new System.IO.MemoryStream())
+                    {
+                        System.Drawing.Imaging.ImageCodecInfo CodecInfo = null;
+                        System.Drawing.Imaging.ImageCodecInfo[] Codecs = System.Drawing.Imaging.ImageCodecInfo.GetImageEncoders();
+                        foreach (System.Drawing.Imaging.ImageCodecInfo Codec in Codecs)
+                        {
+                            if (Codec.MimeType == "image/jpeg")
+                                CodecInfo = Codec;
+                        }
+
+                        if (CodecInfo == null)
+                        {
+                            this.Imagen.Save(ByteStream, System.Drawing.Imaging.ImageFormat.Jpeg);
+                        }
+                        else
+                        {
+                            System.Drawing.Imaging.Encoder QualityEncoder = System.Drawing.Imaging.Encoder.Quality;
+                            using (System.Drawing.Imaging.EncoderParameters EncoderParams = new System.Drawing.Imaging.EncoderParameters(1))
+                            {
+                                EncoderParams.Param[0] = new System.Drawing.Imaging.EncoderParameter(QualityEncoder, 33L);
+
+                                this.Imagen.Save(ByteStream, CodecInfo, EncoderParams);
+                            }
+                        }
+                        byte[] ImagenBytes = ByteStream.ToArray();
+
+                        qGen.IStatement CambiarImagen;
+                        if (this.TablaImagenes != this.TablaDatos)
+                        {
+                            qGen.Delete EliminarImagen = new qGen.Delete(this.TablaImagenes);
+                            EliminarImagen.WhereClause = new qGen.Where(this.CampoId, this.Id);
+                            conn.ExecuteNonQuery(EliminarImagen);
+
+                            CambiarImagen = new qGen.Insert(this.TablaImagenes);
+                            CambiarImagen.ColumnValues.AddWithValue(this.CampoId, this.Id);
+                        }
+                        else
+                        {
+                            CambiarImagen = new qGen.Update(this.TablaImagenes);
+                            CambiarImagen.WhereClause = new qGen.Where(this.CampoId, this.Id);
+                        }
+
+                        CambiarImagen.ColumnValues.AddWithValue("imagen", ImagenBytes);
+                        conn.ExecuteNonQuery(CambiarImagen);
+                        Lbl.Sys.Config.ActionLog(conn, Sys.Log.Acciones.Save, this, "Se cargó una imagen nueva");
+                    }
+                }
+            }
+
+            if (this.Existe)
+                this.GuardarEtiquetas();
+            this.GuardarLog();
+            Lfx.Workspace.Master.NotifyTableChange(this.TablaDatos, this.Id);
+
+            this.m_RegistroOriginal = this.m_Registro.Clone();
+            this.m_EtiquetasOriginal = this.m_Etiquetas.Clone();
+            this.m_ImagenCambio = false;
+
+            return new Lfx.Types.SuccessOperationResult();
+        }
+
+        /// <summary>
+        /// Guarda los cambios que se hayan efectuado en las etiquetas.
+        /// </summary>
+        public void GuardarEtiquetas()
                 {
                         if (this.Existe == false)
                                 throw new Lfx.Types.DomainException("No se pueden agregar etiquetas a un elemento que aun no ha sido guardado.");

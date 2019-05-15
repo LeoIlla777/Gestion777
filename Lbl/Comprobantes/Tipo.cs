@@ -246,6 +246,9 @@ namespace Lbl.Comprobantes
                         {
                                 return this.GetFieldValue<string>("tipo");
                         }
+                        set {
+                                this.Registro["tipo"] = value;
+                        }
                 }
 
 
@@ -335,6 +338,17 @@ namespace Lbl.Comprobantes
                         get
                         {
                                 return this.Nomenclatura.Length > 2 && this.Nomenclatura.Substring(0, 2).ToUpperInvariant() == "ND";
+                        }
+                }
+
+                /// <summary>
+                /// Devuleve Verdadero si este tipo de comprobante es un Ticket X.
+                /// </summary>
+                public bool EsTicketX
+                {
+                        get
+                        {
+                                return this.Nomenclatura.ToUpperInvariant() == "TX";
                         }
                 }
 

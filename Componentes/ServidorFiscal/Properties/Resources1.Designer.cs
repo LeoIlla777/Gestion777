@@ -59,5 +59,15 @@ namespace ServidorFiscal.Properties {
                 resourceCulture = value;
             }
         }
+        
+        /// <summary>
+        ///   Busca un recurso adaptado de tipo System.Drawing.Icon similar a (Icono).
+        /// </summary>
+        internal static System.Drawing.Icon gestion777 {
+            get {
+                object obj = ResourceManager.GetObject("gestion777", resourceCulture);
+                return ((System.Drawing.Icon)(obj));
+            }
+        }
     }
 }

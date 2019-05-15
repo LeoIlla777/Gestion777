@@ -15,7 +15,7 @@
     <UpgradeBackupLocation>
     </UpgradeBackupLocation>
     <IsWebBootstrapper>false</IsWebBootstrapper>
-    <ApplicationIcon>Lazaro.ico</ApplicationIcon>
+    <ApplicationIcon>favicon.ico</ApplicationIcon>
     <ReleaseVersion>1.0</ReleaseVersion>
     <TargetFrameworkProfile>
     </TargetFrameworkProfile>
@@ -88,10 +88,25 @@
   <ItemGroup>
     <Compile Include="Edicion\Campo.cs" />
     <Compile Include="Edicion\IControlEdicion.cs" />
+    <Compile Include="Entrada\Articulos\AuxiliarMatrizDetalleCompra.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="Entrada\Articulos\AuxiliarMatrizDetalleComprobante.cs">
       <SubType>UserControl</SubType>
     </Compile>
+    <Compile Include="Entrada\Articulos\DetalleCompra.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Entrada\Articulos\DetalleCompra.Designer.cs">
+      <DependentUpon>DetalleCompra.cs</DependentUpon>
+    </Compile>
     <Compile Include="Entrada\Articulos\Enums.cs" />
+    <Compile Include="Entrada\Articulos\MatrizDetalleCompra.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Entrada\Articulos\MatrizDetalleCompra.Designer.cs">
+      <DependentUpon>MatrizDetalleCompra.cs</DependentUpon>
+    </Compile>
     <Compile Include="Entrada\AuxForms\BusquedaRapida.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -245,6 +260,12 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="VerCuotas.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="VerCuotas.Designer.cs">
+      <DependentUpon>VerCuotas.cs</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Lbl\Lbl.csproj">
@@ -282,6 +303,14 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Edicion\Etiquetas.resx">
       <DependentUpon>Etiquetas.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Entrada\Articulos\DetalleCompra.resx">
+      <DependentUpon>DetalleCompra.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Entrada\Articulos\MatrizDetalleCompra.resx">
+      <DependentUpon>MatrizDetalleCompra.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Entrada\AuxForms\BusquedaRapida.resx">
@@ -383,9 +412,6 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Lazaro.ico" />
-  </ItemGroup>
-  <ItemGroup>
     <COMReference Include="WIA">
       <Guid>{94A0E92D-43C0-494E-AC29-FD45948A5221}</Guid>
       <VersionMajor>1</VersionMajor>
@@ -396,6 +422,9 @@
       <EmbedInteropTypes>True</EmbedInteropTypes>
       <Private>False</Private>
     </COMReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="favicon.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

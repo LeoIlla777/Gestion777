@@ -50,6 +50,10 @@ namespace Lazaro.Base.Util.Impresion
                                 case "Lbl.Comprobantes.NotaDeCredito":
                                 case "Lbl.Comprobantes.Remito":
                                         return typeof(Impresion.Comprobantes.ImpresorComprobanteConArticulos);
+                                case "Lbl.Tareas.Tarea":
+                                        return typeof(Impresion.Comprobantes.ImpresorTarea2);
+                                case "Lbl.Cajas.Movimiento":
+                                        return typeof(Impresion.Caja.ImpresorMovimiento);
                                 default:
                                         return typeof(ImpresorElemento);
                         }

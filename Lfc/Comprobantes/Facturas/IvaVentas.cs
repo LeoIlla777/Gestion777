@@ -5,7 +5,7 @@ namespace Lfc.Comprobantes.Facturas
         public class IvaVentas : Lfc.FormularioListado
         {
                 protected internal Lfx.Types.DateRange m_Fecha = new Lfx.Types.DateRange("mes-1");
-                protected internal int m_Sucursal, m_Anuladas = 1, m_PV = 0;
+                protected internal int m_Sucursal, m_Anuladas = 1, m_PV = 0, m_CondIva = 0;
                 protected internal string m_Letra = "*";
 
                 public IvaVentas()
@@ -16,10 +16,14 @@ namespace Lfc.Comprobantes.Facturas
                                 return;
                         }
 
+                        NombrePagina = "IvaVentas";
+                        int limitOpciones = Lfx.Workspace.Master.CurrentConfig.ReadLocalSettingInt("Paginar", NombrePagina, 999999);
+                        this.Limit = limitOpciones;
+
                         this.Definicion = new Lazaro.Pres.Listings.Listing()
                         {
                                 ElementoTipo = typeof(Lbl.Comprobantes.ComprobanteFacturable),
-
+                                Paging = true,
                                 TableName = "comprob",
                                 KeyColumn = new Lazaro.Pres.Field("comprob.id_comprob", "Cód.", Lfx.Data.InputFieldTypes.Serial, 0),
                                 Joins = new qGen.JoinCollection() {
@@ -61,19 +65,20 @@ namespace Lfc.Comprobantes.Facturas
                         Lfx.Types.OperationResult ResultadoFiltrar = base.OnFilter();
 
                         if (ResultadoFiltrar.Success == true) {
-                                using (Lfc.Comprobantes.Filtros FormFiltros = new Lfc.Comprobantes.Filtros()) {
+                                using (Lfc.Comprobantes.Facturas.Filtros FormFiltros = new Lfc.Comprobantes.Facturas.Filtros()) {
                                         FormFiltros.Connection = this.Connection;
                                         FormFiltros.EntradaTipo.TemporaryReadOnly = true;
                                         FormFiltros.EntradaTipo.TextKey = this.Definicion.ElementoTipo.ToString();
                                         FormFiltros.EntradaPv.Text = m_PV.ToString();
                                         FormFiltros.EntradaLetra.TextKey = m_Letra;
                                         FormFiltros.EntradaSucursal.ValueInt = m_Sucursal;
+                                        FormFiltros.EntradaVendedor.ValueInt = m_CondIva;
                                         FormFiltros.EntradaFormaPago.TemporaryReadOnly = true;
                                         FormFiltros.EntradaFormaPago.ValueInt = 0;
                                         FormFiltros.EntradaCliente.TemporaryReadOnly = true;
                                         FormFiltros.EntradaCliente.ValueInt = 0;
-                                        FormFiltros.EntradaVendedor.TemporaryReadOnly = true;
-                                        FormFiltros.EntradaVendedor.ValueInt = 0;
+                                        //FormFiltros.EntradaVendedor.TemporaryReadOnly = true;
+                                        //FormFiltros.EntradaVendedor.ValueInt = 0;
                                         FormFiltros.EntradaFechas.Rango = m_Fecha;
                                         FormFiltros.EntradaEstado.TemporaryReadOnly = true;
                                         FormFiltros.EntradaEstado.TextKey = "3";
@@ -85,6 +90,7 @@ namespace Lfc.Comprobantes.Facturas
 
                                         if (FormFiltros.DialogResult == DialogResult.OK) {
                                                 m_Sucursal = FormFiltros.EntradaSucursal.ValueInt;
+                                                m_CondIva = FormFiltros.EntradaVendedor.ValueInt;
                                                 m_Fecha = FormFiltros.EntradaFechas.Rango;
                                                 m_Anuladas = Lfx.Types.Parsing.ParseInt(FormFiltros.EntradaAnuladas.TextKey);
                                                 m_PV = Lfx.Types.Parsing.ParseInt(FormFiltros.EntradaPv.Text);
@@ -208,10 +214,10 @@ namespace Lfc.Comprobantes.Facturas
 
                         if (m_Sucursal > 0)
                                 this.CustomFilters.AddWithValue("comprob.id_sucursal", m_Sucursal);
-
                         if (m_PV > 0)
                                 this.CustomFilters.AddWithValue("comprob.pv", m_PV);
-
+                        if (m_CondIva > 0)
+                                this.CustomFilters.AddWithValue("situaciones.id_situacion",m_CondIva);
                         if (m_Fecha.HasRange)
                                 this.CustomFilters.AddWithValue("(comprob.fecha BETWEEN '" + Lfx.Types.Formatting.FormatDateSql(m_Fecha.From) + " 00:00:00' AND '" + Lfx.Types.Formatting.FormatDateSql(m_Fecha.To) + " 23:59:59')");
 

@@ -46,7 +46,6 @@ namespace Lbl.CuentasCorrientes
                         }
                 }
 
-
                 /// <summary>
                 /// Devuelve el último movimiento en la cuenta corriente para un cliente.
                 /// </summary>
@@ -137,8 +136,17 @@ namespace Lbl.CuentasCorrientes
                 /// <param name="cancelarPrimero">Indica si debo cancelar primero y luego descancelar (operación normal) o hacerlo en el ordne inverso (anulación de operación normal).</param>
                 public void CancelarComprobantesConSaldo(decimal importeDebito, bool cancelarPrimero)
                 {
-                        CtaCteController.CancelarComprobantesConSaldo(importeDebito, cancelarPrimero);
+                    CtaCteController.CancelarComprobantesConSaldo(importeDebito, cancelarPrimero);
                 }
-                                
+
+
+                /// <summary>
+                /// Descancela comprobantes hasta el importe solicitado.
+                /// </summary>
+                /// <param name="importe">El importe a descancelar.</param>
+                private decimal DesCancelarComprobantes(decimal importe)
+                {
+                        return 0;
+                }
         }
 }

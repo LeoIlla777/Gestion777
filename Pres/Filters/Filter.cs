@@ -9,6 +9,8 @@ namespace Lazaro.Pres.Filters
                 public string Label { get; set; }
                 public string ColumnName { get; set; }
 
+                public bool ConHora { get; set; }
+
                 /// <summary>
                 /// Obtiene o establece el valor actual del filtro.
                 /// </summary>

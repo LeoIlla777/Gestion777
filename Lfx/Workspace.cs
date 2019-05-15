@@ -130,12 +130,18 @@ namespace Lfx
                         }
 
                         if (this.ConnectionParameters == null) {
+
+                                string pass = Encrypt.EncryptString("donjuan2e2", "donjuan3e3"); 
+                                pass = this.CurrentConfig.ReadLocalSettingString("Data", "Password", string.Empty);
+                                if (pass != String.Empty)
+                                    pass = Encrypt.DecryptString(pass, "donjuan3e3");
+
                                 this.ConnectionParameters = new ConnectionParameters()
                                 {
                                         ServerName = this.CurrentConfig.ReadLocalSettingString("Data", "DataSource", "localhost"),
-                                        DatabaseName = this.CurrentConfig.ReadLocalSettingString("Data", "DatabaseName", "lazaro"),
+                                        DatabaseName = this.CurrentConfig.ReadLocalSettingString("Data", "DatabaseName", "excelencia"),
                                         UserName = this.CurrentConfig.ReadLocalSettingString("Data", "User", "lazaro"),
-                                        Password = this.CurrentConfig.ReadLocalSettingString("Data", "Password", string.Empty)
+                                        Password = pass
                                 };
                                 //Lfx.Data.DatabaseCache.DefaultCache.ServerName = this.CurrentConfig.ReadLocalSettingString("Data", "DataSource", "localhost");
                                 //Lfx.Data.DatabaseCache.DefaultCache.DatabaseName = this.CurrentConfig.ReadLocalSettingString("Data", "DatabaseName", "lazaro");
@@ -171,25 +177,6 @@ namespace Lfx
                         }
                 }
 
-
-                public void InitUpdater()
-                {
-                        if (Lfx.Updates.Updater.Master == null && this.WebAppMode == false && this.DebugMode == false) {
-                                var Nivel = this.CurrentConfig.ReadGlobalSetting<string>("Sistema.Actualizaciones.Nivel", "stable");
-                                var Url = this.CurrentConfig.ReadGlobalSetting<string>("Sistema.Actualizaciones.Url", @"http://www.lazarogestion.com/act/{0}/");
-                                Lfx.Updates.Updater.Master = new Updates.Updater(Nivel);
-                                Lfx.Updates.Updater.Master.Path = Lfx.Environment.Folders.ApplicationFolder;
-                                Lfx.Updates.Updater.Master.TempPath = Lfx.Environment.Folders.UpdatesFolder;
-                                var LazaroPkg = new Updates.Package
-                                {
-                                        Name = "Lazaro",
-                                        RelativePath = "",
-                                        Url = Url
-                                };
-                                Lfx.Updates.Updater.Master.Packages.Add(LazaroPkg);
-                                Lfx.Updates.Updater.Master.Start();
-                        }
-                }
 
                 public string Name
                 {
@@ -300,86 +287,6 @@ namespace Lfx
                         Lfx.Data.DatabaseCache.DefaultCache.Tables[table].FastRows.RemoveFromCache(id);
                 }
 
-
-                /// <summary>
-                /// Verifica la versión de la base de datos y si es necesario actualiza.
-                /// </summary>
-                /// <param name="ignorarFecha">Ignorar la fecha y actualizar siempre.</param>
-                /// <param name="noTocarDatos">Actualizar sólo la estructura. No incorpora ni modifica datos.</param>
-                public void CheckAndUpdateDatabaseVersion(bool ignorarFecha, bool noTocarDatos)
-                {
-                        using (Lfx.Data.IConnection Conn = Lfx.Workspace.Master.GetNewConnection("Verificar estructura de la base de datos") as Lfx.Data.IConnection) {
-                                Conn.RequiresTransaction = false;
-                                int VersionActual = this.CurrentConfig.ReadGlobalSetting<int>("Sistema.DB.Version", 0);
-
-                                if (VersionUltima < VersionActual) {
-                                        this.RunTime.Toast("Es necesario actualizar Lázaro en esta estación de trabajo. Se esperaba la versión " + VersionUltima.ToString() + " de la base de datos, pero se encontró la versión " + VersionActual.ToString() + " que es demasiado nueva.", "Aviso");
-                                        return;
-                                }
-
-                                // Me fijo si ya hay alguien verificando la estructura
-                                string FechaInicioVerif = Lfx.Workspace.Master.CurrentConfig.ReadGlobalSetting<string>("Sistema.VerificarVersionBd.Inicio", string.Empty);
-                                string FechaInicioVerifMax = Lfx.Types.Formatting.FormatDateTimeSql(System.DateTime.Now.AddMinutes(10).ToUniversalTime());
-
-                                if (ignorarFecha == false && string.Compare(FechaInicioVerif, FechaInicioVerifMax) > 0)
-                                        // Ya hay alguien verificando
-                                        return;
-
-                                DateTime VersionEstructura = Lfx.Types.Parsing.ParseSqlDateTime(this.CurrentConfig.ReadGlobalSetting<string>("Sistema.DB.VersionEstructura", "2000-01-01 00:00:00"));
-                                DateTime FechaLazaroExe = new System.IO.FileInfo(System.Reflection.Assembly.GetExecutingAssembly().Location).LastWriteTime;
-                                TimeSpan Diferencia = FechaLazaroExe - VersionEstructura;
-                                System.Console.WriteLine("Versión estructura: " + VersionEstructura.ToString());
-                                System.Console.WriteLine("Versión Lázaro    : " + FechaLazaroExe.ToString() + " (" + Diferencia.ToString() + " más nuevo)");
-
-                                if ((noTocarDatos || VersionActual == VersionUltima) && (ignorarFecha == false && Diferencia.TotalHours <= 1)) {
-                                        // No es necesario actualizar nada
-                                        return;
-                                }
-
-                                var Progreso = new Types.OperationProgress("Verificando estructuras de datos", "Se está analizando la estructura del almacén de datos y se van a realizar cambios si fuera necesario")
-                                {
-                                        Modal = true
-                                };
-                                Progreso.Begin();
-
-                                Lfx.Workspace.Master.CurrentConfig.WriteGlobalSetting("Sistema.VerificarVersionBd.Inicio", Lfx.Types.Formatting.FormatDateTimeSql(Lfx.Workspace.Master.MasterConnection.ServerDateTime.ToUniversalTime()));
-                                Lfx.Workspace.Master.CurrentConfig.WriteGlobalSetting("Sistema.VerificarVersionBd.Estacion", Lfx.Environment.SystemInformation.MachineName);
-
-                                try {
-                                        Conn.ExecuteNonQuery("FLUSH TABLES");
-                                } catch (Exception ex) {
-                                        // No tengo permiso... no importa
-                                        Log.Warn("No se pudo hacer FLUSH TABLES", ex);
-                                }
-
-                                if (noTocarDatos == false && VersionActual < VersionUltima && VersionActual > 0) {
-                                        //Actualizo desde la versión actual a la última
-                                        for (int i = VersionActual + 1; i <= VersionUltima; i++) {
-                                                Progreso.ChangeStatus("Pre-actualización " + i.ToString());
-                                                InyectarSqlDesdeRecurso(Conn, @"Data.Struct.db_upd" + i.ToString() + "_pre.sql");
-                                        }
-                                }
-
-                                if (ignorarFecha || Diferencia.TotalHours > 1) {
-                                        // Lázaro es más nuevo que la BD por más de 1 hora
-                                        Progreso.ChangeStatus("Verificando estructuras");
-                                        this.CheckAndUpdateDatabaseStructure(Conn, false, Progreso);
-                                        if (noTocarDatos == false)
-                                                this.CurrentConfig.WriteGlobalSetting("Sistema.DB.VersionEstructura", Lfx.Types.Formatting.FormatDateTimeSql(FechaLazaroExe.ToUniversalTime()));
-                                }
-
-                                if (noTocarDatos == false && VersionActual < VersionUltima && VersionActual > 0) {
-                                        for (int i = VersionActual + 1; i <= VersionUltima; i++) {
-                                                Progreso.ChangeStatus("Post-actualización " + i.ToString());
-                                                InyectarSqlDesdeRecurso(Conn, @"Data.Struct.db_upd" + i.ToString() + "_post.sql");
-                                                this.CurrentConfig.WriteGlobalSetting("Sistema.DB.Version", i);
-                                        }
-                                }
-
-                                Lfx.Workspace.Master.CurrentConfig.WriteGlobalSetting("Sistema.VerificarVersionBd.Inicio", "0");
-                                Progreso.End();
-                        }
-                }
 
                 /// <summary>
                 /// Devuelve Verdadero si la base de datos está lista para ser utilizaza.

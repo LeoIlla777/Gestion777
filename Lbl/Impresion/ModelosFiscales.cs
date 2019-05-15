@@ -11,6 +11,7 @@ namespace Lbl.Impresion
                 HasarGenerico = 100,
                 HasarTiquedora = 110,
                 EpsonGenerico = 300,
-                EpsonTiquedora = 310
+                EpsonTiquedora = 310,
+                EpsonTicketUSB = 320
         }
 }

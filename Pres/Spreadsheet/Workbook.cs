@@ -74,7 +74,7 @@ namespace Lazaro.Pres.Spreadsheet
                                 wr.WriteLine(@"<title>" + sheet.Name + @"</title>");
                         }
                         wr.WriteLine(@"<meta charset=""utf-8"" />");
-                        wr.WriteLine(@"<meta name=""generator"" content=""Lázaro (www.lazarogestion.com)"">");
+                        wr.WriteLine(@"<meta name=""generator"" content=""Lázaro (www.lazaroLazaro.com)"">");
                         wr.WriteLine(@"<meta http-equiv=""Content-Type"" content=""text/html; charset=UTF-8"" />");
                         wr.WriteLine(@"<style>");
                         wr.WriteLine(@"@media print { body { margin: 0; padding: 0 } }");

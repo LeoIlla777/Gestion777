@@ -8,14 +8,14 @@ namespace Lbl.Servicios.Importar
         /// </summary>
         public class ColeccionMapaDeTablas : List<MapaDeTabla>
         {
-                public void AddWithValue(string nombre, string tablaExterna, string tablaLazaro)
+                public void AddWithValue(string nombre, string tablaExterna, string tablaGestion)
                 {
-                        this.Add(new MapaDeTabla(nombre, tablaExterna, tablaLazaro));
+                        this.Add(new MapaDeTabla(nombre, tablaExterna, tablaGestion));
                 }
 
-                public void AddWithValue(string nombre, string tablaExterna, string tablaLazaro, string columnaId)
+                public void AddWithValue(string nombre, string tablaExterna, string tablaGestion, string columnaId)
                 {
-                        this.Add(new MapaDeTabla(nombre, tablaExterna, tablaLazaro, columnaId));
+                        this.Add(new MapaDeTabla(nombre, tablaExterna, tablaGestion, columnaId));
                 }
 
                 public MapaDeTabla this[string tablaExterna]

@@ -11,7 +11,7 @@ namespace Lazaro.Base.Util.Impresion.Comprobantes
                 /// <summary>
                 /// Indica si el comprobante fue impreso por esta misma instancia del sistema
                 /// Para saber si tengo que asentar movimientos. Si lo imprimo yo, asiento los movimientos
-                /// Si lo imprime otro (sea un ServidorFiscal o un Lázaro en otro equipo), no asiento los 
+                /// Si lo imprime otro (sea un ServidorFiscal o un Gestión en otro equipo), no asiento los 
                 /// movimientos ya que los asienta quien lo imprime
                 /// </summary>
                 public bool ImprimiLocal { get; set; }
@@ -86,10 +86,16 @@ namespace Lazaro.Base.Util.Impresion.Comprobantes
                                                 ClaseImpr = Lbl.Impresion.ClasesImpresora.Papel;
                                                 break;
                                         case Lbl.Comprobantes.TipoPv.ControladorFiscal:
-                                                ClaseImpr = Lbl.Impresion.ClasesImpresora.FiscalAfip;
+                                                if( this.Comprobante.Tipo.Nomenclatura == "NP" || this.Comprobante.Tipo.Nomenclatura=="PD")
+                                                    ClaseImpr = Lbl.Impresion.ClasesImpresora.Papel;
+                                                else
+                                                    ClaseImpr = Lbl.Impresion.ClasesImpresora.FiscalAfip;
                                                 break;
                                         case Lbl.Comprobantes.TipoPv.ElectronicoAfip:
-                                                ClaseImpr = Lbl.Impresion.ClasesImpresora.ElectronicaAfip;
+                                                if( this.Comprobante.Tipo.Nomenclatura == "NP" || this.Comprobante.Tipo.Nomenclatura=="PD")
+                                                    ClaseImpr = Lbl.Impresion.ClasesImpresora.Papel;
+                                                else
+                                                    ClaseImpr = Lbl.Impresion.ClasesImpresora.ElectronicaAfip;
                                                 break;
                                         default:
                                                 ClaseImpr = Lbl.Impresion.ClasesImpresora.Nula;
@@ -195,7 +201,7 @@ namespace Lazaro.Base.Util.Impresion.Comprobantes
                                                 ImprimiLocal = false;
 
                                                 // Lo mando a imprimir a la estación remota
-                                                Lfx.Workspace.Master.DefaultScheduler.AddTask("IMPRIMIR " + this.Elemento.GetType().ToString() + " " + this.Elemento.Id.ToString() + " EN " + this.Impresora.Dispositivo, "lazaro", Impresora.Estacion);
+                                                Lfx.Workspace.Master.DefaultScheduler.AddTask("IMPRIMIR " + this.Elemento.GetType().ToString() + " " + this.Elemento.Id.ToString() + " EN " + this.Impresora.Dispositivo, "Gestion", Impresora.Estacion);
 
                                                 if (this.Reimpresion == false) {
                                                         //Espero hasta que la factura está impresa o hasta que pasen X segundos
@@ -241,6 +247,8 @@ namespace Lazaro.Base.Util.Impresion.Comprobantes
 
                                 case "CLIENTE":
                                 case "CLIENTE.NOMBRE":
+                                        if (Comprobante.ClienteFree != null && Comprobante.ClienteFree.Nombre != "")
+                                            return this.Comprobante.ClienteFree.Nombre;
                                         return this.Comprobante.Cliente.ToString();
 
                                 case "LOCALIDAD":

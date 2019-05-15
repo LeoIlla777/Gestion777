@@ -81,7 +81,6 @@ namespace Lbl.Comprobantes
                         }
                 }
 
-
                 /// <summary>
                 /// El precio unitario original del renglón (sin descuento ni cantidad).
                 /// </summary>
@@ -98,9 +97,21 @@ namespace Lbl.Comprobantes
                 }
 
                 /// <summary>
-                /// El precio unitario final del renglón (con descuento y cantidad).
+                /// El precio unitario original del renglón, pero no gravado (sin descuento ni cantidad).
                 /// </summary>
-                public decimal ImporteUnitarioFinal
+                public decimal ImporteNoGravado {
+                    get {
+                        return this.GetFieldValue<decimal>("nogravado");
+                    }
+                    set {
+                        this.Registro["nogravado"] = value;
+                    }
+                }
+
+        /// <summary>
+        /// El precio unitario final del renglón (con descuento y cantidad).
+        /// </summary>
+        public decimal ImporteUnitarioFinal
                 {
                         get
                         {
@@ -238,7 +249,7 @@ namespace Lbl.Comprobantes
                                 if(this.ComprobanteDiscriminaIva()) {
                                         return this.ImporteUnitario * this.FactorDescuentoRecargo;
                                 } else {
-                                        return (this.ImporteUnitario - this.ImporteIvaUnitario) * this.FactorDescuentoRecargo;
+                                        return ((this.ImporteUnitario + this.ImporteNoGravado) - this.ImporteIvaUnitario) * this.FactorDescuentoRecargo;
                                 }
                                 
                         }
@@ -265,12 +276,12 @@ namespace Lbl.Comprobantes
                 /// <summary>
                 /// Devuelve el importe total, siempre con IVA incluído, aplicando descuentos o recargos.
                 /// </summary>
+                /// <returns></returns>
                 public decimal ImporteTotalConIvaFinal
                 {
                         get
                         {
                                 return this.ImporteUnitarioConIvaFinal * this.Cantidad;
-
                         }
                 }
 
@@ -590,9 +601,7 @@ namespace Lbl.Comprobantes
 
                 public override Lfx.Types.OperationResult Guardar()
                 {
-                        throw new InvalidOperationException("Se debe llamar a ComprobanteConArticulos.Guardar()");
-
-                        /* qGen.IStatement Comando = new qGen.Insert(this.TablaDatos);
+                        qGen.IStatement Comando = new qGen.Insert(this.TablaDatos);
                         Comando.ColumnValues.AddWithValue("id_comprob", this.IdComprobante);
                         Comando.ColumnValues.AddWithValue("orden", this.Orden);
 
@@ -620,6 +629,7 @@ namespace Lbl.Comprobantes
                                 Comando.ColumnValues.AddWithValue("costo", this.Articulo.Costo);
                         else
                                 Comando.ColumnValues.AddWithValue("costo", this.Costo);
+                        Comando.ColumnValues.AddWithValue("importe", this.ImporteUnitarioAImprimir);
                         Comando.ColumnValues.AddWithValue("importe", this.ImporteAImprimir);
                         Comando.ColumnValues.AddWithValue("total", this.ImporteTotalConIvaFinal);
                         Comando.ColumnValues.AddWithValue("series", this.DatosSeguimiento);
@@ -629,9 +639,8 @@ namespace Lbl.Comprobantes
 
                         this.Connection.ExecuteNonQuery(Comando);
 
-                        return base.Guardar(); */
+                        return base.Guardar();
                 }
-
 
                 /// <summary>
                 /// Devuelve Verdadero si este detalle tiene el IVA discriminado.
@@ -641,7 +650,6 @@ namespace Lbl.Comprobantes
                         Lbl.Comprobantes.ComprobanteConArticulos Comprob = this.ElementoPadre as Lbl.Comprobantes.ComprobanteConArticulos;
                         return Comprob != null && Comprob.Tipo.DiscriminaIva;
                 }
-
 
                 public virtual DetalleArticulo Clone()
                 {

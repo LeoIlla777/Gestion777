@@ -22,57 +22,57 @@ namespace Lui.Forms
 
                 private void InitializeComponent()
                 {
-                        System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(WorkstationSelectorForm));
-                        this.Listado = new Lui.Forms.ListView();
-                        this.NombreEstacion = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-                        this.Nombre = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-                        this.SuspendLayout();
-                        // 
-                        // Listado
-                        // 
-                        this.Listado.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(WorkstationSelectorForm));
+            this.Listado = new Lui.Forms.ListView();
+            this.NombreEstacion = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.Nombre = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.SuspendLayout();
+            // 
+            // Listado
+            // 
+            this.Listado.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-                        this.Listado.BorderStyle = System.Windows.Forms.BorderStyle.None;
-                        this.Listado.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.Listado.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.Listado.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.NombreEstacion,
             this.Nombre});
-                        this.Listado.FieldName = null;
-                        this.Listado.FullRowSelect = true;
-                        this.Listado.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.None;
-                        this.Listado.HideSelection = false;
-                        this.Listado.LabelWrap = false;
-                        this.Listado.Location = new System.Drawing.Point(24, 24);
-                        this.Listado.MultiSelect = false;
-                        this.Listado.Name = "Listado";
-                        this.Listado.ReadOnly = false;
-                        this.Listado.Size = new System.Drawing.Size(584, 272);
-                        this.Listado.TabIndex = 0;
-                        this.Listado.UseCompatibleStateImageBehavior = false;
-                        this.Listado.View = System.Windows.Forms.View.Details;
-                        // 
-                        // NombreEstacion
-                        // 
-                        this.NombreEstacion.Text = "Equipo";
-                        this.NombreEstacion.Width = 0;
-                        // 
-                        // Nombre
-                        // 
-                        this.Nombre.Text = "Equipo";
-                        this.Nombre.Width = 320;
-                        // 
-                        // WorkstationSelectorForm
-                        // 
-                        this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
-                        this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
-                        this.ClientSize = new System.Drawing.Size(634, 371);
-                        this.Controls.Add(this.Listado);
-                        this.ForeColor = System.Drawing.Color.Black;
-                        this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-                        this.Name = "WorkstationSelectorForm";
-                        this.Text = "Seleccionar equipo";
-                        this.Controls.SetChildIndex(this.Listado, 0);
-                        this.ResumeLayout(false);
+            this.Listado.FieldName = null;
+            this.Listado.FullRowSelect = true;
+            this.Listado.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.None;
+            this.Listado.HideSelection = false;
+            this.Listado.LabelWrap = false;
+            this.Listado.Location = new System.Drawing.Point(24, 24);
+            this.Listado.MultiSelect = false;
+            this.Listado.Name = "Listado";
+            this.Listado.ReadOnly = false;
+            this.Listado.Size = new System.Drawing.Size(584, 272);
+            this.Listado.TabIndex = 0;
+            this.Listado.UseCompatibleStateImageBehavior = false;
+            this.Listado.View = System.Windows.Forms.View.Details;
+            // 
+            // NombreEstacion
+            // 
+            this.NombreEstacion.Text = "Equipo";
+            this.NombreEstacion.Width = 0;
+            // 
+            // Nombre
+            // 
+            this.Nombre.Text = "Equipo";
+            this.Nombre.Width = 320;
+            // 
+            // WorkstationSelectorForm
+            // 
+            this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
+            this.ClientSize = new System.Drawing.Size(634, 371);
+            this.Controls.Add(this.Listado);
+            this.ForeColor = System.Drawing.Color.Black;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.Name = "WorkstationSelectorForm";
+            this.Text = "Seleccionar equipo";
+            this.Controls.SetChildIndex(this.Listado, 0);
+            this.ResumeLayout(false);
 
                 }
                 #endregion

@@ -258,7 +258,7 @@ namespace Lbl.Comprobantes
                 /// Indica si este punto de venta utiliza carga manual de comprobantes.
                 /// 
                 /// Por ejemplo, si utiliza comprobantes prenumerados que se cargan uno a uno en la impresora.
-                /// Si es True, Lázaro solicitará confirmación antes imprimir cada comprobante en este PV.
+                /// Si es True, Gestión solicitará confirmación antes imprimir cada comprobante en este PV.
                 /// </summary>
                 public bool CargaManual
                 {
@@ -270,6 +270,16 @@ namespace Lbl.Comprobantes
                         {
                                 this.Registro["carga"] = value ? 1 : 0;
                         }
+                }
+
+
+                public int Enumerar {
+                    get {
+                        return this.GetFieldValue<int>("enumerar");
+                    }
+                    set {
+                        this.Registro["enumerar"] = value;
+                    }
                 }
 
 
@@ -306,6 +316,7 @@ namespace Lbl.Comprobantes
                         Comando.ColumnValues.AddWithValue("puerto", this.FiscalPuerto);
                         Comando.ColumnValues.AddWithValue("bps", this.FiscalBps);
                         Comando.ColumnValues.AddWithValue("variante", (int)this.Variante);
+                        Comando.ColumnValues.AddWithValue("enumerar", (int)this.Enumerar);
 
                         this.AgregarTags(Comando);
 

@@ -76,7 +76,7 @@ namespace Lbl.Servicios.Importar
                                 //this.MapaDeTablas["movimien.dbf"].Limite = 1000;
                                 this.MapaDeTablas["movimien.dbf"].ActualizaRegistros = false;
                                 this.MapaDeTablas["movimien.dbf"].Where = "TIPO IN ('FCA', 'FCB')";   // Sólo facturas
-                                this.Reemplazos.Add(new Reemplazo(1, 999, "movimien.dbf:CLIENTE"));   // En el sistema de Escorpión, Consumidor Final es el cliente 1, en Lázaro es 999
+                                this.Reemplazos.Add(new Reemplazo(1, 999, "movimien.dbf:CLIENTE"));   // En el sistema de Escorpión, Consumidor Final es el cliente 1, en Gestión es 999
                                 this.MapaDeTablas["movimien.dbf"].MapaDeColumnas.AddWithValues("CODIGO", "id_articulo", ConversionDeColumna.InterpretarSql);
                                 this.MapaDeTablas["movimien.dbf"].MapaDeColumnas["CODIGO"].ParametroConversion = "SELECT id_articulo FROM articulos WHERE import_id='$VALOR$'";
                                 this.MapaDeTablas["movimien.dbf"].MapaDeColumnas.AddWithValues("CANTIDAD", "cantidad");
@@ -96,7 +96,7 @@ namespace Lbl.Servicios.Importar
                                 // Cuentas corrientes
                                 this.MapaDeTablas.AddWithValue("Cuentas corrientes", "ctasctes.dbf", "ctacte", "TIPO,NROCOM");
                                 this.MapaDeTablas["ctasctes.dbf"].Where = "CONDICION='C' OR TIPO='RCB'"; 
-                                this.Reemplazos.Add(new Reemplazo(1, 999, "ctascte.dbf:CLIENTE"));         // En el sistema de Escorpión, Consumidor Final es el cliente 1 (y puede tener cuenta corriente!), en Lázaro es 999
+                                this.Reemplazos.Add(new Reemplazo(1, 999, "ctascte.dbf:CLIENTE"));         // En el sistema de Escorpión, Consumidor Final es el cliente 1 (y puede tener cuenta corriente!), en Gestión es 999
                                 this.MapaDeTablas["ctasctes.dbf"].TipoElemento = typeof(Lbl.CuentasCorrientes.Movimiento);
                                 this.MapaDeTablas["ctasctes.dbf"].MapaDeColumnas.AddWithValues("FECHA", "fecha");
                                 this.MapaDeTablas["ctasctes.dbf"].MapaDeColumnas.AddWithValues("IMPORTE", "importe");
@@ -131,7 +131,7 @@ namespace Lbl.Servicios.Importar
 
                 public override IElementoDeDatos ConvertirRegistroEnElemento(MapaDeTabla mapa, Lfx.Data.Row externalRow, Lfx.Data.Row internalRow)
                 {
-                        switch (mapa.TablaLazaro) {
+                        switch (mapa.TablaGestion) {
                                 case "ctacte":
                                         Lbl.IElementoDeDatos ElemMovim = base.ConvertirRegistroEnElemento(mapa, externalRow, internalRow);
                                         Lbl.CuentasCorrientes.Movimiento Movim = ElemMovim as Lbl.CuentasCorrientes.Movimiento;
@@ -156,32 +156,32 @@ namespace Lbl.Servicios.Importar
 
                                 case "comprob_detalle":
                                         // Busco una factura a la cual adosar este detalle
-                                        string Tipo = externalRow["TIPO"].ToString(), TipoLazaro = null;
+                                        string Tipo = externalRow["TIPO"].ToString(), TipoGestion = null;
                                         bool Compra = false;
                                         int Numero = Lfx.Types.Parsing.ParseInt(externalRow["NROCOM"].ToString());
                                         switch (Tipo) {
                                                 case "FCA":
-                                                        TipoLazaro = "FA";
+                                                        TipoGestion = "FA";
                                                         break;
                                                 case "FCB":
-                                                        TipoLazaro = "FB";
+                                                        TipoGestion = "FB";
                                                         break;
                                                 case "ING":
-                                                        TipoLazaro = "FA";
+                                                        TipoGestion = "FA";
                                                         Compra = true;
                                                         break;
                                                 case "DEV":
-                                                        TipoLazaro = "NCB";
+                                                        TipoGestion = "NCB";
                                                         break;
                                         }
 
-                                        if (Numero > 0 && TipoLazaro != null) {
+                                        if (Numero > 0 && TipoGestion != null) {
                                                 // Es una factura válida
                                                 Lbl.Comprobantes.Factura Fac;
 
                                                 qGen.Select SelFac = new qGen.Select("comprob");
                                                 SelFac.WhereClause = new qGen.Where();
-                                                SelFac.WhereClause.AddWithValue("tipo_fac", TipoLazaro);
+                                                SelFac.WhereClause.AddWithValue("tipo_fac", TipoGestion);
                                                 SelFac.WhereClause.AddWithValue("compra", Compra ? 1 : 0);
                                                 SelFac.WhereClause.AddWithValue("numero", Numero);
                                                 Lfx.Data.Row FacRow = this.Connection.FirstRowFromSelect(SelFac);
@@ -192,7 +192,7 @@ namespace Lbl.Servicios.Importar
                                                                 Cliente = 999;
                                                         qGen.Insert NewFac = new qGen.Insert("comprob");
                                                         NewFac.ColumnValues.AddWithValue("id_formapago", 1);
-                                                        NewFac.ColumnValues.AddWithValue("tipo_fac", TipoLazaro);
+                                                        NewFac.ColumnValues.AddWithValue("tipo_fac", TipoGestion);
                                                         NewFac.ColumnValues.AddWithValue("pv", 1);
                                                         NewFac.ColumnValues.AddWithValue("numero", Numero);
                                                         NewFac.ColumnValues.AddWithValue("situacionorigen", 1);

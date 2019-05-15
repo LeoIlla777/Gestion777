@@ -289,7 +289,7 @@ namespace Lazaro.Base.Util.Impresion
                         g.DrawString(InfoReporte, FooterFont, Brushes.Black, FooterRect, FooterFmt);
 
                         FooterFmt.Alignment = StringAlignment.Center;
-                        g.DrawString("www.lazarogestion.com ", FooterFont, Brushes.Gray, FooterRect, FooterFmt);
+                        g.DrawString("www.GestionLazaro.com ", FooterFont, Brushes.Gray, FooterRect, FooterFmt);
 
                         FooterFmt.Alignment = StringAlignment.Far;
                         g.DrawString("Página " + this.PageNumber.ToString(), FooterFont, Brushes.Black, FooterRect, FooterFmt);

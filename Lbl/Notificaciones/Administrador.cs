@@ -55,7 +55,7 @@ namespace Lbl.Notificaciones
                                 this.LastMessageId = this.Connection.FieldInt(SelUltimoId);
 
                                 this.PollTimer = new System.Timers.Timer();
-                                this.PollTimer.Interval = Lfx.Workspace.Master.SlowLink ? 7000 : 3000;
+                                this.PollTimer.Interval = Lfx.Workspace.Master.SlowLink ? 67000 : 7000;
                                 this.PollTimer.Elapsed += new System.Timers.ElapsedEventHandler(this.PollTimer_Elapsed);
                                 this.PollTimer.Start();
                         } catch {

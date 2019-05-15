@@ -219,6 +219,7 @@ namespace Lfc.Personas
                         EntradaDomicilio.Text = Cliente.Domicilio;
                         EntradaDomicilioTrabajo.Text = Cliente.DomicilioLaboral;
                         EntradaLocalidad.Elemento = Cliente.Localidad;
+                        EntradaRepresentante.Text = Cliente.Representante;
                         EntradaTelefono.Text = Cliente.Telefono;
                         EntradaEmail.Text = Cliente.Email;
                         EntradaVendedor.Elemento = Cliente.Vendedor;
@@ -379,6 +380,7 @@ namespace Lfc.Personas
                         Res.Domicilio = EntradaDomicilio.Text;
                         Res.DomicilioLaboral = EntradaDomicilioTrabajo.Text;
                         Res.Localidad = EntradaLocalidad.Elemento as Lbl.Entidades.Localidad;
+                        Res.Representante = EntradaRepresentante.Text;
                         Res.Telefono = EntradaTelefono.Text;
                         Res.Email = EntradaEmail.Text;
                         Res.Vendedor = EntradaVendedor.Elemento as Lbl.Personas.Persona;
@@ -461,5 +463,71 @@ namespace Lfc.Personas
                                 this.ResumeLayout(true);
                         }
                 }
+
+                private void monedaCotiza_TextChanged(object sender, EventArgs e)
+                        {
+                            if (cotizaValor.ValueDecimal == 0)
+                            {
+                                Lfx.Data.Row rowCotiza = this.Connection.FirstRowFromSelect("SELECT cotizacion FROM monedas WHERE id_moneda=" + this.monedaCotiza.Elemento.Id.ToString());
+                                if (rowCotiza != null)
+                                {
+                                    cotizaValor.ValueDecimal = Convert.ToDecimal(rowCotiza["cotizacion"]);
+                                }
+                            }
+                        }
+
+                private void btnAgregarRubro_Click(object sender, EventArgs e)
+                {
+                    if (txtDescuento.ValueDecimal <= 0)
+                    {
+                        Lui.Forms.MessageBox.Show("El descuento no puede ser cero o menor", "Descuento no válido");
+                        return;
+                    }
+                    if (cbRubro.TextKey == "0")
+                    {
+                        if (txtDetalleRubro.ValueInt == 0)
+                        {
+                            Lui.Forms.MessageBox.Show("Para agregar descuento de Rubro debe seleccionar uno.", "Seleccione Rubro");
+                            return;
+                        }
+                        dgvRubro.Rows.Add(txtDetalleRubro.TextDetail, txtDescuento.TextRaw, dtDesde.Value,
+                                dtHasta.Value, cbHorarios.Checked, "Anular", "Habilitado", 0, txtDetalleRubro.ValueInt);
+                    }
+                    else
+                    {
+                        dgvRubro.Rows.Add("Descuento General", txtDescuento.TextRaw, dtDesde.Value,
+                                dtHasta.Value, cbHorarios.Checked, "Anular", "Habilitado", 0, 0);
+                    }
+            
+                }
+
+                private void dgvRubro_CellClick(object sender, DataGridViewCellEventArgs e)
+                {
+                    if (dgvRubro.Columns[e.ColumnIndex].Name == "cg_Anular")
+                    {
+                        Lui.Forms.YesNoDialog Pregunta = new Lui.Forms.YesNoDialog("¿Desea anular el descuento?", "Se anulara el descuento");
+                        Pregunta.DialogButtons = Lui.Forms.DialogButtons.YesNo;
+                        DialogResult Respuesta = Pregunta.ShowDialog();
+                        if (Respuesta == DialogResult.OK)
+                        {
+                            dgvRubro.Rows[e.RowIndex].Cells["cg_Estado"].Value = "Anulado";
+                            DataGridViewCellStyle style = new DataGridViewCellStyle();
+                            style.BackColor = System.Drawing.Color.Red;
+                            dgvRubro.Rows[e.RowIndex].DefaultCellStyle = style;
+                        }
+                    }
+                }
+
+                private void btnCtaCte_Click(object sender, EventArgs e)
+                {
+                    if (this.Elemento.Existe)
+                    {
+                        CuentasCorrientes.Inicio FormCtaCte = new CuentasCorrientes.Inicio();
+                        FormCtaCte.MdiParent = this.ParentForm.MdiParent;
+                        FormCtaCte.Cliente = this.Elemento as Lbl.Personas.Persona;
+                        FormCtaCte.Show();
+                    }
+                }
+
         }
 }

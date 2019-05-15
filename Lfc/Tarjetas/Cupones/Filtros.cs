@@ -49,6 +49,7 @@ namespace Lfc.Tarjetas.Cupones
                 internal Lui.Forms.Label Label15;
                 internal Lui.Forms.Label Label1;
                 internal Lcc.Entrada.CodigoDetalle EntradaFormaDePago;
+                internal Lcc.Entrada.CodigoDetalle EntradaSucursal;
                 internal Lui.Forms.TextBox EntradaPlanInteres;
                 internal Lui.Forms.TextBox EntradaPlanCuotas;
                 internal Lcc.Entrada.CodigoDetalle EntradaPlan;
@@ -58,10 +59,13 @@ namespace Lfc.Tarjetas.Cupones
                 private TableLayoutPanel tableLayoutPanel1;
                 internal Lcc.Entrada.RangoFechas EntradaFechas;
                 internal Lui.Forms.ComboBox EntradaEstado;
+                internal Lcc.Entrada.RangoFechas rangoFechas1;
+                internal Lui.Forms.Label label2;
 
                 private void InitializeComponent()
                 {
                         this.EntradaFormaDePago = new Lcc.Entrada.CodigoDetalle();
+                        this.EntradaSucursal = new Lcc.Entrada.CodigoDetalle();
                         this.Label16 = new Lui.Forms.Label();
                         this.Label11 = new Lui.Forms.Label();
                         this.EntradaPlanInteres = new Lui.Forms.TextBox();
@@ -76,7 +80,9 @@ namespace Lfc.Tarjetas.Cupones
                         this.label3 = new Lui.Forms.Label();
                         this.panel1 = new Lui.Forms.Panel();
                         this.tableLayoutPanel1 = new Lui.Forms.TableLayoutPanel();
+                        this.label2 = new Lui.Forms.Label();
                         this.EntradaFechas = new Lcc.Entrada.RangoFechas();
+                        this.rangoFechas1 = new Lcc.Entrada.RangoFechas();
                         this.panel1.SuspendLayout();
                         this.tableLayoutPanel1.SuspendLayout();
                         this.SuspendLayout();
@@ -107,6 +113,23 @@ namespace Lfc.Tarjetas.Cupones
                         this.EntradaFormaDePago.Text = "0";
                         this.EntradaFormaDePago.ValueInt = 0;
                         this.EntradaFormaDePago.TextChanged += new System.EventHandler(this.EntradaTarjeta_TextChanged);
+                        // 
+                        // EntradaSucursal
+                        // 
+                        this.EntradaSucursal.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+                        | System.Windows.Forms.AnchorStyles.Right)));
+                        this.EntradaSucursal.AutoSize = true;
+                        this.EntradaSucursal.AutoTab = true;
+                        this.EntradaSucursal.CanCreate = false;
+                        this.EntradaSucursal.Location = new System.Drawing.Point(85, 226);
+                        this.EntradaSucursal.MaxLength = 200;
+                        this.EntradaSucursal.Name = "EntradaSucursal";
+                        this.EntradaSucursal.NombreTipo = "Lbl.Entidades.Sucursal";
+                        this.EntradaSucursal.Required = true;
+                        this.EntradaSucursal.Size = new System.Drawing.Size(456, 26);
+                        this.EntradaSucursal.TabIndex = 1;
+                        this.EntradaSucursal.Text = "0";
+                        this.EntradaSucursal.TextChanged += new System.EventHandler(this.EntradaSucursal_TextChanged);
                         // 
                         // Label16
                         // 
@@ -276,29 +299,56 @@ namespace Lfc.Tarjetas.Cupones
                         this.tableLayoutPanel1.Controls.Add(this.Label15, 0, 1);
                         this.tableLayoutPanel1.Controls.Add(this.Label11, 0, 3);
                         this.tableLayoutPanel1.Controls.Add(this.Label1, 0, 4);
-                        this.tableLayoutPanel1.Controls.Add(this.label3, 0, 5);
+                        this.tableLayoutPanel1.Controls.Add(this.label3, 0, 5);this.tableLayoutPanel1.Controls.Add(this.label2, 0, 7);
                         this.tableLayoutPanel1.Controls.Add(this.EntradaFormaDePago, 1, 0);
+                        this.tableLayoutPanel1.Controls.Add(this.EntradaSucursal, 1, 7);
                         this.tableLayoutPanel1.Controls.Add(this.EntradaPlan, 1, 1);
+                        this.tableLayoutPanel1.Controls.Add(this.EntradaFechas, 0, 6);
+                        this.tableLayoutPanel1.Controls.Add(this.rangoFechas1, 1, 5);
                         this.tableLayoutPanel1.Location = new System.Drawing.Point(24, 24);
                         this.tableLayoutPanel1.Name = "tableLayoutPanel1";
-                        this.tableLayoutPanel1.RowCount = 6;
+                        this.tableLayoutPanel1.RowCount = 7;
                         this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
                         this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
                         this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
                         this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
                         this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
                         this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
+                        this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
+                        this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
                         this.tableLayoutPanel1.Size = new System.Drawing.Size(544, 288);
                         this.tableLayoutPanel1.TabIndex = 0;
+                        // 
+                        // label2
+                        // 
+                        this.label2.Location = new System.Drawing.Point(3, 223);
+                        this.label2.Name = "label2";
+                        this.label2.Size = new System.Drawing.Size(76, 24);
+                        this.label2.TabIndex = 53;
+                        this.label2.Text = "Sucursal";
+                        this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
                         // 
                         // EntradaFechas
                         // 
                         this.EntradaFechas.AutoSize = true;
-                        this.EntradaFechas.Location = new System.Drawing.Point(85, 153);
+                        this.EntradaFechas.Location = new System.Drawing.Point(3, 194);
+                        this.EntradaFechas.MostrarFechaConHora = false;
                         this.EntradaFechas.MuestraFuturos = false;
                         this.EntradaFechas.Name = "EntradaFechas";
-                        this.EntradaFechas.Size = new System.Drawing.Size(455, 30);
+                        this.EntradaFechas.Size = new System.Drawing.Size(0, 26);
                         this.EntradaFechas.TabIndex = 10;
+                        // 
+                        // rangoFechas1
+                        // 
+                        this.rangoFechas1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+                        | System.Windows.Forms.AnchorStyles.Right)));
+                        this.rangoFechas1.AutoSize = true;
+                        this.rangoFechas1.Location = new System.Drawing.Point(85, 159);
+                        this.rangoFechas1.MostrarFechaConHora = false;
+                        this.rangoFechas1.MuestraFuturos = false;
+                        this.rangoFechas1.Name = "rangoFechas1";
+                        this.rangoFechas1.Size = new System.Drawing.Size(456, 29);
+                        this.rangoFechas1.TabIndex = 52;
                         // 
                         // Filtros
                         // 
@@ -335,5 +385,10 @@ namespace Lfc.Tarjetas.Cupones
                                 EntradaPlanInteres.ValueDecimal = 0m;
                         }
                 }
-        }
+
+                private void EntradaSucursal_TextChanged(System.Object sender, System.EventArgs e)
+                {
+
+                }
+    }
 }

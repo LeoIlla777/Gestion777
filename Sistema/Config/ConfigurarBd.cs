@@ -31,7 +31,7 @@ namespace Lazaro.WinMain.Config
                                 EntradaConexion.TextKey = Conexion;
 
                         if (BD == null)
-                                EntradaBD.Text = "lazaro";
+                                EntradaBD.Text = "excelencia";
                         else
                                 EntradaBD.Text = BD;
 
@@ -39,7 +39,7 @@ namespace Lazaro.WinMain.Config
                                 if (EntradaServidor.Text == "localhost")
                                         EntradaUsuario.Text = "root";
                                 else
-                                        EntradaUsuario.Text = "lazaro";
+                                        EntradaUsuario.Text = "gestion777";
                         } else {
                                 EntradaUsuario.Text = Usuario;
                         }
@@ -123,19 +123,6 @@ namespace Lazaro.WinMain.Config
                 {
                         this.DialogResult = DialogResult.Cancel;
                         this.Close();
-                }
-
-                private void EntradaServidor_Leave(object sender, EventArgs e)
-                {
-                        if (EntradaServidor.Text == "localhost" || EntradaServidor.Text == "127.0.0.1") {
-                                if (EntradaUsuario.Text == "lazaro" && EntradaContrasena.Text == "") {
-                                        EntradaUsuario.Text = "root";
-                                }
-                        } else {
-                                if (EntradaUsuario.Text == "root" && EntradaContrasena.Text == "") {
-                                        EntradaUsuario.Text = "lazaro";
-                                }
-                        }
                 }
         }
 }

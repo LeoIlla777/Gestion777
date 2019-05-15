@@ -17,10 +17,14 @@ namespace Lfc.Comprobantes.Facturas
                                 return;
                         }
 
+                        NombrePagina = "IvaCompras";
+                        int limitOpciones = Lfx.Workspace.Master.CurrentConfig.ReadLocalSettingInt("Paginar", NombrePagina, 999999);
+                        this.Limit = limitOpciones;
+
                         this.Definicion = new Lazaro.Pres.Listings.Listing()
                         {
                                 ElementoTipo = typeof(Lbl.Comprobantes.ComprobanteFacturable),
-
+                                Paging = true,
                                 TableName = "comprob",
                                 KeyColumn = new Lazaro.Pres.Field("comprob.id_comprob", "Cód.", Lfx.Data.InputFieldTypes.Serial, 0),
                                 Joins = new qGen.JoinCollection() { new qGen.Join("personas", "comprob.id_cliente=personas.id_persona"), new qGen.Join("situaciones", "personas.id_situacion=situaciones.id_situacion") },

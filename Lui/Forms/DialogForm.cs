@@ -43,7 +43,6 @@ namespace Lui.Forms
                         }
 		}
 
-
 		private void DialogForm_SizeChanged(object sender, System.EventArgs e)
 		{
 			CancelCommandButton.Left = LowerPanel.Width - CancelCommandButton.Width - 4;

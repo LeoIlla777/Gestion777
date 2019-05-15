@@ -11,6 +11,7 @@ namespace Lfc
                 public System.Windows.Forms.Control ControlDestino { get; set; }
                 public Lbl.IElementoDeDatos Elemento;
                 public Type ElementoTipo = null;
+                private string AuxActionName = null;
 
                 Lazaro.Pres.Forms.FormActionCollection FormActions;
 
@@ -160,12 +161,12 @@ namespace Lfc
                 }
 
 
-                public Lfx.Types.OperationResult Save()
+                public Lfx.Types.OperationResult Save(bool deImprimir = false)
                 {
                         if (this.ReadOnly)
                                 return new Lfx.Types.FailureOperationResult("No se puede guardar porque es un formulario sólo-lectura");
 
-                        Lfx.Types.OperationResult Resultado = this.ControlUnico.ValidarControl();
+                        Lfx.Types.OperationResult Resultado = this.ControlUnico.ValidarControl(deImprimir);
                         if (Resultado.Success == false)
                                 return Resultado;
 
@@ -181,18 +182,23 @@ namespace Lfc
                                 if (this.Elemento.Connection.InTransaction == false)
                                         Trans = this.Elemento.Connection.BeginTransaction(IsolationLevel.Serializable);
 
+                                bool hizoRollback = false;
                                 if (Lfx.Workspace.Master.DebugMode) {
                                         Resultado = this.Elemento.Guardar();
                                 } else {
                                         try {
                                                 Resultado = this.Elemento.Guardar();
                                         } catch (Lfx.Types.DomainException dex) {
-                                                if (Trans != null)
-                                                        Trans.Rollback();
+                                                if (Trans != null) {
+                                                    Trans.Rollback();
+                                                    hizoRollback = true;
+                                                }
                                                 Resultado = new Lfx.Types.FailureOperationResult(dex.Message);
                                         } catch (Exception ex) {
-                                                if (Trans != null)
-                                                        Trans.Rollback();
+                                                if (Trans != null) {
+                                                    Trans.Rollback();
+                                                    hizoRollback = true;
+                                                }
                                                 if (this.Elemento != null && this.Name != null)
                                                         ex.HelpLink = this.Name + ".Save: " + this.ElementoTipo.ToString();
                                                 throw ex;
@@ -205,7 +211,7 @@ namespace Lfc
                                                 Trans = null;
                                         }
                                 } else {
-                                        if (Trans != null) {
+                                        if (Trans != null && !hizoRollback) {
                                                 Trans.Rollback();
                                                 Trans = null;
                                         }
@@ -425,7 +431,7 @@ namespace Lfc
                         } else {
                                 if (this.Elemento.Existe == false) {
                                         // Si es nuevo, lo guardo sin preguntar.
-                                        Res = this.Save();
+                                        Res = this.Save(true);
                                 } else if (this.Changed) {
                                         // Si es edición, y hay cambios, pregunto si quiere guardar
                                         using (Lui.Forms.YesNoDialog Pregunta = new Lui.Forms.YesNoDialog("Hay modificaciones sin guardar (subrayadas en color rojo). Antes de imprimir el ducumento se guardarán las modificaciones. ¿Desea continuar?", "Imprimir")) {
@@ -592,6 +598,9 @@ namespace Lfc
 
                 private void LowerPanel_ButtonClick(object sender, EventArgs e)
                 {
+                        if (AuxActionName != null)
+                            return;
+
                         string ActionName = null;
                         Lui.Forms.Button SenderButton = sender as Lui.Forms.Button;
                         if (SenderButton != null) {
@@ -604,6 +613,7 @@ namespace Lfc
 
                         if (ActionName != null) {
                                 // doy la oportunidad de que lo procese el ControlUnico.
+                                AuxActionName = ActionName;
                                 Lfx.Types.OperationResult Res = this.ControlUnico.PerformFormAction(ActionName);
                                 if (Res != null) {
                                         if (Res.Success == false && Res.Cancel == false && Res.Message != null)
@@ -631,6 +641,7 @@ namespace Lfc
                                                         break;
                                         }
                                 }
+                                 AuxActionName = null;
                         }
                 }
 

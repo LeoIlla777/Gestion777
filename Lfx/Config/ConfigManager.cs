@@ -244,6 +244,13 @@ namespace Lfx.Config
 
                         string Busco;
 
+                        //Busco una variable para la estación y la sucursal
+                        Busco = (terminalName == null ? Lfx.Environment.SystemInformation.MachineName : terminalName) + "/" + sucursal.ToString() + "/" + settingName;
+                        if (sucursal != 0 && SysConfigCache.ContainsKey(Busco)) {
+                                string Res = (string)SysConfigCache[Busco];
+                                return Res;
+                        }
+
                         //Busco una variable para la estación
                         Busco = (terminalName == null ? Lfx.Environment.SystemInformation.MachineName : terminalName) + "/0/" + settingName;
                         if (sucursal == 0 && SysConfigCache.ContainsKey(Busco)) {
@@ -397,6 +404,45 @@ namespace Lfx.Config
                                 this.SysConfigCache.Add(CacheSettingName, stringValue);
 
                         return true;
+                }
+
+                public bool WriteGlobalSetting(string settingName, string stringValue, string terminalName, int sucursal)
+                {
+                    if (terminalName == null || terminalName.Length == 0)
+                        terminalName = Lfx.Environment.SystemInformation.MachineName;
+
+                    string CurrentValue = ReadGlobalSetting<string>(settingName, null, terminalName, sucursal);
+                    if (CurrentValue == null)
+                    {
+                        //Crear el valor
+                        qGen.Insert InsertCommand = new qGen.Insert("sys_config");
+                        InsertCommand.ColumnValues.Add(new Lazaro.Orm.Data.ColumnValue("estacion", Lazaro.Orm.ColumnTypes.VarChar, terminalName));
+                        InsertCommand.ColumnValues.Add(new Lazaro.Orm.Data.ColumnValue("id_sucursal", Lazaro.Orm.ColumnTypes.Integer, sucursal));
+                        InsertCommand.ColumnValues.Add(new Lazaro.Orm.Data.ColumnValue("nombre", Lazaro.Orm.ColumnTypes.VarChar, settingName));
+                        InsertCommand.ColumnValues.Add(new Lazaro.Orm.Data.ColumnValue("valor", Lazaro.Orm.ColumnTypes.VarChar, stringValue));
+                        Connection.Insert(InsertCommand);
+                    }
+                    else
+                    {
+                        //Actualizar el valor
+                        qGen.Update UpdateCommand = new qGen.Update("sys_config");
+                        UpdateCommand.ColumnValues.Add(new Lazaro.Orm.Data.ColumnValue("valor", Lazaro.Orm.ColumnTypes.VarChar, stringValue));
+                        UpdateCommand.WhereClause = new qGen.Where();
+                        UpdateCommand.WhereClause.Operator = qGen.AndOr.And;
+                        UpdateCommand.WhereClause.Add(new qGen.ComparisonCondition("nombre", settingName));
+                        UpdateCommand.WhereClause.Add(new qGen.ComparisonCondition("estacion", terminalName));
+                        UpdateCommand.WhereClause.Add(new qGen.ComparisonCondition("id_sucursal", sucursal));
+                        Connection.Update(UpdateCommand);
+                    }
+
+                    string CacheSettingName = terminalName + "/" + sucursal.ToString() + "/" + settingName;
+
+                    if (this.SysConfigCache.ContainsKey(CacheSettingName))
+                        this.SysConfigCache[CacheSettingName] = stringValue;
+                    else
+                        this.SysConfigCache.Add(CacheSettingName, stringValue);
+
+                    return true;
                 }
 
                 public void InvalidateConfigCache()

@@ -8,7 +8,7 @@ namespace Lazaro.WinMain.Config
         {
                 private bool m_PrimeraVez = false;
                 private int CurrentTab = 1;
-                private const int TabCount = 4;
+                private const int TabCount = 5;
                 private int IdPaisOriginal = 0;
                 private Lbl.Sys.Blob Logo { get; set; }
 
@@ -106,6 +106,16 @@ namespace Lazaro.WinMain.Config
                         EntradaPVR.Text = Lfx.Workspace.Master.CurrentConfig.ReadGlobalSetting<string>("Sistema.Documentos.R.PV", "0");
                         EntradaPVRC.Text = Lfx.Workspace.Master.CurrentConfig.ReadGlobalSetting<string>("Sistema.Documentos.RC.PV", "0");
 
+                        int SucursalActual = Lfx.Workspace.Master.CurrentConfig.Empresa.SucursalActual;
+                        string Maquina = System.Environment.MachineName;
+
+                        EntradaPV2.Text = Lfx.Workspace.Master.CurrentConfig.ReadGlobalSetting<string>("Sistema.Documentos.PV", "0", Maquina, SucursalActual);
+                        EntradaPVABC2.Text = Lfx.Workspace.Master.CurrentConfig.ReadGlobalSetting<string>("Sistema.Documentos.ABC.PV", "0", Maquina, SucursalActual);
+                        EntradaPVNC2.Text = Lfx.Workspace.Master.CurrentConfig.ReadGlobalSetting<string>("Sistema.Documentos.NC.PV", "0", Maquina, SucursalActual);
+                        EntradaPVND2.Text = Lfx.Workspace.Master.CurrentConfig.ReadGlobalSetting<string>("Sistema.Documentos.ND.PV", "0", Maquina, SucursalActual);
+                        EntradaPVR2.Text = Lfx.Workspace.Master.CurrentConfig.ReadGlobalSetting<string>("Sistema.Documentos.R.PV", "0", Maquina, SucursalActual);
+                        EntradaPVRC2.Text = Lfx.Workspace.Master.CurrentConfig.ReadGlobalSetting<string>("Sistema.Documentos.RC.PV", "0", Maquina, SucursalActual);
+
                         EntradaClientePredet.Text = Lfx.Workspace.Master.CurrentConfig.ReadGlobalSetting<string>("Sistema.Documentos.ClientePredet", "");
                         EntradaFormaPagoPredet.Text = Lfx.Workspace.Master.CurrentConfig.ReadGlobalSetting<string>("Sistema.Documentos.FormaPagoPredet", "");
 
@@ -200,13 +210,27 @@ namespace Lazaro.WinMain.Config
                                 this.Logo.Guardar();
                         }
 
+                        string NombreMaquina = System.Environment.MachineName;
                         //Guardo información sobre los PV
                         Lfx.Workspace.Master.CurrentConfig.WriteGlobalSetting("Sistema.Documentos.PV", EntradaPV.Text, Sucursal);
                         Lfx.Workspace.Master.CurrentConfig.WriteGlobalSetting("Sistema.Documentos.ABC.PV", EntradaPVABC.Text, Sucursal);
                         Lfx.Workspace.Master.CurrentConfig.WriteGlobalSetting("Sistema.Documentos.NC.PV", EntradaPVNC.Text, Sucursal);
                         Lfx.Workspace.Master.CurrentConfig.WriteGlobalSetting("Sistema.Documentos.ND.PV", EntradaPVND.Text, Sucursal);
                         Lfx.Workspace.Master.CurrentConfig.WriteGlobalSetting("Sistema.Documentos.R.PV", EntradaPVR.Text, Sucursal);
-                        Lfx.Workspace.Master.CurrentConfig.WriteGlobalSetting("Sistema.Documentos.RC.PV", EntradaPVRC.Text, System.Environment.MachineName);
+                        Lfx.Workspace.Master.CurrentConfig.WriteGlobalSetting("Sistema.Documentos.RC.PV", EntradaPVRC.Text, NombreMaquina);
+
+                        if (EntradaPV2.ValueInt != 0)
+                            Lfx.Workspace.Master.CurrentConfig.WriteGlobalSetting("Sistema.Documentos.PV", EntradaPV2.Text, NombreMaquina, Sucursal);
+                        if (EntradaPVABC2.ValueInt != 0)
+                            Lfx.Workspace.Master.CurrentConfig.WriteGlobalSetting("Sistema.Documentos.ABC.PV", EntradaPVABC2.Text, NombreMaquina, Sucursal);
+                        if (EntradaPVNC2.ValueInt != 0)
+                            Lfx.Workspace.Master.CurrentConfig.WriteGlobalSetting("Sistema.Documentos.NC.PV", EntradaPVNC2.Text, NombreMaquina, Sucursal);
+                        if (EntradaPVND2.ValueInt != 0)
+                            Lfx.Workspace.Master.CurrentConfig.WriteGlobalSetting("Sistema.Documentos.ND.PV", EntradaPVND2.Text, NombreMaquina, Sucursal);
+                        if (EntradaPVR2.ValueInt != 0)
+                            Lfx.Workspace.Master.CurrentConfig.WriteGlobalSetting("Sistema.Documentos.R.PV", EntradaPVR2.Text, NombreMaquina, Sucursal);
+                        if (EntradaPVRC2.ValueInt != 0)
+                            Lfx.Workspace.Master.CurrentConfig.WriteGlobalSetting("Sistema.Documentos.RC.PV", EntradaPVRC2.Text, NombreMaquina, Sucursal);
 
                         Lfx.Workspace.Master.CurrentConfig.WriteGlobalSetting("Sistema.Documentos.ClientePredet", EntradaClientePredet.Text);
                         Lfx.Workspace.Master.CurrentConfig.WriteGlobalSetting("Sistema.Documentos.FormaPagoPredet", EntradaFormaPagoPredet.Text);
@@ -280,11 +304,13 @@ namespace Lazaro.WinMain.Config
                         FrmComprobantes.Visible = CurrentTab == 2;
                         FrmArticulos.Visible = CurrentTab == 3;
                         FrmAvanzado.Visible = CurrentTab == 4;
+                        FrmCompxSuc.Visible = CurrentTab == 5;
 
                         LabelTab1.Left = CurrentTab == 1 ? 16 : 12;
                         LabelTab2.Left = CurrentTab == 2 ? 16 : 12;
                         LabelTab3.Left = CurrentTab == 3 ? 16 : 12;
                         LabelTab4.Left = CurrentTab == 4 ? 16 : 12;
+                        LabelTab5.Left = CurrentTab == 5 ? 16 : 12;
                 }
 
 
@@ -346,5 +372,11 @@ namespace Lazaro.WinMain.Config
                         CurrentTab = 4;
                         this.MostrarPestanias();
                 }
-        }
+
+                private void LabelTab5_Click(object sender, System.EventArgs e)
+                {
+                    CurrentTab = 5;
+                    this.MostrarPestanias();
+                }
+    }
 }

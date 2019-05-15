@@ -18,14 +18,20 @@ namespace Lbl.Personas
         {
                 private Entidades.Localidad m_Localidad = null;
                 private Grupo m_Grupo = null, m_SubGrupo = null;
+                private int m_Moneda = 0;
+                private decimal m_Cotiza = 0;
+                private List<Descuentos> m_Descuentos = null;
                 private Lbl.Impuestos.SituacionTributaria m_SituacionTributaria = null;
 
                 //private Accesos.ListaDeAccesos m_Accesos = null;
                 private Lbl.CuentasCorrientes.CuentaCorriente m_CuentaCorriente = null;
                 private Lbl.Personas.Persona m_Vendedor = null;
+                private Lbl.Cajas.Concepto m_ConceptoVenta = null, m_ConceptoCompra = null;
+                public int ClienteFree = 0;
+                public string nameClienteFree = "";
 
-                // Heredar constructores
-                public Persona(Lfx.Data.IConnection dataBase)
+        // Heredar constructores
+        public Persona(Lfx.Data.IConnection dataBase)
                         : base(dataBase) { }
 
                 public Persona(Lfx.Data.IConnection dataBase, int itemId)
@@ -34,6 +40,22 @@ namespace Lbl.Personas
                 public Persona(Lfx.Data.IConnection dataBase, Lfx.Data.Row row)
                         : base(dataBase, row) { }
 
+
+        public string LoadClienteFree()
+        {
+            if (this.Id == 998 && ClienteFree > 0)
+            {
+                if (nameClienteFree == "")
+                {
+                    Lbl.Comprobantes.ClienteFree clientefree = new Comprobantes.ClienteFree(this.Connection, ClienteFree);
+                    if (clientefree != null)
+                        nameClienteFree = clientefree.Nombre;
+                }
+                this.Registro[CampoNombre] = nameClienteFree;
+                return nameClienteFree;
+            }
+            return "";
+        }
 
                 /// <summary>
                 /// Obtiene o establece el nombre del elemento.
@@ -189,6 +211,7 @@ namespace Lbl.Personas
                                 Comando.ColumnValues.AddWithValue("id_vendedor", null);
                         else
                                 Comando.ColumnValues.AddWithValue("id_vendedor", this.Vendedor.Id);
+                        Comando.ColumnValues.AddWithValue("representante", this.Representante);
                         Comando.ColumnValues.AddWithValue("telefono", this.Telefono);
                         Comando.ColumnValues.AddWithValue("email", this.Email);
                         Comando.ColumnValues.AddWithValue("url", this.Url);
@@ -214,6 +237,15 @@ namespace Lbl.Personas
                         Comando.ColumnValues.AddWithValue("cbu", this.ClaveBancaria);
                         Comando.ColumnValues.AddWithValue("estadocredito", this.EstadoCredito);
 
+                        if (this.ConceptoVenta == null)
+                            Comando.ColumnValues.AddWithValue("id_conceptoventa", null);
+                        else
+                            Comando.ColumnValues.AddWithValue("id_conceptoventa", this.ConceptoVenta.Id);
+                        if (this.ConceptoCompra == null)
+                            Comando.ColumnValues.AddWithValue("id_conceptocompra", null);
+                        else
+                            Comando.ColumnValues.AddWithValue("id_conceptocompra", this.ConceptoCompra.Id);
+
                         Comando.ColumnValues.AddWithValue("genero", this.Genero);
 
                         if (this.Existe == false)
@@ -227,6 +259,49 @@ namespace Lbl.Personas
 
                         this.AgregarTags(Comando);
                         this.Connection.ExecuteNonQuery(Comando);
+
+                        if (this.Existe)
+                        {
+                            qGen.IStatement cot_upd_Comando = new qGen.Update("personas_cotiza");
+                            cot_upd_Comando.WhereClause = new qGen.Where("id_persona", this.Id);
+                            cot_upd_Comando.ColumnValues.AddWithValue("estado", 0);
+                            this.Connection.ExecuteNonQuery(cot_upd_Comando);
+                        }
+
+
+                        int IdPersona = this.Id;
+                        if (IdPersona == 0)
+                            IdPersona = this.Connection.FieldInt("select last_insert_id()");
+                        if (IdPersona != 0 && this.Moneda != 0)
+                        {
+                            qGen.IStatement cot_ins_Comando = new qGen.Insert("personas_cotiza");
+                            cot_ins_Comando.ColumnValues.AddWithValue("id_persona", IdPersona);
+                            cot_ins_Comando.ColumnValues.AddWithValue("id_moneda", this.Moneda);
+                            cot_ins_Comando.ColumnValues.AddWithValue("cotiza", this.CotizaA);
+                            cot_ins_Comando.ColumnValues.AddWithValue("estado", 1);
+                            cot_ins_Comando.ColumnValues.AddWithValue("fecha", DateTime.Now);
+                            this.Connection.ExecuteNonQuery(cot_ins_Comando);
+                        }
+
+                        foreach (Descuentos de1 in this.Descuentos)
+                        {
+                            qGen.IStatement des_Comando = new qGen.Update("personas_descuentos");
+                            if (de1.Existe)
+                                des_Comando.WhereClause = new qGen.Where("id_personadescuento", de1.Id);
+                            else
+                                des_Comando = new qGen.Insert("personas_descuentos");
+
+                            des_Comando.ColumnValues.AddWithValue("id_persona", this.Id);
+                            if (de1.Rubro != 0)
+                                des_Comando.ColumnValues.AddWithValue("id_rubro", de1.Rubro);
+                            des_Comando.ColumnValues.AddWithValue("descuento", de1.Descuento);
+                            des_Comando.ColumnValues.AddWithValue("estado", de1.Estado);
+                            des_Comando.ColumnValues.AddWithValue("desde", de1.Desde);
+                            des_Comando.ColumnValues.AddWithValue("hasta", de1.Hasta);
+                            des_Comando.ColumnValues.AddWithValue("horario", de1.Horario);
+                            this.Connection.ExecuteNonQuery(des_Comando);
+                        }
+
                         return base.Guardar();
                 }
 
@@ -570,6 +645,19 @@ namespace Lbl.Personas
                         }
                 }
 
+                [Column(Name = "representante")]
+                public string Representante
+                {
+                        get
+                        {
+                                return this.GetFieldValue<string>("representante");
+                        }
+                        set
+                        {
+                                this.Registro["representante"] = value;
+                        }
+                }
+
 
                 [Column(Name = "email")]
                 public string Email
@@ -599,7 +687,39 @@ namespace Lbl.Personas
                 }
 
 
-                [Column(Name = "fechanac")]
+                public int Moneda
+                {
+                    get
+                    {
+                        if (m_Moneda == 0)
+                            m_Moneda = this.GetFieldValue<int>("id_moneda");
+
+                        return m_Moneda;
+                    }
+                    set
+                    {
+                        m_Moneda = value;
+                        this.SetFieldValue("id_moneda", value);
+                    }
+                }
+
+                public decimal CotizaA
+                {
+                    get
+                    {
+                        if (m_Cotiza == 0)
+                            m_Cotiza = this.GetFieldValue<decimal>("cotiza");
+
+                        return m_Cotiza;
+                    }
+                    set
+                    {
+                        m_Cotiza = value;
+                        this.SetFieldValue("cotiza", value);
+                    }
+                }
+
+        [Column(Name = "fechanac")]
                 public DbDateTime FechaNacimiento
                 {
                         get
@@ -759,6 +879,30 @@ namespace Lbl.Personas
                         }
                 }
 
+                public List<Descuentos> Descuentos
+                {
+                    get
+                    {
+                        if (m_Descuentos == null)
+                        {
+                            m_Descuentos = new List<Descuentos>();
+                            using (System.Data.DataTable TablaListaItem = this.Connection.Select("SELECT id_personadescuento FROM personas_descuentos WHERE id_persona=" + this.Id.ToString() + " ORDER BY id_personadescuento desc"))
+                            {
+                                foreach (System.Data.DataRow RowItem in TablaListaItem.Rows)
+                                {
+                                    m_Descuentos.Add(new Descuentos(this.Connection, System.Convert.ToInt32(RowItem["id_personadescuento"])));
+                                }
+                            }
+                        }
+                        return m_Descuentos;
+                    }
+                    set
+                    {
+                        m_Descuentos = value;
+                        this.SetFieldValue("Descuentos", value);
+                    }
+                }
+
                 public string LetraPredeterminada()
                 {
                         if (this.FacturaPreferida == null)
@@ -812,8 +956,41 @@ namespace Lbl.Personas
                         }
                 }
 
+                [Column(Name = "id_conceptoventa")]
+                public Lbl.Cajas.Concepto ConceptoVenta {
+                    get {
+                        if (m_ConceptoVenta == null && this.GetFieldValue<int>("id_conceptoventa") != 0)
+                            m_ConceptoVenta = this.GetFieldValue<Lbl.Cajas.Concepto>("id_conceptoventa");
+                        return m_ConceptoVenta;
+                    }
+                    set {
+                        m_ConceptoVenta = value;
+                        this.SetFieldValue("id_conceptoventa", value);
+                    }
+                }
 
-                public void Activar(bool activar)
+                [Column(Name = "id_conceptocompra")]
+                public Lbl.Cajas.Concepto ConceptoCompra {
+                    get {
+                        if (m_ConceptoCompra == null && this.GetFieldValue<int>("id_conceptocompra") != 0)
+                            m_ConceptoCompra = this.GetFieldValue<Lbl.Cajas.Concepto>("id_conceptocompra");
+                        return m_ConceptoCompra;
+                    }
+                    set {
+                        m_ConceptoCompra = value;
+                        this.SetFieldValue("id_conceptocompra", value);
+                    }
+                }
+
+        public override string ToString()
+        {
+            string nomFree = LoadClienteFree();
+            if (nomFree != "")
+                return nomFree;
+            return this.GetFieldValue<string>(this.CampoNombre);
+        }
+
+        public void Activar(bool activar)
                 {
                         this.Estado = activar ? 1 : 0;
                         qGen.Update ActCmd = new qGen.Update(this.TablaDatos);

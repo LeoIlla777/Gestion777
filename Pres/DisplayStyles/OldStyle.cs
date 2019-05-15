@@ -10,15 +10,15 @@ namespace Lazaro.Pres.DisplayStyles
                 {
                         get
                         {
-                                return Color.FromArgb(236, 234, 229);
-                        }
+                                return Color.FromArgb(202, 205, 208);//.FromArgb(248, 251, 254);//Color.FromArgb(236, 234, 229);
+            }
                 }
 
                 public override Color LightColor
                 {
                         get
                         {
-                                return Color.White; //.FromArgb(242, 241, 237);
+                                return Color.White;
                         }
                 }
 
@@ -26,7 +26,7 @@ namespace Lazaro.Pres.DisplayStyles
                 {
                         get
                         {
-                                return Color.FromArgb(219, 211, 189);
+                                return Color.FromArgb(130, 150, 173);
                         }
                 }
 

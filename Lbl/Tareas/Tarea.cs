@@ -90,8 +90,14 @@ namespace Lbl.Tareas
                         }
                 }
 
+        public int Numero {
+            get {
+                return this.GetFieldValue<int>("id_ticket");
+            }
+        }
 
-                public string Descripcion
+
+        public string Descripcion
                 {
                         get
                         {
@@ -316,7 +322,7 @@ namespace Lbl.Tareas
                                         InsertarArticulo.ColumnValues.AddWithValue("id_ticket", this.Id);
                                         if (Det.Articulo == null) {
                                                 InsertarArticulo.ColumnValues.AddWithValue("id_articulo", null);
-                                                InsertarArticulo.ColumnValues.AddWithValue("nombre", Det.Descripcion);
+                                                InsertarArticulo.ColumnValues.AddWithValue("nombre", Det.Nombre);
                                         } else {
                                                 InsertarArticulo.ColumnValues.AddWithValue("id_articulo", Det.Articulo.Id);
                                                 InsertarArticulo.ColumnValues.AddWithValue("nombre", Det.Articulo.Nombre);
@@ -343,7 +349,10 @@ namespace Lbl.Tareas
                                                 System.Data.DataTable Arts = this.Connection.Select("SELECT * FROM tickets_articulos WHERE id_ticket=" + this.Id.ToString() + " ORDER BY orden");
                                                 foreach (System.Data.DataRow Art in Arts.Rows) {
                                                         Lbl.Comprobantes.DetalleArticulo Det = new Comprobantes.DetalleArticulo(this.Connection);
-                                                        Det.Articulo = new Articulos.Articulo(this.Connection, System.Convert.ToInt32(Art["id_articulo"]));
+                                                        if (Art["id_articulo"].ToString() == "")
+                                                            Det.Nombre = Art["nombre"].ToString();
+                                                        else
+                                                            Det.Articulo = new Articulos.Articulo(this.Connection, System.Convert.ToInt32(Art["id_articulo"]));
                                                         Det.Cantidad = System.Convert.ToDecimal(Art["cantidad"]);
                                                         Det.Descuento = System.Convert.ToDecimal(Art["descuento"]);
                                                         Det.ImporteUnitario = System.Convert.ToDecimal(Art["precio"]);

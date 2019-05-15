@@ -15,16 +15,18 @@ namespace Lbl.Articulos
 		public Situacion(Lfx.Data.IConnection dataBase) : base(dataBase) { }
 
 		public Situacion(Lfx.Data.IConnection dataBase, int itemId)
-			: base(dataBase, itemId) { }
+			: base(dataBase, itemId) {
+            m_ItemId = (int)itemId;
+        }
 
                 public Situacion(Lfx.Data.IConnection dataBase, Lfx.Data.Row row)
                         : base(dataBase, row) { }
 
 
-                /// <summary>
-                /// Obtiene o establece el nombre del elemento.
-                /// </summary>
-                [Column(Name = "nombre", Type = ColumnTypes.VarChar, Length = 200, Nullable = false)]
+        /// <summary>
+        /// Obtiene o establece el nombre del elemento.
+        /// </summary>
+        [Column(Name = "nombre", Type = ColumnTypes.VarChar, Length = 200, Nullable = false)]
                 public string Nombre
                 {
                         get

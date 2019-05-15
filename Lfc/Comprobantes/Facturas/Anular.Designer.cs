@@ -233,12 +233,14 @@ namespace Lfc.Comprobantes.Facturas
                         // ComprobanteVistaPrevia
                         // 
                         this.ComprobanteVistaPrevia.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+                        | System.Windows.Forms.AnchorStyles.Right)));
+                        this.ComprobanteVistaPrevia.AplicaIva = true;
                         this.ComprobanteVistaPrevia.AutoSize = true;
+                        this.ComprobanteVistaPrevia.DiscriminarIva = false;
                         this.ComprobanteVistaPrevia.Location = new System.Drawing.Point(320, 112);
                         this.ComprobanteVistaPrevia.MinimumSize = new System.Drawing.Size(600, 320);
                         this.ComprobanteVistaPrevia.Name = "ComprobanteVistaPrevia";
-                        this.ComprobanteVistaPrevia.Size = new System.Drawing.Size(616, 320);
+                        this.ComprobanteVistaPrevia.Size = new System.Drawing.Size(655, 320);
                         this.ComprobanteVistaPrevia.TabIndex = 12;
                         this.ComprobanteVistaPrevia.TabStop = false;
                         this.ComprobanteVistaPrevia.Visible = false;

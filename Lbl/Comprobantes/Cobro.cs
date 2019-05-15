@@ -47,6 +47,9 @@ namespace Lbl.Comprobantes
                                 case Lbl.Pagos.TiposFormasDePago.ChequeTerceros:
                                         FormaDePago = new Lbl.Pagos.FormaDePago(dataBase, 8);
                                         break;
+                                case Lbl.Pagos.TiposFormasDePago.MultiPago:
+                                        FormaDePago = new Lbl.Pagos.FormaDePago(dataBase, 9);
+                                        break;
                                 default:
                                         FormaDePago = new Lbl.Pagos.FormaDePago(dataBase, (int)tipoFormaDePago);
                                         break;

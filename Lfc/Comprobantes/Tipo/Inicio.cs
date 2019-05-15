@@ -13,7 +13,7 @@ namespace Lfc.Comprobantes.Tipo
                         this.Definicion = new Lazaro.Pres.Listings.Listing()
                         {
                                 ElementoTipo = typeof(Lbl.Comprobantes.Tipo),
-
+                                Paging = true,
                                 TableName = "documentos_tipos",
                                 OrderBy = "nombre",
                                 KeyColumn = new Lazaro.Pres.Field("id_tipo", "Cód.", Lfx.Data.InputFieldTypes.Serial, 0),
@@ -27,6 +27,7 @@ namespace Lfc.Comprobantes.Tipo
                                         new Lazaro.Pres.Field("numerar_imprimir", "Numerar al imprimir", Lfx.Data.InputFieldTypes.Bool, 120)
 			        }
                         };
+                    this.HabilitarCrear = false;
 		}
 	}
 }

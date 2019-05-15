@@ -10,7 +10,7 @@ namespace Lazaro.Pres.DisplayStyles
                 {
                         get
                         {
-                                return System.Drawing.Color.Gray;
+                                return Color.Blue;//Color.Gray;
                         }
                 }
 
@@ -18,7 +18,7 @@ namespace Lazaro.Pres.DisplayStyles
                 {
                         get
                         {
-                                return System.Drawing.Color.LightGray;
+                            return Color.LightBlue;//Color.LightGray;
                         }
                 }
 
@@ -35,8 +35,8 @@ namespace Lazaro.Pres.DisplayStyles
                 {
                         get
                         {
-                                return Color.Silver;
-                        }
+                                return Color.BlueViolet;//Color.Silver;
+            }
                 }
 
 
@@ -44,7 +44,7 @@ namespace Lazaro.Pres.DisplayStyles
                 {
                         get
                         {
-                                return System.Drawing.Color.DarkGray;
+                                return Color.DarkBlue;//System.Drawing.Color.DarkGray;
                         }
                 }
 
@@ -60,7 +60,7 @@ namespace Lazaro.Pres.DisplayStyles
                 {
                         get
                         {
-                                return System.Drawing.Color.LightGray;
+                                return Color.LightBlue;//System.Drawing.Color.LightGray;
                         }
                 }
 
@@ -68,7 +68,7 @@ namespace Lazaro.Pres.DisplayStyles
                 {
                         get
                         {
-                                return System.Drawing.Color.LightGray;
+                                return Color.LightBlue;//System.Drawing.Color.LightGray;
                         }
                 }
 
@@ -85,7 +85,7 @@ namespace Lazaro.Pres.DisplayStyles
                 {
                         get
                         {
-                                return System.Drawing.Color.Gray;
+                                return Color.Blue;//System.Drawing.Color.Gray;
                         }
                 }
 
@@ -94,15 +94,15 @@ namespace Lazaro.Pres.DisplayStyles
                 {
                         get
                         {
-                                return System.Drawing.Color.Silver;
-                        }
+                                return Color.AliceBlue;//System.Drawing.Color.Silver;
+            }
                 }
 
                 public virtual Bitmap Icon
                 {
                         get
                         {
-                                return (Bitmap)(global::Lazaro.Pres.Properties.Resources.ResourceManager.GetObject("form"));
+                                return (Bitmap)(Properties.Resources.ResourceManager.GetObject("form"));
                         }
                 }
         }

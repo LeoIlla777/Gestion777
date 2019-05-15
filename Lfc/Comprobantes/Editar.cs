@@ -43,7 +43,7 @@ namespace Lfc.Comprobantes
                                 Res.Message += "Seleccione un vendedor." + Environment.NewLine;
                         }
 
-                        if (EntradaCliente.ValueInt == 0) {
+                        if (EntradaCliente.ValueInt == 0 && !EntradaCliente.IsFreeText) {
                                 Res.Success = false;
                                 Res.Message += "Seleccione un cliente." + Environment.NewLine;
                         }
@@ -62,7 +62,7 @@ namespace Lfc.Comprobantes
                                 Res.Message += "Seleccione un punto de venta (PV) válido para este tipo de comprobante." + Environment.NewLine;
                         } else {
                                 int PV = EntradaPV.ValueInt;
-                                System.Data.DataTable PVAdmitidos = this.Connection.Select(@"SELECT * FROM pvs WHERE (
+                                System.Data.DataTable PVAdmitidos = this.Connection.Select(@"SELECT numero FROM pvs WHERE (
                                 CONCAT(',', tipo_fac, ',') LIKE '%," + this.Tipo.Letra + @",%'
                                 OR CONCAT(',', tipo_fac, ',') LIKE '%," + this.Tipo.TipoBase + @",%'
                                 OR CONCAT(',', tipo_fac, ',') LIKE '%," + this.Tipo.Nomenclatura + @",%'
@@ -103,11 +103,33 @@ namespace Lfc.Comprobantes
 
                         this.SuspendLayout();
 
-                        EntradaPV.Text = Comprob.PV.ToString();
+                        if (Comprob.Existe)
+                            EntradaPV.Text = Comprob.PV.ToString();
+                        else
+                        {
+                            EntradaPV.Text = Lbl.Sys.Config.Empresa.ActualPV.ToString();
+
+                            ///COMPROB //LEO
+                            //int PVSelect = this.Connection.FieldInt(@"SELECT numero FROM pvs WHERE (
+                            //                CONCAT(',', tipo_fac, ',') LIKE '%," + this.Tipo.Letra + @",%'
+                            //                OR CONCAT(',', tipo_fac, ',') LIKE '%," + this.Tipo.TipoBase + @",%'
+                            //                OR CONCAT(',', tipo_fac, ',') LIKE '%," + this.Tipo.Nomenclatura + @",%'
+                            //                ) AND tipo>0");
+                            //if (EntradaPV.ValueInt != PVSelect)
+                            //    EntradaPV.Text = PVSelect.ToString();
+                        }
+
                         EntradaVendedor.Elemento = Comprob.Vendedor;
 
                         Ignorar_EntradaCliente_TextChanged = true;
                         EntradaCliente.Elemento = Comprob.Cliente;
+                        if (Comprob.ClienteFree != null && Comprob.ClienteFree.Nombre != null && Comprob.ClienteFree.Nombre.Trim() != "")
+                        {
+                            Comprob.Cliente.ClienteFree = Comprob.Id;
+                            EntradaCliente.FreeTextCode = "*";
+                            EntradaCliente.Text = "*";
+                            EntradaCliente.TextDetail = Comprob.ClienteFree.Nombre;
+                        }
                         Ignorar_EntradaCliente_TextChanged = false;
 
                         if (this.DiscriminarIva) {

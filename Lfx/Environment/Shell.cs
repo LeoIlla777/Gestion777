@@ -38,10 +38,10 @@ namespace Lfx.Environment
                         string Params = string.Join(" ", ParametrosAPasar).Trim();
 
                         string ExeName;
-                        if (System.IO.File.Exists(Lfx.Environment.Folders.ApplicationFolder + "ActualizadorLazaro.exe"))
-                                ExeName = Lfx.Environment.Folders.ApplicationFolder + "ActualizadorLazaro.exe";
+                        if (System.IO.File.Exists(Lfx.Environment.Folders.ApplicationFolder + "ActualizadorGestion777.exe"))
+                                ExeName = Lfx.Environment.Folders.ApplicationFolder + "ActualizadorGestion777.exe";
                         else
-                                ExeName = Lfx.Environment.Folders.ApplicationFolder + "Lazaro.exe";
+                                ExeName = Lfx.Environment.Folders.ApplicationFolder + "Gestion777.exe";
 
                         System.Diagnostics.Process NuevoProceso = new System.Diagnostics.Process();
                         if (Lfx.Environment.SystemInformation.RunTime == Lfx.Environment.SystemInformation.RunTimes.DotNet) {

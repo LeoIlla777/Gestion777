@@ -193,9 +193,9 @@ namespace Lui.Properties {
         /// <summary>
         ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap inicio {
+        internal static System.Drawing.Bitmap icono_120_v {
             get {
-                object obj = ResourceManager.GetObject("inicio", resourceCulture);
+                object obj = ResourceManager.GetObject("icono-120-v", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -203,9 +203,9 @@ namespace Lui.Properties {
         /// <summary>
         ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap lazaro_120_v {
+        internal static System.Drawing.Bitmap inicio {
             get {
-                object obj = ResourceManager.GetObject("lazaro_120_v", resourceCulture);
+                object obj = ResourceManager.GetObject("inicio", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

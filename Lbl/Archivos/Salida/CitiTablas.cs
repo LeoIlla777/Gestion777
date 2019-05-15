@@ -79,7 +79,7 @@ namespace Lbl.Archivos.Salida
                 
 
                 /// <summary>
-                /// Alícuotas [ Lázaro, AFIP ]
+                /// Alícuotas [ Gestión, AFIP ]
                 /// </summary>
                 public static Dictionary<int, int> Alicuotas = new Dictionary<int, int>()
                 {

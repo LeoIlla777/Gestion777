@@ -14,30 +14,30 @@ namespace Lbl.Servicios.Importar
         }
 
         /// <summary>
-        /// Especifica cómo se "mapea" una columna de una tabla externa a una columna de una tabla de Lázaro.
+        /// Especifica cómo se "mapea" una columna de una tabla externa a una columna de una tabla de Gestión.
         /// </summary>
         public class MapaDeColumna
         {
-                public string ColumnaExterna, ColumnaLazaro;
+                public string ColumnaExterna, ColumnaGestion;
                 public object ValorPredeterminado = null;
                 public ConversionDeColumna Conversion = ConversionDeColumna.Ninguna;
                 public object ParametroConversion = null;
                 public System.Collections.Generic.Dictionary<string, object> Reemplazos = new Dictionary<string, object>();
 
-                public MapaDeColumna(string columnaExterna, string columnaLazaro)
+                public MapaDeColumna(string columnaExterna, string columnaGestion)
                 {
                         this.ColumnaExterna = columnaExterna;
-                        this.ColumnaLazaro = columnaLazaro;
+                        this.ColumnaGestion = columnaGestion;
                 }
 
-                public MapaDeColumna(string columnaExterna, string columnaLazaro, object valorPredeterminado)
-                        : this(columnaExterna, columnaLazaro)
+                public MapaDeColumna(string columnaExterna, string columnaGestion, object valorPredeterminado)
+                        : this(columnaExterna, columnaGestion)
                 {
                         this.ValorPredeterminado = valorPredeterminado;
                 }
 
-                public MapaDeColumna(string columnaExterna, string columnaLazaro, ConversionDeColumna conversion)
-                        : this(columnaExterna, columnaLazaro)
+                public MapaDeColumna(string columnaExterna, string columnaGestion, ConversionDeColumna conversion)
+                        : this(columnaExterna, columnaGestion)
                 {
                         this.Conversion = conversion;
                 }

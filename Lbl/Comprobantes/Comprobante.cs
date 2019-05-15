@@ -13,10 +13,11 @@ namespace Lbl.Comprobantes
         [Entity(TableName = "comprob", IdFieldName = "id_comprob")]
         public abstract class Comprobante : ElementoDeDatos, IElementoConImagen, ICamposBaseEstandar
 	{
-                private Personas.Persona m_Vendedor, m_Cliente;
+                private Personas.Persona m_Vendedor, m_Cliente, m_Cobrador;
                 private Entidades.Sucursal m_Sucursal;
                 private ComprobanteConArticulos m_ComprobanteOriginal;
                 private Tipo m_Tipo;
+                public ClienteFree m_ClienteFree;
 
 		//Heredar constructor
 		protected Comprobante(Lfx.Data.IConnection dataBase)
@@ -163,7 +164,9 @@ namespace Lbl.Comprobantes
                 {
                         get
                         {
-                                return System.Convert.ToInt32(Registro["pv"]);
+                            //if (!this.Existe)
+                            //    return Sys.Config.Empresa.ActualPV;
+                            return System.Convert.ToInt32(Registro["pv"]);
                         }
                         set
                         {
@@ -208,7 +211,11 @@ namespace Lbl.Comprobantes
                         get
                         {
                                 if (m_Cliente == null && this.GetFieldValue<int>("id_cliente") > 0)
-                                        m_Cliente = this.GetFieldValue<Personas.Persona>("id_cliente");
+                                {
+                                    m_Cliente = this.GetFieldValue<Personas.Persona>("id_cliente");
+                                    m_Cliente.ClienteFree = this.Id;
+                                    m_Cliente.LoadClienteFree();
+                                }
                                 return m_Cliente;
                         }
                         set
@@ -216,6 +223,18 @@ namespace Lbl.Comprobantes
                                 m_Cliente = value;
                                 this.SetFieldValue("id_cliente", value);
                         }
+                }
+
+                [OneToOne]
+                public ClienteFree ClienteFree {
+                    get {
+                        if (m_ClienteFree == null)
+                            m_ClienteFree = this.GetFieldValue<ClienteFree>("id_comprob");
+                        return m_ClienteFree;
+                    }
+                    set {
+                        m_ClienteFree = value;
+                    }
                 }
 
 
@@ -233,6 +252,23 @@ namespace Lbl.Comprobantes
                         {
                                 m_Vendedor = value;
                                 this.SetFieldValue("id_vendedor", value);
+                        }
+                }
+
+                [Column(Name = "id_cobrador")]
+                [ManyToOne]
+                public Lbl.Personas.Persona id_cobrador
+                {
+                        get
+                        {
+                                if (m_Cobrador == null && this.GetFieldValue<int>("id_cobrador") > 0)
+                                        m_Cobrador = this.GetFieldValue<Personas.Persona>("id_cobrador");
+                                return m_Cobrador;
+                        }
+                        set
+                        {
+                                m_Cobrador = value;
+                                this.SetFieldValue("id_cobrador", value);
                         }
                 }
 

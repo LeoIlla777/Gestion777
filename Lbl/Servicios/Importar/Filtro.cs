@@ -32,7 +32,7 @@ namespace Lbl.Servicios.Importar
                         this.Progreso.Modal = true;
                         this.Progreso.Begin();
 
-                        this.PrepararTablasLazaro();
+                        this.PrepararTablasGestion();
                         this.PreImportar();
                         this.ImportarTodo();
                         this.PostImportar();
@@ -117,7 +117,7 @@ namespace Lbl.Servicios.Importar
 
                 public virtual void ImportarRegistro(MapaDeTabla mapa, Lfx.Data.Row importedRow)
                 {
-                        object ImportIdValue = importedRow.Fields[mapa.ColumnaIdLazaro].Value;
+                        object ImportIdValue = importedRow.Fields[mapa.ColumnaIdGestion].Value;
                         string ImportIdSqlValue;
                         if (ImportIdValue is string) {
                                 ImportIdSqlValue = "'" + ImportIdValue.ToString() + "'";
@@ -129,7 +129,7 @@ namespace Lbl.Servicios.Importar
                                 ImportIdSqlValue = ImportIdValue.ToString();
                         }
 
-                        Lfx.Data.Row CurrentRow = this.Connection.FirstRowFromSelect("SELECT * FROM " + mapa.TablaLazaro + " WHERE " + mapa.ColumnaIdLazaro + "=" + ImportIdSqlValue);
+                        Lfx.Data.Row CurrentRow = this.Connection.FirstRowFromSelect("SELECT * FROM " + mapa.TablaGestion + " WHERE " + mapa.ColumnaIdGestion + "=" + ImportIdSqlValue);
                         Lbl.IElementoDeDatos Elem = ConvertirRegistroEnElemento(mapa, importedRow, CurrentRow);
 
                         if (Elem != null) {
@@ -155,20 +155,20 @@ namespace Lbl.Servicios.Importar
                 /// </summary>
                 /// <param name="mapa">El mapa del cual proviene el registro.</param>
                 /// <param name="externalRow">El registro externo (importado).</param>
-                /// <param name="internalRow">El registro interno (de Lázaro) o null si se está importando un elemento nuevo.</param>
+                /// <param name="internalRow">El registro interno (de Gestión) o null si se está importando un elemento nuevo.</param>
                 /// <returns>Un elemento de datos</returns>
                 public virtual Lbl.IElementoDeDatos ConvertirRegistroEnElemento(MapaDeTabla mapa, Lfx.Data.Row externalRow, Lfx.Data.Row internalRow)
                 {
                         Lbl.IElementoDeDatos Elem;
 
-                        object ImportIdValue = externalRow.Fields[mapa.ColumnaIdLazaro].Value;
+                        object ImportIdValue = externalRow.Fields[mapa.ColumnaIdGestion].Value;
                         if (internalRow == null) {
                                 Elem = this.CrearElemento(mapa, externalRow);
-                                Elem.Registro[mapa.ColumnaIdLazaro] = ImportIdValue;
+                                Elem.Registro[mapa.ColumnaIdGestion] = ImportIdValue;
                         } else if (this.Opciones.ActualizarRegistros && mapa.ActualizaRegistros) {
                                 Elem = this.CargarElemento(mapa, internalRow);
                                 foreach (MapaDeColumna mapaCol in mapa.MapaDeColumnas) {
-                                        Elem.Registro[mapaCol.ColumnaLazaro] = externalRow.Fields[mapaCol.ColumnaLazaro].Value;
+                                        Elem.Registro[mapaCol.ColumnaGestion] = externalRow.Fields[mapaCol.ColumnaGestion].Value;
                                 }
                         } else {
                                 Elem = null;
@@ -185,7 +185,7 @@ namespace Lbl.Servicios.Importar
                 {
                         Lfx.Data.Row internalRow = new Lfx.Data.Row();
                         internalRow.IsNew = true;
-                        internalRow.Table = Lfx.Workspace.Master.Tables[mapa.TablaLazaro];
+                        internalRow.Table = Lfx.Workspace.Master.Tables[mapa.TablaGestion];
 
                         foreach (MapaDeColumna Col in mapa.MapaDeColumnas) {
                                 object FieldValue = null;
@@ -235,7 +235,7 @@ namespace Lbl.Servicios.Importar
                                         default:
                                                 throw new NotImplementedException("Lbl.Servicios.Importar.Filtro: no implementa ConversionDeColumna." + Col.Conversion.ToString());
                                 }
-                                internalRow.Fields.AddWithValue(Col.ColumnaLazaro, FieldValue);
+                                internalRow.Fields.AddWithValue(Col.ColumnaGestion, FieldValue);
                                 if (Col.ColumnaExterna != null)
                                         internalRow.Fields.AddWithValue("original_" + Col.ColumnaExterna, externalRow[Col.ColumnaExterna]);
                         }
@@ -243,7 +243,7 @@ namespace Lbl.Servicios.Importar
                         // El id de seguimiento de importación
                         string[] ColumnasExternas = mapa.ColumnaIdExterna.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
                         if (ColumnasExternas.Length == 1) {
-                                internalRow[mapa.ColumnaIdLazaro] = externalRow[mapa.ColumnaIdExterna];
+                                internalRow[mapa.ColumnaIdGestion] = externalRow[mapa.ColumnaIdExterna];
                                 internalRow.Fields.AddWithValue("original_" + mapa.ColumnaIdExterna, externalRow[mapa.ColumnaIdExterna]);
                         } else {
                                 string Valor = null;
@@ -254,7 +254,7 @@ namespace Lbl.Servicios.Importar
                                                 Valor += "--" + externalRow[ColumnaExterna].ToString();
                                         internalRow.Fields.AddWithValue("original_" + ColumnaExterna, externalRow[ColumnaExterna]);
                                 }
-                                internalRow[mapa.ColumnaIdLazaro] = Valor;
+                                internalRow[mapa.ColumnaIdGestion] = Valor;
                         }
                         
                         this.ProcesarRemplazos(mapa, ref internalRow);
@@ -265,24 +265,24 @@ namespace Lbl.Servicios.Importar
                 /// <summary>
                 /// Prepara las tablas internas para recibir los datos importados.
                 /// </summary>
-                public void PrepararTablasLazaro()
+                public void PrepararTablasGestion()
                 {
                         using (System.Data.IDbTransaction Trans = this.Connection.BeginTransaction()) {
                                 System.Collections.Generic.List<string> TablasModificadas = new List<string>();
                                 System.Console.WriteLine("Lbl.Servicios.Importar.Filtro: Preparando tablas internas...");
                                 foreach (MapaDeTabla Map in this.MapaDeTablas) {
                                         if (Map.ColumnaIdExterna != null) {
-                                                Lfx.Data.TableStructure Tabla = Lfx.Workspace.Master.Structure.Tables[Map.TablaLazaro];
-                                                if (Tabla.Columns.ContainsKey(Map.ColumnaIdLazaro) == false) {
+                                                Lfx.Data.TableStructure Tabla = Lfx.Workspace.Master.Structure.Tables[Map.TablaGestion];
+                                                if (Tabla.Columns.ContainsKey(Map.ColumnaIdGestion) == false) {
                                                         // Si la columna Id no existe, agrego un tag
-                                                        Lfx.Data.Tag ImportTag = new Lfx.Data.Tag(Map.TablaLazaro, Map.ColumnaIdLazaro, "ImportId");
+                                                        Lfx.Data.Tag ImportTag = new Lfx.Data.Tag(Map.TablaGestion, Map.ColumnaIdGestion, "ImportId");
                                                         ImportTag.Connection = this.Connection;
                                                         ImportTag.FieldType = Lazaro.Orm.ColumnTypes.VarChar;
                                                         ImportTag.Nullable = true;
                                                         ImportTag.Internal = true;
-                                                        Lfx.Workspace.Master.Tables[Map.TablaLazaro].Tags.Add(ImportTag);
+                                                        Lfx.Workspace.Master.Tables[Map.TablaGestion].Tags.Add(ImportTag);
                                                         ImportTag.Save();
-                                                        TablasModificadas.Add(Map.TablaLazaro);
+                                                        TablasModificadas.Add(Map.TablaGestion);
                                                         Lfx.Workspace.Master.Structure.LoadBuiltIn();
                                                 }
                                         }
@@ -334,7 +334,7 @@ namespace Lbl.Servicios.Importar
                 /// <returns></returns>
                 protected Lbl.IElementoDeDatos CargarElemento(MapaDeTabla mapa, Lfx.Data.Row row)
                 {
-                        return Lbl.Instanciador.Instanciar(mapa.TipoElemento, this.Connection, row.Fields[Lfx.Workspace.Master.Tables[mapa.TablaLazaro].PrimaryKey].ValueInt);
+                        return Lbl.Instanciador.Instanciar(mapa.TipoElemento, this.Connection, row.Fields[Lfx.Workspace.Master.Tables[mapa.TablaGestion].PrimaryKey].ValueInt);
                 }
 
 

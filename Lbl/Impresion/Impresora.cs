@@ -7,7 +7,7 @@ using System.Text;
 namespace Lbl.Impresion
 {
         /// <summary>
-        /// Representa una impresora configurada en Lázaro. Puede ser una impresora de Windows,
+        /// Representa una impresora configurada en Gestión. Puede ser una impresora de Windows,
         /// un controlador fiscal o una impresora nula.
         /// </summary>
         [Lbl.Atributos.Nomenclatura(NombreSingular = "Impresora")]
@@ -95,7 +95,7 @@ namespace Lbl.Impresion
                 {
                         get
                         {
-                                return this.Dispositivo == "lazaro!preview";
+                                return this.Dispositivo == "Gestion!preview";
                         }
                 }
 
@@ -104,7 +104,7 @@ namespace Lbl.Impresion
                 {
                         get
                         {
-                                return this.Dispositivo == "lazaro!default";
+                                return this.Dispositivo == "Gestion!default";
                         }
                 }
 

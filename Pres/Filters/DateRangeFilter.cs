@@ -16,6 +16,13 @@ namespace Lazaro.Pres.Filters
                         this.DateRange = dateRange;
                 }
 
+                public DateRangeFilter(string label, string columnName, Lfx.Types.DateRange dateRange, bool conHora)
+                        : this(label, columnName)
+                {
+                        this.DateRange = dateRange;
+                        this.ConHora = conHora;
+                }
+
                 override public bool IsEmpty()
                 {
                         return this.DateRange == null;

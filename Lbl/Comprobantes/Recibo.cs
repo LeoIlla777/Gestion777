@@ -334,6 +334,7 @@ namespace Lbl.Comprobantes
                                                 Pg.Cupon.Obs = ObsPago;
                                                 Pg.Cupon.ConceptoTexto = Pg.ConceptoTexto;
                                                 Pg.Cupon.Recibo = this;
+                                                Pg.Cupon.Importe = Pg.Importe;
                                                 Pg.Cupon.Cliente = this.Cliente;
                                                 Lfx.Types.OperationResult ResultadoCupon = Pg.Cupon.Guardar();
                                                 if (ResultadoCupon.Success == false)

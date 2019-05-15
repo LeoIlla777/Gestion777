@@ -1,10 +1,21 @@
+using Lazaro.Orm.Attributes;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace Lbl.Comprobantes
 {
-	public class Remito : ComprobanteConArticulos
+
+    /// <summary>
+    /// Comprobantes Remitos.
+    /// </summary>
+    [Lbl.Atributos.Nomenclatura(NombreSingular = "Remito")]
+    [Lbl.Atributos.Datos(TablaDatos = "comprob", CampoId = "id_comprob", CampoNombre = "nombre")]
+    [Lbl.Atributos.Presentacion(PanelExtendido = Lbl.Atributos.PanelExtendido.Siempre)]
+
+    [Entity(TableName = "comprob", IdFieldName = "id_comprob")]
+
+    public class Remito : ComprobanteConArticulos
 	{
 		//Heredar constructor
                 public Remito(Lfx.Data.IConnection dataBase)

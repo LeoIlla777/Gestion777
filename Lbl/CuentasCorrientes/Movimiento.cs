@@ -8,22 +8,21 @@ namespace Lbl.CuentasCorrientes
         [Lbl.Atributos.Nomenclatura(NombreSingular = "Movimiento de cuenta corriente", Grupo = "Cuentas")]
         [Lbl.Atributos.Datos(TablaDatos = "ctacte", CampoId = "id_movim", CampoNombre = "concepto")]
         [Lbl.Atributos.Presentacion(PanelExtendido = Lbl.Atributos.PanelExtendido.Nunca)]
-
         [Entity(TableName = "ctacte", IdFieldName = "id_movim")]
         public class Movimiento : ElementoDeDatos
         {
-                Lbl.Personas.Persona m_Persona = null;
-                Lbl.Cajas.Concepto m_Concepto = null;
 
-                public Movimiento()
-                        : base() { }
+            //Heredar constructor
+            Lbl.Personas.Persona m_Persona = null;
+            Lbl.Cajas.Concepto m_Concepto = null;
 
-                //Heredar constructor
-                public Movimiento(Lfx.Data.IConnection dataBase)
+            public Movimiento()
+                : base() { }
+            public Movimiento(Lfx.Data.IConnection dataBase)
                         : base(dataBase) { }
 
-		public Movimiento(Lfx.Data.IConnection dataBase, int itemId)
-			: base(dataBase, itemId) { }
+            public Movimiento(Lfx.Data.IConnection dataBase, int itemId)
+			        : base(dataBase, itemId) { }
 
                 public Movimiento(Lfx.Data.IConnection dataBase, Lfx.Data.Row row)
                         : base(dataBase, row) { }
@@ -77,11 +76,10 @@ namespace Lbl.CuentasCorrientes
                         {
                                 return this.GetFieldValue<DateTime>("fecha");
                         }
-                        set
-                        {
-                                this.SetFieldValue("fecha", value);
+                        set {
+                                    this.SetFieldValue("fecha", value);
                         }
-                }
+        }
 
 
                 public override Lfx.Types.OperationResult Guardar()
@@ -115,7 +113,6 @@ namespace Lbl.CuentasCorrientes
                         return base.Guardar();
                 }
 
-
                 [Column(Name = "id_cliente")]
                 protected internal int IdCliente
                 {
@@ -143,7 +140,6 @@ namespace Lbl.CuentasCorrientes
                         }
                 }
 
-
                 [Column(Name = "importe")]
                 public decimal Importe
                 {
@@ -156,7 +152,6 @@ namespace Lbl.CuentasCorrientes
                                 this.Registro["importe"] = value;
                         }
                 }
-
 
                 [Column(Name = "saldo")]
                 public decimal Saldo
@@ -184,7 +179,6 @@ namespace Lbl.CuentasCorrientes
                                 this.Registro["comprob"] = value;
                         }
                 }
-
 
                 [Column(Name = "auto")]
                 public bool Auto

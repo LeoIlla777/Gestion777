@@ -28,7 +28,7 @@ namespace Lfc.Tareas
                                 TableName = "tickets",
                                 Joins = new qGen.JoinCollection() { new qGen.Join("personas", "tickets.id_persona=personas.id_persona") },
                                 KeyColumn = new Lazaro.Pres.Field("tickets.id_ticket", "Cód.", Lfx.Data.InputFieldTypes.Serial, 64),
-
+                                Paging = true,
                                 Columns = new Lazaro.Pres.FieldCollection()
 			        {
 				        new Lazaro.Pres.Field("tickets.nombre", "Asunto", Lfx.Data.InputFieldTypes.Text, 320),
@@ -235,5 +235,24 @@ namespace Lfc.Tareas
                                         break;
                         }
                 }
-	}
+
+        private void InitializeComponent()
+        {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Inicio));
+            this.PanelContadores.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.PicEsperar)).BeginInit();
+            this.SuspendLayout();
+            // 
+            // Inicio
+            // 
+            this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
+            this.ClientSize = new System.Drawing.Size(864, 447);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.Name = "Inicio";
+            this.PanelContadores.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.PicEsperar)).EndInit();
+            this.ResumeLayout(false);
+
+        }
+    }
 }

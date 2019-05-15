@@ -35,12 +35,12 @@ namespace Lfx
 
                 public object Execute(string verb)
                 {
-                        return this.Execute("lazaro", verb, null);
+                        return this.Execute("gestion777", verb, null);
                 }
 
                 public object Execute(string verb, object[] arguments)
                 {
-                        return this.Execute("lazaro", verb, arguments);
+                        return this.Execute("gestion777", verb, arguments);
                 }
 
                 public object Execute(string destination, string verb, object[] arguments)
@@ -70,13 +70,13 @@ namespace Lfx
 
                 public void Info(string verb, string infoText)
                 {
-                        this.Info("lazaro", verb, new object[] { infoText });
+                        this.Info("gestion777", verb, new object[] { infoText });
                 }
 
 
                 public void Info(string verb, object[] arguments)
                 {
-                        this.Info("lazaro", verb, arguments);
+                        this.Info("gestion777", verb, arguments);
                 }
 
                 public void Info(string destination, string verb, string infoText)
@@ -101,7 +101,7 @@ namespace Lfx
                         if (IpcEvent != null) {
                                 IpcEventArgs e = new IpcEventArgs();
                                 e.EventType = IpcEventArgs.EventTypes.Progress;
-                                e.Destination = "lazaro";
+                                e.Destination = "gestion777";
                                 e.Verb = "PROGRESS";
                                 e.Arguments = new object[] { progress };
                                 this.IpcEvent(this, ref e);
@@ -114,7 +114,7 @@ namespace Lfx
                         if (IpcEvent != null) {
                                 IpcEventArgs e = new IpcEventArgs();
                                 e.EventType = IpcEventArgs.EventTypes.Information;
-                                e.Destination = "lazaro";
+                                e.Destination = "gestion777";
                                 e.Verb = "TOAST";
                                 e.Arguments = new object[] { messageText, caption };
                                 this.IpcEvent(this, ref e);
@@ -127,11 +127,38 @@ namespace Lfx
                         if (IpcEvent != null) {
                                 IpcEventArgs e = new IpcEventArgs();
                                 e.EventType = IpcEventArgs.EventTypes.Information;
-                                e.Destination = "lazaro";
+                                e.Destination = "gestion777";
                                 e.Verb = "HINT";
                                 e.Arguments = new object[] { messageText, caption };
                                 this.IpcEvent(this, ref e);
                         }
                 }
-        }
+
+                public void Paging(object form)
+                {
+                    if (IpcEvent != null)
+                    {
+                        IpcEventArgs e = new IpcEventArgs();
+                        e.EventType = IpcEventArgs.EventTypes.Information;
+                        e.Destination = "gestion777";
+                        e.Verb = "PAGE";
+                        e.Arguments = new object[] { form };
+                        this.IpcEvent(this, ref e);
+                    }
+                }
+
+
+                public void Paging(int currentPage, int TotalPage)
+                {
+                    if (IpcEvent != null)
+                    {
+                        IpcEventArgs e = new IpcEventArgs();
+                        e.EventType = IpcEventArgs.EventTypes.Information;
+                        e.Destination = "gestion777";
+                        e.Verb = "PAGEUPD";
+                        e.Arguments = new object[] { currentPage, TotalPage };
+                        this.IpcEvent(this, ref e);
+                    }
+                }
+    }
 }

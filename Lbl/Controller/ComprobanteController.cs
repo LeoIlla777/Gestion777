@@ -101,7 +101,7 @@ namespace Lazaro.Base.Controller
                                                 throw new Exception("No se ha definido el equipo al cual está conectada la impresora remota");
 
                                         //Espero hasta que la factura está impresa o hasta que pasen X segundos
-                                        System.DateTime FinEsperaFiscal = System.DateTime.Now.AddSeconds(90);
+                                        System.DateTime FinEsperaFiscal = System.DateTime.Now.AddSeconds(60);
                                         int NumeroFiscal = 0;
                                         while (System.DateTime.Now < FinEsperaFiscal && NumeroFiscal == 0) {
                                                 System.Threading.Thread.Sleep(1000);
@@ -147,11 +147,11 @@ namespace Lazaro.Base.Controller
                                                 }
 
                                                 // Lo mando a imprimir a la estación remota
-                                                Lfx.Workspace.Master.DefaultScheduler.AddTask("IMPRIMIR " + comprobante.GetType().ToString() + " " + comprobante.Id.ToString() + " EN " + impresora.Dispositivo, "lazaro", impresora.Estacion);
+                                                Lfx.Workspace.Master.DefaultScheduler.AddTask("IMPRIMIR " + comprobante.GetType().ToString() + " " + comprobante.Id.ToString() + " EN " + impresora.Dispositivo, "Gestion", impresora.Estacion);
 
                                                 if (Reimpresion == false) {
                                                         //Espero hasta que la factura está impresa o hasta que pasen X segundos
-                                                        System.DateTime FinEspera = System.DateTime.Now.AddSeconds(90);
+                                                        System.DateTime FinEspera = System.DateTime.Now.AddSeconds(45);
                                                         int Impreso = 0;
                                                         while (System.DateTime.Now < FinEspera && Impreso == 0) {
                                                                 System.Threading.Thread.Sleep(1000);
@@ -275,7 +275,7 @@ namespace Lazaro.Base.Controller
                 {
                         try {
                                 // Generar una cadena con el TA
-                                var CadenaTa = ta.Token + "|lazaro_separador|" + ta.Sign + "|lazaro_separador|" + Lfx.Types.Formatting.FormatDateTimeSql(ta.GenerationTime) + "|lazaro_separador|" + Lfx.Types.Formatting.FormatDateTimeSql(ta.ExpirationTime);
+                                var CadenaTa = ta.Token + "|Gestion_separador|" + ta.Sign + "|Gestion_separador|" + Lfx.Types.Formatting.FormatDateTimeSql(ta.GenerationTime) + "|Gestion_separador|" + Lfx.Types.Formatting.FormatDateTimeSql(ta.ExpirationTime);
 
                                 // Escribirlo en un archivo en el disco
                                 var RutaTa = System.IO.Path.Combine(Lfx.Environment.Folders.TemporaryFolder, "ticketacceso.dat");
@@ -333,7 +333,7 @@ namespace Lazaro.Base.Controller
                         try {
                                 if (string.IsNullOrWhiteSpace(cadenaTa) == false) {
                                         // Hay un ticket guardado en la configuración
-                                        var Partes = cadenaTa.Split(new string[] { "|lazaro_separador|" }, StringSplitOptions.None);
+                                        var Partes = cadenaTa.Split(new string[] { "|Gestion_separador|" }, StringSplitOptions.None);
                                         if (Partes.Length == 4) {
                                                 var Ta = new Afip.Ws.Autenticacion.TicketAcceso();
                                                 Ta.Token = Partes[0];

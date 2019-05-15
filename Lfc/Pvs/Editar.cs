@@ -152,20 +152,46 @@ namespace Lfc.Pvs
                 /// </summary>
                 public void InicarServidorFiscal()
                 {
-                        // Buscar si algún punto de venta fiscal corresponde a este equipo
-                        foreach (var Pv in Lbl.Comprobantes.PuntoDeVenta.TodosPorNumero.Values) {
-                                if (Pv.Tipo == Lbl.Comprobantes.TipoPv.ControladorFiscal && Pv.Estacion == Lfx.Environment.SystemInformation.MachineName) {
-                                        // Buscar un servidor fiscal ejecutándose
-                                        Process[] ServidoresFiscales = Process.GetProcessesByName("ServidorFiscal.exe");
-                                        if (ServidoresFiscales.Length > 0) {
-                                                // Si hay uno, lo reinicio
-                                                Lfx.Workspace.Master.DefaultScheduler.AddTask("REBOOT", "fiscal" + Pv.ToString(), "*");
-                                        } else { 
-                                                // Si no hay ninguno, lo inicio
-                                                Lfx.Workspace.Master.RunTime.Execute("RUN ServidorFiscal.ServidorFiscal");
-                                        }
-                                        break;
+
+                        if (Lfx.Environment.SystemInformation.DesignMode == true)
+                        {
+                            Process[] ServidoresFiscales = Process.GetProcessesByName("ServidorFiscal.exe");
+                            foreach(Process pro in ServidoresFiscales)
+                            {
+                                pro.CloseMainWindow();
+                                pro.WaitForExit();
+                            }
+                            if (ServidoresFiscales.Length == 0)
+                            {
+                                ServidoresFiscales = Process.GetProcessesByName("ServidorFiscal");
+                                foreach(Process pro in ServidoresFiscales)
+                                {
+                                    pro.CloseMainWindow();
+                                    pro.WaitForExit();
                                 }
+                                if (ServidoresFiscales.Length == 0)
+                                    Lfx.Environment.Shell.Execute(@"C:\Users\Leona\Source\Workspaces\ExtraSoft\LeoGestionDesk\Sistema\bin\Debug\Components\" + "ServidorFiscal.exe", null, System.Diagnostics.ProcessWindowStyle.Normal, false);
+                            }
+                        }
+                        else
+                        {
+                            Process[] ServidoresFiscales = Process.GetProcessesByName("ServidorFiscal.exe");
+                            foreach (Process pro in ServidoresFiscales)
+                            {
+                                pro.CloseMainWindow();
+                                pro.WaitForExit();
+                            }
+                            if (ServidoresFiscales.Length == 0)
+                            {
+                                ServidoresFiscales = Process.GetProcessesByName("ServidorFiscal");
+                                foreach (Process pro in ServidoresFiscales)
+                                {
+                                    pro.CloseMainWindow();
+                                    pro.WaitForExit();
+                                }
+                                if (ServidoresFiscales.Length == 0)
+                                    Lfx.Workspace.Master.RunTime.Execute("FISCAL INICIAR");
+                            }
                         }
                 }
 

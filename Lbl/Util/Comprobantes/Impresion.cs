@@ -39,28 +39,36 @@ namespace Lazaro.Base.Util.Comprobantes
                 public static Lbl.Impresion.ClasesImpresora ObtenerClaseImpresora(Lbl.Comprobantes.Comprobante comprobante)
                 {
                         Lbl.Impresion.ClasesImpresora Res;
-                        if (Lbl.Comprobantes.PuntoDeVenta.TodosPorNumero.ContainsKey(comprobante.PV)) {
-                                switch (Lbl.Comprobantes.PuntoDeVenta.TodosPorNumero[comprobante.PV].Tipo) {
-                                        case Lbl.Comprobantes.TipoPv.Talonario:
-                                                Res = Lbl.Impresion.ClasesImpresora.Papel;
-                                                break;
+                        if (comprobante.Tipo.Nomenclatura == "NP" || comprobante.Tipo.Nomenclatura == "PD")
+                        {
+                            Res = Lbl.Impresion.ClasesImpresora.Papel;
+                        }
+                        else if (Lbl.Comprobantes.PuntoDeVenta.TodosPorNumero.ContainsKey(comprobante.PV))
+                        {
+                            switch (Lbl.Comprobantes.PuntoDeVenta.TodosPorNumero[comprobante.PV].Tipo)
+                            {
+                                case Lbl.Comprobantes.TipoPv.Talonario:
+                                    Res = Lbl.Impresion.ClasesImpresora.Papel;
+                                    break;
 
-                                        case Lbl.Comprobantes.TipoPv.ControladorFiscal:
-                                                Res = Lbl.Impresion.ClasesImpresora.FiscalAfip;
-                                                break;
+                                case Lbl.Comprobantes.TipoPv.ControladorFiscal:
+                                    Res = Lbl.Impresion.ClasesImpresora.FiscalAfip;
+                                    break;
 
-                                        case Lbl.Comprobantes.TipoPv.ElectronicoAfip:
-                                                Res = Lbl.Impresion.ClasesImpresora.ElectronicaAfip;
-                                                break;
+                                case Lbl.Comprobantes.TipoPv.ElectronicoAfip:
+                                    Res = Lbl.Impresion.ClasesImpresora.ElectronicaAfip;
+                                    break;
 
-                                        case Lbl.Comprobantes.TipoPv.Inactivo:
-                                                throw new ApplicationException("No se puede imprimir en un PV inactivo.");
+                                case Lbl.Comprobantes.TipoPv.Inactivo:
+                                    throw new ApplicationException("No se puede imprimir en un PV inactivo.");
 
-                                        default:
-                                                throw new ApplicationException("Tipo de PV no reconocido " + Lbl.Comprobantes.PuntoDeVenta.TodosPorNumero[comprobante.PV].Tipo.ToString());
-                                }
-                        } else {
-                                Res = Lbl.Impresion.ClasesImpresora.Papel;
+                                default:
+                                    throw new ApplicationException("Tipo de PV no reconocido " + Lbl.Comprobantes.PuntoDeVenta.TodosPorNumero[comprobante.PV].Tipo.ToString());
+                            }
+                        }
+                        else
+                        {
+                            Res = Lbl.Impresion.ClasesImpresora.Papel;
                         }
 
                         return Res;

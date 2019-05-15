@@ -210,6 +210,12 @@ namespace Lfc
                                 }));
 
                         Res.Add(new Lfx.Components.RegisteredType(
+                                typeof(Lbl.Comprobantes.TicketX),
+                                new Lfx.Components.ActionCollection() {
+                                        new Lfx.Components.Action("list_2", typeof(Lfc.Comprobantes.TicketX.Inicio))
+                                }));
+
+                        Res.Add(new Lfx.Components.RegisteredType(
                                 typeof(Lbl.Comprobantes.PuntoDeVenta),
                                 new Lfx.Components.ActionCollection() {
                                         new Lfx.Components.Action("list", typeof(Lfc.Pvs.Inicio)),
@@ -226,8 +232,8 @@ namespace Lfc
                         Res.Add(new Lfx.Components.RegisteredType(
                                 typeof(Lbl.Impresion.Impresora),
                                 new Lfx.Components.ActionCollection() {
-                                        new Lfx.Components.Action("list", typeof(Lfc.Comprobantes.Impresoras.Inicio)),
-                                        new Lfx.Components.Action("edit", typeof(Lfc.Comprobantes.Impresoras.Editar))
+                                        new Lfx.Components.Action("list", typeof(Lfc.Comprobantes.Facturas.Impresoras.Inicio)),
+                                        new Lfx.Components.Action("edit", typeof(Lfc.Comprobantes.Facturas.Impresoras.Editar))
                                 }));
 
                         Res.Add(new Lfx.Components.RegisteredType(

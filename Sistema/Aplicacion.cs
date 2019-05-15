@@ -42,9 +42,9 @@ namespace Lazaro.WinMain
                 [STAThread, SecurityPermission(SecurityAction.Demand, Flags = SecurityPermissionFlag.ControlAppDomain)]
                 public static int Main(string[] args)
                 {
-                        System.Threading.Thread.CurrentThread.Name = "Lazaro";
+                        System.Threading.Thread.CurrentThread.Name = "gestion777";
 
-                        bool ReconfigDB = false, DebugMode = false, /* TraceMode = false, */ IgnoreUpdates = false;
+                        bool ReconfigDB = false, DebugMode = false;
                         bool MostrarAsistenteConfig = false, ClearCache = false;
 
                         string NombreConfig = "default";
@@ -60,11 +60,6 @@ namespace Lazaro.WinMain
                                                 case "/wizard":
                                                 case "--wizard":
                                                         MostrarAsistenteConfig = true;
-                                                        break;
-
-                                                case "/ignoreupdates":
-                                                case "--ignoreupdates":
-                                                        IgnoreUpdates = true;
                                                         break;
 
                                                 case "/clearcache":
@@ -85,7 +80,6 @@ namespace Lazaro.WinMain
                                                 case "/debug":
                                                 case "--debug":
                                                         DebugMode = true;
-                                                        IgnoreUpdates = true;
                                                         break;
 
                                                 /* case "/trace":
@@ -164,24 +158,26 @@ namespace Lazaro.WinMain
                                 System.Windows.Forms.MessageBox.Show("La códificación " + System.Text.Encoding.Default.BodyName.ToUpperInvariant() + " no es válida. Sólo se permiten las codificaciones ISO-8859-1 (Latin-1) y UTF-8.", "Error");
                                 System.Windows.Forms.Application.Exit();
                         }
+            #region (LEO)
+            /// LEO (Modificado)
+            /// No Necesario que actualice.
+            //if (IgnoreUpdates == false && System.IO.Directory.Exists(Lfx.Environment.Folders.UpdatesFolder)) {
+            //        // Si hay actualizaciones pendientes, reinicio para que ActualizadorLazaro se encargue de ellas.
+            //        string[] ArchivosNuevos = System.IO.Directory.GetFiles(Lfx.Environment.Folders.UpdatesFolder, "*.new", System.IO.SearchOption.AllDirectories);
+            //        if (ArchivosNuevos.Length > 0) {
+            //                System.Console.WriteLine("Existen actualizaciones pendientes. Ejecutando ActualizadorLazaro");
+            //                if (Lfx.Environment.SystemInformation.IsUacActive)
+            //                        Lui.Forms.MessageBox.Show("Lázaro se va a actualizar ahora. Es probable que el sistema le solicite autorización durante la actualización.", "Lázaro");
+            //                Lfx.Environment.Shell.Reboot();
+            //        }
+            //}
 
 
-                        if (IgnoreUpdates == false && System.IO.Directory.Exists(Lfx.Environment.Folders.UpdatesFolder)) {
-                                // Si hay actualizaciones pendientes, reinicio para que ActualizadorLazaro se encargue de ellas.
-                                string[] ArchivosNuevos = System.IO.Directory.GetFiles(Lfx.Environment.Folders.UpdatesFolder, "*.new", System.IO.SearchOption.AllDirectories);
-                                if (ArchivosNuevos.Length > 0) {
-                                        System.Console.WriteLine("Existen actualizaciones pendientes. Ejecutando ActualizadorLazaro");
-                                        if (Lfx.Environment.SystemInformation.IsUacActive)
-                                                Lui.Forms.MessageBox.Show("Lázaro se va a actualizar ahora. Es probable que el sistema le solicite autorización durante la actualización.", "Lázaro");
-                                        Lfx.Environment.Shell.Reboot();
-                                }
-                        }
+            //DescargarArchivosNecesarios();
+            #endregion
 
-
-                        DescargarArchivosNecesarios();
-
-                        //Si no hay espacio de trabajo predeterminado (default.lwf), presento una ventana de selección
-                        System.IO.DirectoryInfo Dir = new System.IO.DirectoryInfo(Lfx.Environment.Folders.ApplicationDataFolder);
+            //Si no hay espacio de trabajo predeterminado (default.lwf), presento una ventana de selección
+            System.IO.DirectoryInfo Dir = new System.IO.DirectoryInfo(Lfx.Environment.Folders.ApplicationDataFolder);
                         if (Dir.GetFiles(NombreConfig + ".lwf").Length == 0 && Dir.GetFiles("*.lwf").Length >= 1) {
                                 using (Lui.Forms.WorkspaceSelectorForm SelectEspacio = new Lui.Forms.WorkspaceSelectorForm()) {
                                         if (SelectEspacio.ShowDialog() == DialogResult.OK) {
@@ -217,51 +213,47 @@ namespace Lazaro.WinMain
 
                         IniciarDatos();
 
-                        Lfx.Workspace.Master.InitUpdater();
-
                         Lbl.Componentes.Cargador.CargarComponentes();
 
-                        if (IgnoreUpdates == false) {
-                                // Verifico la versión de Lázaro requerida por la BD
-                                DateTime FechaLazaroExe = System.IO.File.GetLastWriteTime(System.Reflection.Assembly.GetExecutingAssembly().Location);
-                                DateTime MinVersion = DateTime.ParseExact(Lfx.Workspace.Master.CurrentConfig.ReadGlobalSetting<string>("Sistema.DB.VersionMinima", "2000-01-01 00:00:00"), Lfx.Types.Formatting.DateTime.SqlDateTimeFormat, System.Globalization.CultureInfo.InvariantCulture, System.Globalization.DateTimeStyles.AssumeUniversal);
-                                if (FechaLazaroExe < MinVersion) {
-                                        Misc.ActualizarAhora Act = new Misc.ActualizarAhora();
-                                        DialogResult Res = Act.ShowDialog();
-                                        switch (Res) {
-                                                case DialogResult.OK:
-                                                        Lfx.Environment.Shell.Reboot();
-                                                        break;
-                                                default:
-                                                        Lfx.Workspace.Master.RunTime.Toast("La versión de Lázaro que está utilizando es demasiado antigua. Descargue e instale la última versión para continuar. Si desea más información ingrese a la página web www.lazarogestion.com", "Toast");
-                                                        break;
-                                        }
-                                        System.Environment.Exit(1);
-                                } else {
-                                        // Cumple con la versión requerida, pero de todos modos verifico si es necesario actualizar Lázaro
-                                        DateTime VersionEstructura = DateTime.ParseExact(Lfx.Workspace.Master.CurrentConfig.ReadGlobalSetting<string>("Sistema.DB.VersionEstructura", "2000-01-01 00:00:00"), Lfx.Types.Formatting.DateTime.SqlDateTimeFormat, System.Globalization.CultureInfo.InvariantCulture, System.Globalization.DateTimeStyles.AssumeUniversal);
-                                        TimeSpan Diferencia = FechaLazaroExe - VersionEstructura;
+            #region (LEO)
+            //if (IgnoreUpdates == false) {
+            //        // Verifico la versión de Lázaro requerida por la BD
+            //        DateTime FechaLazaroExe = System.IO.File.GetLastWriteTime(System.Reflection.Assembly.GetExecutingAssembly().Location);
+            //        DateTime MinVersion = DateTime.ParseExact(Lfx.Workspace.Master.CurrentConfig.ReadGlobalSetting<string>("Sistema.DB.VersionMinima", "2000-01-01 00:00:00"), Lfx.Types.Formatting.DateTime.SqlDateTimeFormat, System.Globalization.CultureInfo.InvariantCulture, System.Globalization.DateTimeStyles.AssumeUniversal);
+            //        if (FechaLazaroExe < MinVersion) {
+            //                Misc.ActualizarAhora Act = new Misc.ActualizarAhora();
+            //                DialogResult Res = Act.ShowDialog();
+            //                switch (Res) {
+            //                        case DialogResult.OK:
+            //                                Lfx.Environment.Shell.Reboot();
+            //                                break;
+            //                        default:
+            //                                Lfx.Workspace.Master.RunTime.Toast("La versión de Lázaro que está utilizando es demasiado antigua. Descargue e instale la última versión para continuar. Si desea más información ingrese a la página web www.lazaroLazaro.com", "Toast");
+            //                                break;
+            //                }
+            //                System.Environment.Exit(1);
+            //        } else {
+            //                // Cumple con la versión requerida, pero de todos modos verifico si es necesario actualizar Lázaro
+            //                DateTime VersionEstructura = DateTime.ParseExact(Lfx.Workspace.Master.CurrentConfig.ReadGlobalSetting<string>("Sistema.DB.VersionEstructura", "2000-01-01 00:00:00"), Lfx.Types.Formatting.DateTime.SqlDateTimeFormat, System.Globalization.CultureInfo.InvariantCulture, System.Globalization.DateTimeStyles.AssumeUniversal);
+            //                TimeSpan Diferencia = FechaLazaroExe - VersionEstructura;
 
-                                        if (Diferencia.TotalHours < -12) {
-                                                // Lázaro es más viejo que la bd por al menos 12 horas
-                                                Misc.ActualizarAhora Act = new Misc.ActualizarAhora();
-                                                DialogResult Res = Act.ShowDialog();
-                                                switch (Res) {
-                                                        case DialogResult.OK:
-                                                                Lfx.Environment.Shell.Reboot();
-                                                                break;
-                                                        default:
-                                                                Lfx.Workspace.Master.RunTime.Toast("La versión de Lázaro que está utilizando es antigua. Es recomendable que descargue e instale la última versión.", "Aviso");
-                                                                break;
-                                                }
-                                        }
-                                }
-                        }
+            //                if (Diferencia.TotalHours < -12) {
+            //                        // Lázaro es más viejo que la bd por al menos 12 horas
+            //                        Misc.ActualizarAhora Act = new Misc.ActualizarAhora();
+            //                        DialogResult Res = Act.ShowDialog();
+            //                        switch (Res) {
+            //                                case DialogResult.OK:
+            //                                        Lfx.Environment.Shell.Reboot();
+            //                                        break;
+            //                                default:
+            //                                        Lfx.Workspace.Master.RunTime.Toast("La versión de Lázaro que está utilizando es antigua. Es recomendable que descargue e instale la última versión.", "Aviso");
+            //                                        break;
+            //                        }
+            //                }
+            //        }
+            //}
+            #endregion
 
-                        if (Lfx.Environment.SystemInformation.DesignMode == false) {
-                                // Si es necesario, actualizo la estructura de la base de datos
-                                Lfx.Workspace.Master.CheckAndUpdateDatabaseVersion(false, false);
-                        }
 
                         Lfx.Types.OperationResult ResultadoInicio = IniciarGui();
 
@@ -273,65 +265,11 @@ namespace Lazaro.WinMain
 
 
                 /// <summary>
-                /// Descarga en caso de que haga falta algunos ensamblados necesarios para el funcionamiento del programa.
-                /// </summary>
-                private static void DescargarArchivosNecesarios()
-                {
-                        IList<string> ArchivosNecesarios = new List<string>()
-                        {
-                                "log4net.config",
-                                "log4net.dll",
-                                "MySql.Data.dll",
-                                "Interop.WIA.dll",
-                                "ICSharpCode.SharpZipLib.dll",
-                                "PdfSharp.dll",
-                                "BarcodeLib.dll",
-                        };
-                        IList<string> ArchivosFaltantes = new List<string>();
-
-                        foreach (string Arch in ArchivosNecesarios) {
-                                if (System.IO.File.Exists(Arch) == false)
-                                        ArchivosFaltantes.Add(Arch);
-                        }
-
-                        if (ArchivosFaltantes.Count > 0) {
-                                Lfx.Types.OperationProgress Progreso = new Lfx.Types.OperationProgress("Descargando archivos adicionales", "Se van a descargar algunos archivos necesarios para el funcionamiento de Lázaro");
-                                Progreso.Max = ArchivosFaltantes.Count;
-                                Progreso.Begin();
-
-                                bool CanWriteToAppFolder = Lfx.Environment.SystemInformation.CanWriteToAppFolder;
-                                using (WebClient Cliente = new WebClient()) {
-                                        foreach (string Arch in ArchivosFaltantes) {
-                                                Progreso.ChangeStatus("Descargando " + Arch);
-                                                string ArchDestino;
-                                                if (CanWriteToAppFolder)
-                                                        // Lo descargo directamente a la carpeta de la aplicación
-                                                        ArchDestino = Lfx.Environment.Folders.ApplicationFolder + Arch;
-                                                else
-                                                        // Tengo UAC, lo descargo a la carpeta de actualizaciones y luego tengo que iniciar el ActualizadorLazaro.exe
-                                                        ArchDestino = Lfx.Environment.Folders.UpdatesFolder + Arch + ".new";
-
-                                                try {
-                                                        Cliente.DownloadFile(@"http://www.lazarogestion.com/act/" + Arch, ArchDestino);
-                                                } catch {
-                                                        // Nada
-                                                }
-                                                Progreso.Advance(1);
-                                        }
-                                }
-                                Progreso.End();
-
-                                if (CanWriteToAppFolder == false)
-                                        Lfx.Environment.Shell.Reboot();
-                        }
-                }
-
-                /// <summary>
                 /// Maneja eventos disparados por el (mal llamado) IPC (comunicación inter-proceso) del espacio de trabajo.
                 /// </summary>
                 public static void Workspace_IpcEvent(object sender, ref Lfx.RunTimeServices.IpcEventArgs e)
                 {
-                        if (e.Destination == "lazaro") {
+                        if (e.Destination == "gestion777") {
                                 switch (e.EventType) {
                                         case Lfx.RunTimeServices.IpcEventArgs.EventTypes.ActionRequest:
                                                 if (e.Arguments != null)
@@ -404,6 +342,14 @@ namespace Lazaro.WinMain
                                                                         }
                                                                 }
                                                                 break;
+                                                        case "PAGE":
+                                                            if (Aplicacion.FormularioPrincipal != null)
+                                                                Aplicacion.FormularioPrincipal.MostrarPaginas(e.Arguments[0]);
+                                                            break;
+                                                        case "PAGEUPD":
+                                                            if (Aplicacion.FormularioPrincipal != null)
+                                                                Aplicacion.FormularioPrincipal.ActualizarPaginas((int)e.Arguments[0], (int)e.Arguments[1]);
+                                                            break;
                                                 }
                                                 break;
                                 }
@@ -443,14 +389,14 @@ namespace Lazaro.WinMain
                                                                                         break;
                                                                         }
                                                                         FormError.Ayuda = @"No se puede conectar con el servidor local. Verifique que el servidor " + TipoServidor + @" se encuentra instalado y funcionando en el equipo.
-Si necesita información sobre cómo instalar o configurar un servidor SQL para Lázaro, consulte la ayuda en línea en www.lazarogestion.com";
+Si necesita información sobre cómo instalar o configurar un servidor SQL para Gestión777.";
                                                                 } else {
                                                                         FormError.Ayuda = "No se puede conectar con el servidor remoto. Verifique que el servidor en el equipo remoto '" + Lfx.Workspace.Master.ConnectionParameters.ServerName + @"' se encuentre funcionando y que su conexión de red esté activa.";
                                                                 }
                                                         } else if (Res.Message.IndexOf("Access denied for user") >= 0) {
                                                                 FormError.Ayuda = "El servidor impidió el acceso debido a que el nombre de usuario o la contraseña son incorrectos. Haga clic en 'Configurarción' y luego en 'Configuración avanzada' y verifique la configuración proporcionada.";
                                                         } else if (Res.Message.IndexOf("Debe preparar el almacén") >= 0) {
-                                                                FormError.Ayuda = "Debe preparar el servidor SQL para que Lázaro pueda utilizarlo como almacén de datos.";
+                                                                FormError.Ayuda = "Debe preparar el servidor SQL para que Gestión777 pueda utilizarlo como almacén de datos.";
                                                         } else {
                                                                 FormError.Ayuda = "No se dispone de información extendida sobre el error. Por favor lea el mensaje de error original a continuación:";
                                                         }
@@ -523,7 +469,7 @@ Si necesita información sobre cómo instalar o configurar un servidor SQL para 
 
                         if (Lfx.Workspace.Master.IsPrepared() == false) {
                                 using (Lui.Forms.YesNoDialog Pregunta = new Lui.Forms.YesNoDialog(@"Aparentemente es la primera vez que utiliza este almacén de datos. Antes de poder utilizarlo debe prepararlo con una carga inicial de datos.
-Responda 'Sí' sólamente si es la primera vez que utiliza Lázaro o está restaurando desde una copia de seguridad.", @"¿Desea preparar el almacén de datos?")) {
+Responda 'Sí' sólamente si es la primera vez que utiliza Gestión777 o está restaurando desde una copia de seguridad.", @"¿Desea preparar el almacén de datos?")) {
                                         Pregunta.DialogButtons = Lui.Forms.DialogButtons.YesNo;
                                         if (Pregunta.ShowDialog() == DialogResult.OK) {
                                                 Lfx.Types.OperationResult Res;
@@ -627,7 +573,7 @@ Responda 'Sí' sólamente si es la primera vez que utiliza Lázaro o está resta
                                                 } else if (Mostrando) {
                                                         if (Mostrar == null) {
                                                                 Mostrar = new System.Text.StringBuilder();
-                                                                Mostrar.AppendLine("Por favor tómese un momento para leer sobre las novedades incorporadas recientemente en Lázaro:");
+                                                                Mostrar.AppendLine("Por favor tómese un momento para leer sobre las novedades incorporadas recientemente en Gestión777:");
                                                                 Mostrar.AppendLine("");
                                                         }
                                                         Mostrar.AppendLine(Linea.Replace("* ", "• "));
@@ -648,11 +594,6 @@ Responda 'Sí' sólamente si es la primera vez que utiliza Lázaro o está resta
                                 Aplicacion.FormularioPrincipal.Show();
                                 if (FechaWhatsnew == "firsttime") {
                                         Lfx.Workspace.Master.CurrentConfig.WriteGlobalSetting("Usuario." + Lbl.Sys.Config.Actual.UsuarioConectado.Id.ToString() + ".Whatsnew.Ultimo", System.DateTime.Now.ToString(Lfx.Types.Formatting.DateTime.SqlDateFormat));
-
-                                        Lui.Forms.YesNoDialog Pregunta = new Lui.Forms.YesNoDialog("¡Hola! ¿Le gustaría ver una página sencilla con un poco de información sobre cómo utilizar Lázaro?", "Primeros pasos");
-                                        Pregunta.DialogButtons = Lui.Forms.DialogButtons.YesNo;
-                                        if (Pregunta.ShowDialog() == DialogResult.OK)
-                                                Help.ShowHelp(Aplicacion.FormularioPrincipal, "http://www.lazarogestion.com/soporte/primeros-pasos");
                                 }
                                 Application.Run(Aplicacion.FormularioPrincipal);
                         }
@@ -660,61 +601,41 @@ Responda 'Sí' sólamente si es la primera vez que utiliza Lázaro o está resta
                         return new Lfx.Types.SuccessOperationResult();
                 }
 
-                /// <summary>
-                /// Iniciar un servidor fiscal, si esta es una estación fiscal y si no hay uno iniciado
-                /// </summary>
-                public static void InicarServidorFiscal()
+        /// <summary>
+        /// Iniciar un servidor fiscal, si esta es una estación fiscal y si no hay uno iniciado
+        /// </summary>
+        public static void InicarServidorFiscal()
+        {
+            // Buscar si algún punto de venta fiscal corresponde a este equipo
+            foreach (var Pv in Lbl.Comprobantes.PuntoDeVenta.TodosPorNumero.Values)
+            {
+                if (Pv.Tipo == Lbl.Comprobantes.TipoPv.ControladorFiscal && Pv.Estacion == Lfx.Environment.SystemInformation.MachineName)
                 {
-                        // Buscar si algún punto de venta fiscal corresponde a este equipo
-                        foreach (var Pv in Lbl.Comprobantes.PuntoDeVenta.TodosPorNumero.Values) {
-                                if (Pv.Tipo == Lbl.Comprobantes.TipoPv.ControladorFiscal && Pv.Estacion == Lfx.Environment.SystemInformation.MachineName) {
-                                        // Buscar un servidor fiscal ejecutándose
-                                        Process[] ServidoresFiscales = Process.GetProcessesByName("ServidorFiscal.exe");
-                                        if (ServidoresFiscales.Length == 0) {
-                                                // Si no hay ninguno, lo inicio
-                                                Lfx.Workspace.Master.RunTime.Execute("FISCAL INICIAR");
-                                        }
-                                        break;
-                                }
+                    // Buscar un servidor fiscal ejecutándose
+                    if (Lfx.Environment.SystemInformation.DesignMode == true)
+                    {
+                        Process[] ServidoresFiscales = Process.GetProcessesByName("ServidorFiscal.exe");
+                        if (ServidoresFiscales.Length == 0)
+                        {
+                            ServidoresFiscales = Process.GetProcessesByName("ServidorFiscal");
+                            if (ServidoresFiscales.Length == 0)
+                                Lfx.Environment.Shell.Execute(@"C:\Users\Leona\Source\Workspaces\ExtraSoft\LeoGestionDesk\Sistema\bin\Debug\Components\" + "ServidorFiscal.exe", null, System.Diagnostics.ProcessWindowStyle.Normal, false);
                         }
-                }
-
-
-
-                /// <summary>
-                /// Envía datos anónimos sobre el equipo en el que se está ejecutando Lázaro.
-                /// </summary>
-                [EnvironmentPermissionAttribute(SecurityAction.LinkDemand, Unrestricted = true)]
-                public static void EnviarEstadisticas()
-                {
-                        try {
-                                string[] Vars = new string[] {
-                                                                "estacion=" + System.Uri.EscapeUriString(System.Environment.MachineName),
-                                                                "so=" + System.Uri.EscapeUriString(Lfx.Environment.SystemInformation.PlatformName),
-                                                                "runtime=" + System.Uri.EscapeUriString(Lfx.Environment.SystemInformation.RuntimeName),
-                                                                "empresa=" + System.Uri.EscapeUriString(Lbl.Sys.Config.Empresa.Nombre),
-                                                                "email=" + System.Uri.EscapeUriString(Lbl.Sys.Config.Empresa.Email),
-                                                                "canal=" + System.Uri.EscapeUriString(Lfx.Updates.Updater.Master != null ? Lfx.Updates.Updater.Master.Channel : ""),
-                                                                "version=" + System.Uri.EscapeUriString(Aplicacion.Version()),
-                                                                "cpu=" + System.Uri.EscapeUriString(Lfx.Environment.SystemInformation.ProcessorName),
-                                                                "server=" + System.Uri.EscapeUriString(Lfx.Workspace.Master.ServerVersion),
-                                                                "pais=" + System.Uri.EscapeUriString(Lfx.Workspace.Master.CurrentConfig.ReadGlobalSetting<string>("Sistema.Pais", "0")),
-                                                                "loc=" + System.Uri.EscapeUriString(Lfx.Workspace.Master.CurrentConfig.ReadGlobalSetting<string>("Sistema.Localidad", "0"))
-                                                        };
-                                System.Net.WebRequest WebRequest = System.Net.WebRequest.Create(new System.Uri("http://www.lazarogestion.com/stats/index.php"));
-                                WebRequest.ContentType = "application/x-www-form-urlencoded";
-                                WebRequest.Method = "POST";
-                                byte[] PostData = System.Text.Encoding.Default.GetBytes(string.Join("&", Vars));
-                                WebRequest.ContentLength = PostData.Length;
-                                using (System.IO.Stream ReqStream = WebRequest.GetRequestStream()) {
-                                        //Escribimos los datos
-                                        ReqStream.Write(PostData, 0, PostData.Length);
-                                        ReqStream.Close();
-                                }
-                        } catch {
-                                // Nada
+                    }
+                    else
+                    {
+                        Process[] ServidoresFiscales = Process.GetProcessesByName("ServidorFiscal.exe");
+                        if (ServidoresFiscales.Length == 0)
+                        {
+                            ServidoresFiscales = Process.GetProcessesByName("ServidorFiscal");
+                            if (ServidoresFiscales.Length == 0)
+                                Lfx.Workspace.Master.RunTime.Execute("FISCAL INICIAR");
                         }
+                    }
+                    break;
                 }
+            }
+        }
 
 
                 private static void ThreadExceptionHandler(object sender, System.Threading.ThreadExceptionEventArgs e)
@@ -796,6 +717,8 @@ Responda 'Sí' sólamente si es la primera vez que utiliza Lázaro o está resta
 
                         Errores.ExcepcionNoControlada FormularioError = new Errores.ExcepcionNoControlada();
                         FormularioError.Text = ex.Message;
+                        FormularioError.ErrorMsg = ex.Message;
+                        FormularioError.ErrorMsg += "\nEn: " + ex.TargetSite.DeclaringType.FullName + " --> " + ex.TargetSite.Name;
                         FormularioError.Show();
                         FormularioError.Refresh();
                         System.Windows.Forms.Application.DoEvents();
@@ -844,24 +767,33 @@ Responda 'Sí' sólamente si es la primera vez que utiliza Lázaro o está resta
                         Texto.AppendLine("Traza:");
 
                         MailMessage Mensaje = new MailMessage();
-                        Mensaje.To.Add(new MailAddress("error@lazarogestion.com"));
+                        Mensaje.To.Add(new MailAddress("leoilla777@gmail.com"));
                         Mensaje.From = new MailAddress(Lbl.Sys.Config.Empresa.Email, Lbl.Sys.Config.Actual.UsuarioConectado.Nombre + " en " + Lbl.Sys.Config.Empresa.Nombre);
-                        try {
-                                // No sé por qué, pero una vez dio un error al poner el asunto
-                                Mensaje.Subject = ex.Message;
-                        } catch {
-                                Mensaje.Subject = "Excepción no controlada";
-                                Texto.Insert(0, ex.Message + System.Environment.NewLine);
+                        try
+                        {
+                            // No sé por qué, pero una vez dio un error al poner el asunto
+                            Mensaje.Subject = ex.Message;
+                        }
+                        catch
+                        {
+                            Mensaje.Subject = "Excepción no controlada";
+                            Texto.Insert(0, ex.Message + System.Environment.NewLine);
                         }
 
                         Mensaje.Body = Texto.ToString();
 
-                        SmtpClient Cliente = new SmtpClient("mail.lazarogestion.com");
-                        try {
-                                Cliente.Send(Mensaje);
-                                FormularioError.EtiquetaDescripcion.Text = "Se envió un reporte de error. Haga clic en Continuar.";
-                        } catch (Exception ExSnd) {
-                                FormularioError.EtiquetaDescripcion.Text = "No se puedo enviar el reporte de error (" + ExSnd.Message + "). Haga clic en Continuar.";
+                        SmtpClient Cliente = new SmtpClient("smtp.gmail.com", 587);
+                        Cliente.EnableSsl = true;
+                        Cliente.Credentials = new NetworkCredential("leonardoillanez@alumnos.materiabiz.com", "donjuan2e");
+                        try
+                        {
+                            Cliente.Send(Mensaje);
+                            FormularioError.EtiquetaDescripcion.Text = "Se envió un reporte de error. Haga clic en Continuar.";
+                        }
+                        catch (Exception ExSnd)
+                        {
+                            FormularioError.EtiquetaDescripcion.Text = "No se puedo enviar el reporte de error (" + ExSnd.Message + "). Haga clic en Continuar.";
+                            FormularioError.EtiquetaDescripcion.Text += "Error: " + Texto.ToString();
                         }
 
                         FormularioError.BotonCerrar.Visible = true;

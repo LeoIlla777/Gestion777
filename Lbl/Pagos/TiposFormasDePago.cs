@@ -12,6 +12,7 @@ namespace Lbl.Pagos
                 Tarjeta = 4,
                 Caja = 6,
                 OtroValor = 7,
-                ChequeTerceros = 8
+                ChequeTerceros = 8,
+                MultiPago = 9
         }
 }

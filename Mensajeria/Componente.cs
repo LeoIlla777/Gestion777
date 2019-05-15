@@ -31,7 +31,7 @@ namespace Lazaro.Mensajeria
 
                 public OperationResult Try()
                 {
-                        if (Lbl.Sys.Config.Empresa.ClaveTributaria != null && Lbl.Sys.Config.Empresa.ClaveTributaria.Valor == "30-70917198-0")
+                        if (Lbl.Sys.Config.Empresa.ClaveTributaria != null && Lbl.Sys.Config.Empresa.ClaveTributaria.Valor == "30-99999999-0")
                                 return new Lfx.Types.SuccessOperationResult();
                         else
                                 return new Lfx.Types.CancelOperationResult();
