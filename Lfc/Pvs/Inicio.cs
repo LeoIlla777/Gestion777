@@ -24,6 +24,8 @@ namespace Lfc.Pvs
 				        new Lazaro.Pres.Field("sucursales.nombre", "Sucursal", Lfx.Data.InputFieldTypes.Text, 160),
 				        new Lazaro.Pres.Field("pvs.estacion", "Estacion", Lfx.Data.InputFieldTypes.Text, 160),
 				        new Lazaro.Pres.Field("pvs.carga", "Carga", Lfx.Data.InputFieldTypes.Text, 120),
+                        new Lazaro.Pres.Field("pvs.enumerar", "Enumerar", Lfx.Data.InputFieldTypes.Text, 120),
+                        new Lazaro.Pres.Field("pvs.id_persona", "Persona", Lfx.Data.InputFieldTypes.Text, 180),
                                         new Lazaro.Pres.Field("pvs.detalonario", "Usa Talonarios", Lfx.Data.InputFieldTypes.Bool, 120)
 			        },
                                 Filters = new Lazaro.Pres.Filters.FilterCollection()
@@ -71,19 +73,41 @@ namespace Lfc.Pvs
                         }
 
                         int TipoPv = row.Fields["pvs.tipo"].ValueInt;
-                        if (TipoPv == 0)
+                        switch (TipoPv)
+                        {
+                            case 0:
                                 item.SubItems[Listado.Columns["pvs.tipo"].Index].Text = "Inactivo";
-                        if (TipoPv == 1)
+                                break;
+                            case 1:
                                 item.SubItems[Listado.Columns["pvs.tipo"].Index].Text = "Talonario / Papel";
-                        else if (TipoPv == 2)
+                                break;
+                            case 2:
                                 item.SubItems[Listado.Columns["pvs.tipo"].Index].Text = "Controlador fiscal AFIP";
-                        else if (TipoPv == 10)
+                                break;
+                            case 10:
                                 item.SubItems[Listado.Columns["pvs.tipo"].Index].Text = "Electrónico AFIP";
+                                break;
+                        }        
 
                         if (item.SubItems[Listado.Columns["pvs.carga"].Index].Text == "0")
                                 item.SubItems[Listado.Columns["pvs.carga"].Index].Text = "Automática";
                         else if (item.SubItems[Listado.Columns["pvs.carga"].Index].Text == "1")
                                 item.SubItems[Listado.Columns["pvs.carga"].Index].Text = "Manual";
+
+                        if (item.SubItems[Listado.Columns["pvs.enumerar"].Index].Text == "0")
+                            item.SubItems[Listado.Columns["pvs.enumerar"].Index].Text = "Por tipo de comprobante";
+                        else
+                            item.SubItems[Listado.Columns["pvs.enumerar"].Index].Text = "Manual";
+
+                        int PvPersona = row.Fields["pvs.id_persona"].ValueInt;
+                        if (PvPersona == 0)
+                            item.SubItems[Listado.Columns["pvs.id_persona"].Index].Text = "";
+                        else
+                        {
+                            Lfx.Data.Row PersRow = Lfx.Workspace.Master.Tables["personas"].FastRows[PvPersona];
+                            if (PersRow != null)
+                                item.SubItems["pvs.id_persona"].Text = PersRow.Fields["personas.nombre"].ValueString;
+                        }
                 }
 
         private void InitializeComponent()

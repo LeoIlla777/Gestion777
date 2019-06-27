@@ -164,10 +164,10 @@ namespace Lazaro.WinMain.Misc
             // PictureBox1
             // 
             this.PictureBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.PictureBox1.Image = global::Lazaro.Properties.Resources.icono_120_v;
-            this.PictureBox1.Location = new System.Drawing.Point(26, 47);
+            this.PictureBox1.Image = global::Lazaro.Properties.Resources.Winrar;
+            this.PictureBox1.Location = new System.Drawing.Point(15, 2);
             this.PictureBox1.Name = "PictureBox1";
-            this.PictureBox1.Size = new System.Drawing.Size(41, 195);
+            this.PictureBox1.Size = new System.Drawing.Size(68, 239);
             this.PictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.PictureBox1.TabIndex = 51;
             this.PictureBox1.TabStop = false;

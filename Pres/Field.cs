@@ -27,6 +27,7 @@ namespace Lazaro.Pres
                 public bool Visible { get; set; }
                 public bool ReadOnly { get; set; }
                 public bool Printable { get; set; }
+                public bool Sorteable { get; set; }
 
                 public Field()
                 {
@@ -34,6 +35,7 @@ namespace Lazaro.Pres
                         this.DataType = Lfx.Data.InputFieldTypes.Text;
                         this.Visible = true;
                         this.Printable = true;
+                        this.Sorteable = true;
                 }
 
                 public Field(string name, string label)
@@ -92,6 +94,12 @@ namespace Lazaro.Pres
                         this.Format = format;
                 }
 
+                public Field(string name, string label, Lfx.Data.InputFieldTypes dataType, int width, bool sorteable)
+                        : this(name, label, dataType, width)
+                {
+                        this.Sorteable = sorteable;
+                }
+
 
                 public override string ToString()
                 {
@@ -130,6 +138,7 @@ namespace Lazaro.Pres
                         Res.TotalFunction = this.TotalFunction;
                         Res.Visible = this.Visible;
                         Res.Width = this.Width;
+                        Res.Sorteable = this.Sorteable;
 
                         return Res;
                 }

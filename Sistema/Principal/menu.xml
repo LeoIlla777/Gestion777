@@ -17,7 +17,7 @@
     <Opcion Nombre="&amp;Fiscal" Funcion="FISCAL PANEL" Imagen=":impresora16:" />
     <Opcion Nombre="&amp;Anular" Funcion="INSTANCIAR Lfc.Comprobantes.Facturas.Anular" />
     <Opcion Nombre="-" Funcion="" />
-    <Opcion Nombre="L&amp;istado de tickets" Funcion="LISTAR Lbl.Comprobantes.Ticket" />
+    <Opcion Nombre="L&amp;istado de tickets" Funcion="LISTAR Lbl.Comprobantes.Ticket T" />
     <Opcion Nombre="Nuevo &amp;ticket" Funcion="CREAR Lbl.Comprobantes.Ticket" />
     <Opcion Nombre="Cotización" Funcion="">
       <Opcion Nombre="Cotización" Funcion="LISTAR Lbl.Comprobantes.TicketX TX" />

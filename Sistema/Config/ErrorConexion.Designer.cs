@@ -110,7 +110,7 @@ namespace Lazaro.WinMain.Config
             this.LowerPanel.FlowDirection = System.Windows.Forms.FlowDirection.RightToLeft;
             this.LowerPanel.Location = new System.Drawing.Point(0, 308);
             this.LowerPanel.Name = "LowerPanel";
-            this.LowerPanel.Padding = new System.Windows.Forms.Padding(12, 12, 12, 12);
+            this.LowerPanel.Padding = new System.Windows.Forms.Padding(12);
             this.LowerPanel.Size = new System.Drawing.Size(634, 64);
             this.LowerPanel.TabIndex = 0;
             // 
@@ -138,11 +138,11 @@ namespace Lazaro.WinMain.Config
             // pictureBox2
             // 
             this.pictureBox2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.pictureBox2.Image = global::Lazaro.Properties.Resources.icono_120_v;
-            this.pictureBox2.Location = new System.Drawing.Point(20, 168);
+            this.pictureBox2.Image = global::Lazaro.Properties.Resources.Winrar;
+            this.pictureBox2.Location = new System.Drawing.Point(3, 12);
             this.pictureBox2.Name = "pictureBox2";
-            this.pictureBox2.Size = new System.Drawing.Size(24, 120);
-            this.pictureBox2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
+            this.pictureBox2.Size = new System.Drawing.Size(94, 288);
+            this.pictureBox2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pictureBox2.TabIndex = 51;
             this.pictureBox2.TabStop = false;
             // 
@@ -180,13 +180,12 @@ namespace Lazaro.WinMain.Config
             this.ForeColor = System.Drawing.SystemColors.ControlText;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "ErrorConexion";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Gestión777";
             this.LowerPanel.ResumeLayout(false);
             this.panel1.ResumeLayout(false);
-            this.panel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).EndInit();
             this.ResumeLayout(false);

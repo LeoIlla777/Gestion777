@@ -47,7 +47,11 @@ namespace Lazaro.WinMain.Config
                         if (Contrasena == null)
                                 EntradaContrasena.Text = "";
                         else
-                                EntradaContrasena.Text = Contrasena;
+                        {
+                            string pass = Lfx.Encrypt.DecryptString(Contrasena, "donjuan3e3");
+                            EntradaContrasena.Text = pass;
+                        }
+                                
 
                         if (Branch == null)
                                 EntradaSucursal.Text = "1";
@@ -110,7 +114,8 @@ namespace Lazaro.WinMain.Config
                         Lfx.Workspace.Master.CurrentConfig.WriteLocalSetting("Data", "ConnectionType", EntradaConexion.TextKey);
                         Lfx.Workspace.Master.CurrentConfig.WriteLocalSetting("Data", "DatabaseName", EntradaBD.Text);
                         Lfx.Workspace.Master.CurrentConfig.WriteLocalSetting("Data", "User", EntradaUsuario.Text);
-                        Lfx.Workspace.Master.CurrentConfig.WriteLocalSetting("Data", "Password", EntradaContrasena.Text);
+                        string pass = Lfx.Encrypt.EncryptString(EntradaContrasena.Text, "donjuan3e3");
+                        Lfx.Workspace.Master.CurrentConfig.WriteLocalSetting("Data", "Password", pass);
                         Lfx.Workspace.Master.CurrentConfig.WriteLocalSetting("Data", "SlowLink", Lfx.Data.DatabaseCache.DefaultCache.SlowLink ? "1" : "0");
                         Lfx.Workspace.Master.CurrentConfig.WriteLocalSetting("Company", "Branch", EntradaSucursal.Text);
 

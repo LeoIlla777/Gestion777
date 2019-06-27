@@ -11,6 +11,8 @@ namespace Lfc.Bancos.Cheques
                         this.Definicion.ElementoTipo = typeof(Lbl.Bancos.ChequeEmitido);
                         DepositarPagar.Text = "Pagar";
                         BotonCrear.Text = "Emitir";
+                        BotonEfectivizar.Text = "Imprimir";
+                        BotonEfectivizar.Subtext = "Cheques";
 
                         Lbl.ColeccionCodigoDetalle NuevosEstados = new Lbl.ColeccionCodigoDetalle() { 
                                 {0, "A Pagar"},

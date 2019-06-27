@@ -126,7 +126,7 @@ namespace Lfc.Comprobantes.Compra
             // 
             // EntradaHaciaSituacion
             // 
-            this.EntradaHaciaSituacion.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+            this.EntradaHaciaSituacion.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.EntradaHaciaSituacion.AutoTab = true;
             this.EntradaHaciaSituacion.CanCreate = false;
@@ -153,8 +153,8 @@ namespace Lfc.Comprobantes.Compra
             // 
             // EntradaProductos
             // 
-            this.EntradaProductos.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-            | System.Windows.Forms.AnchorStyles.Left)
+            this.EntradaProductos.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.EntradaProductos.AplicaIva = true;
             this.EntradaProductos.AutoScroll = true;
@@ -179,7 +179,7 @@ namespace Lfc.Comprobantes.Compra
             // 
             // EntradaProveedor
             // 
-            this.EntradaProveedor.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+            this.EntradaProveedor.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.EntradaProveedor.AutoTab = true;
             this.EntradaProveedor.CanCreate = true;
@@ -387,9 +387,10 @@ namespace Lfc.Comprobantes.Compra
             // 
             // Contenedor
             // 
-            this.Contenedor.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-            | System.Windows.Forms.AnchorStyles.Left)
+            this.Contenedor.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.Contenedor.Controls.Add(this.EntradaFormaPago);
             this.Contenedor.Controls.Add(this.label4);
             this.Contenedor.Controls.Add(this.EntradaSubTotal);
             this.Contenedor.Controls.Add(this.lblDolar);
@@ -412,7 +413,6 @@ namespace Lfc.Comprobantes.Compra
             this.Contenedor.Controls.Add(this.EntradaDescuento);
             this.Contenedor.Controls.Add(this.EtiquetaDescuento);
             this.Contenedor.Controls.Add(this.EntradaEstado);
-            this.Contenedor.Controls.Add(this.EntradaFormaPago);
             this.Contenedor.Controls.Add(this.EntradaTipo);
             this.Contenedor.Controls.Add(this.EntradaObs);
             this.Contenedor.Controls.Add(this.BotonObs);

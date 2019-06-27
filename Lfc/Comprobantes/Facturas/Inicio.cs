@@ -22,10 +22,11 @@ namespace Lfc.Comprobantes.Facturas
                         int limitOpciones = Lfx.Workspace.Master.CurrentConfig.ReadLocalSettingInt("Paginar", NombrePagina, 999999);
                         this.Limit = limitOpciones;
                         try {
-                                this.Definicion.ElementoTipo = Lbl.Instanciador.InferirTipo(comando);
+                                this.Definicion.ElementoTipo = Lbl.Instanciador.InferirTipo(comando);        
                         } catch {
                                 this.Definicion.ElementoTipo = typeof(Lbl.Comprobantes.Factura);
                         }
+                        this.Letra = comando;
                         
                         this.HabilitarBorrar = true;
                 }

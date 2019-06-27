@@ -23,3 +23,5 @@ using System.Security.Permissions;
 [assembly: NeutralResourcesLanguageAttribute ("es-AR")]
 
 [assembly: log4net.Config.XmlConfigurator(ConfigFile = "log4net.config", Watch = true)]
+[assembly: AssemblyFileVersion("2.0.0.34")]
+

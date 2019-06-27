@@ -153,11 +153,11 @@ namespace Lazaro.WinMain.Misc
             // pictureBox2
             // 
             this.pictureBox2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.pictureBox2.Image = global::Lazaro.Properties.Resources.icono_120_v;
-            this.pictureBox2.Location = new System.Drawing.Point(32, 228);
+            this.pictureBox2.Image = global::Lazaro.Properties.Resources.Winrar;
+            this.pictureBox2.Location = new System.Drawing.Point(3, 34);
             this.pictureBox2.Name = "pictureBox2";
-            this.pictureBox2.Size = new System.Drawing.Size(24, 120);
-            this.pictureBox2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
+            this.pictureBox2.Size = new System.Drawing.Size(85, 335);
+            this.pictureBox2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pictureBox2.TabIndex = 51;
             this.pictureBox2.TabStop = false;
             // 
@@ -240,7 +240,6 @@ namespace Lazaro.WinMain.Misc
             this.Text = "Acerca de Gestión777";
             this.Load += new System.EventHandler(this.FormAcercaDe_Load);
             this.panel1.ResumeLayout(false);
-            this.panel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.PictureBox1)).EndInit();
             this.ResumeLayout(false);

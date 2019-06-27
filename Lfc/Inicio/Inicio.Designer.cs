@@ -53,7 +53,7 @@ namespace Lfc.Inicio
             // logoEmpresa
             // 
             this.logoEmpresa.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.logoEmpresa.Image = global::Lfc.Properties.Resources.logo;
+            this.logoEmpresa.Image = global::Lfc.Properties.Resources.LogoExcelenciaRGB_01;
             this.logoEmpresa.Location = new System.Drawing.Point(0, 0);
             this.logoEmpresa.Name = "logoEmpresa";
             this.logoEmpresa.Size = new System.Drawing.Size(604, 115);

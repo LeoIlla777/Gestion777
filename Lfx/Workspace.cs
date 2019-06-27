@@ -140,7 +140,7 @@ namespace Lfx
                                 {
                                         ServerName = this.CurrentConfig.ReadLocalSettingString("Data", "DataSource", "localhost"),
                                         DatabaseName = this.CurrentConfig.ReadLocalSettingString("Data", "DatabaseName", "excelencia"),
-                                        UserName = this.CurrentConfig.ReadLocalSettingString("Data", "User", "lazaro"),
+                                        UserName = this.CurrentConfig.ReadLocalSettingString("Data", "User", "root"),
                                         Password = pass
                                 };
                                 //Lfx.Data.DatabaseCache.DefaultCache.ServerName = this.CurrentConfig.ReadLocalSettingString("Data", "DataSource", "localhost");

@@ -583,8 +583,12 @@ namespace Lfc.Comprobantes
                         }
                 }
 
+        public virtual void EntradaPV_TextChanged(object sender, EventArgs e)
+        {
 
-                public override Lazaro.Pres.DisplayStyles.IDisplayStyle HeaderDisplayStyle
+        }
+
+        public override Lazaro.Pres.DisplayStyles.IDisplayStyle HeaderDisplayStyle
                 {
                         get
                         {

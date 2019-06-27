@@ -54,9 +54,9 @@ namespace Lfc.Bancos.Cheques
                         this.BotonEfectivizar.Name = "BotonEfectivizar";
                         this.BotonEfectivizar.Size = new System.Drawing.Size(104, 64);
                         this.BotonEfectivizar.SubLabelPos = Lui.Forms.SubLabelPositions.Bottom;
-                        this.BotonEfectivizar.Subtext = "F5";
+                        this.BotonEfectivizar.Subtext = "";
                         this.BotonEfectivizar.TabIndex = 56;
-                        this.BotonEfectivizar.Text = "Efetivizar";
+                        this.BotonEfectivizar.Text = "Efectivizar";
                         this.BotonEfectivizar.Click += new System.EventHandler(this.BotonEfectivizar_Click);
                         // 
                         // Inicio

@@ -203,5 +203,18 @@ namespace Lfc
                         if (BotonCrear.Visible && BotonCrear.Enabled)
                                 BotonCrear.PerformClick();
                 }
+
+                private void FormularioListado_Activated(object sender, EventArgs e)
+                {
+                    if (this.Definicion != null && this.Definicion.Paging && Lfx.Workspace.Master != null && Lfx.Workspace.Master.RunTime != null)
+                        Lfx.Workspace.Master.RunTime.Paging(this);
+                }
+
+                private void FormularioListado_FormClosed(object sender, FormClosedEventArgs e)
+                {
+                    if (this.Definicion != null && Lfx.Workspace.Master != null && Lfx.Workspace.Master.RunTime != null)
+                        Lfx.Workspace.Master.RunTime.Hint("Paginación cerrada", "Información");
+                }
+
         }
 }

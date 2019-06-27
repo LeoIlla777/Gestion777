@@ -36,7 +36,7 @@ namespace Lazaro.WinMain.Config
                         if (GuardarConfig() == false) {
                                 this.DialogResult = DialogResult.OK;
                                 this.Close();
-                                Lfx.Workspace.Master.RunTime.Toast("Algunos cambios tendrán efecto la próxima vez que ingrese Lázaro. Si lo desea puede salir de Lázaro y volver a ingresar. También puede ser necesario que lo haga en otros equipos en la red.", "Aviso");
+                                Lfx.Workspace.Master.RunTime.Toast("Algunos cambios tendrán efecto la próxima vez que ingrese Gestion777. Si lo desea puede salir de Gestion777 y volver a ingresar. También puede ser necesario que lo haga en otros equipos en la red.", "Aviso");
                         }
                 }
 
@@ -339,7 +339,7 @@ namespace Lazaro.WinMain.Config
 
                 private void BotonCambiarPais_Click(object sender, System.EventArgs e)
                 {
-                        using (Lui.Forms.YesNoDialog Pregunta = new Lui.Forms.YesNoDialog("Al cambiar el país, Lázaro cambiará varios ajustes del sistema como la moneda, las tasas del IVA y los tipos de comprobante. ¿Está seguro de que quiere cambiar el país?", "Cambiar país")) {
+                        using (Lui.Forms.YesNoDialog Pregunta = new Lui.Forms.YesNoDialog("Al cambiar el país, Gestion777 cambiará varios ajustes del sistema como la moneda, las tasas del IVA y los tipos de comprobante. ¿Está seguro de que quiere cambiar el país?", "Cambiar país")) {
                                 Pregunta.DialogButtons = Lui.Forms.DialogButtons.YesNo;
                                 if (Pregunta.ShowDialog() == System.Windows.Forms.DialogResult.OK) {
                                         EntradaPais.ReadOnly = false;

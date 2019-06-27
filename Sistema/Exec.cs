@@ -8,7 +8,7 @@ namespace Lazaro.WinMain
         public static class Ejecutor
         {
                 /// <summary>
-                /// Ejecuta un comando. Se trata de un pequeño lenguaje de scripting de Lázaro.
+                /// Ejecuta un comando. Se trata de un pequeño lenguaje de scripting de Gestión777.
                 /// </summary>
                 /// <returns>Normalmente devuelve un formulario, que es el resultado del comando.
                 /// Por ejemplo, el comando "EDITAR Lbl.Articulos.Articulo 132" devuelve un formulario donde se está editando el artículo código 132.
@@ -416,7 +416,8 @@ namespace Lazaro.WinMain
                                 if (TipoListado == null)
                                         throw new NotImplementedException("LISTAR " + SubComandoListado);
                                 else
-                                        FormularioListado = Lfc.Instanciador.InstanciarFormularioListado(TipoListado, SubComandoListado.Length > 0 ? SubComandoListado : null);
+                                        FormularioListado = Lfc.Instanciador.InstanciarFormularioListado(TipoListado, comando.Length > 0 ? comando : null);
+                                        //FormularioListado = Lfc.Instanciador.InstanciarFormularioListado(TipoListado, SubComandoListado.Length > 0 ? SubComandoListado : null);
                         } else {
                                 return new Lfx.Types.NoAccessOperationResult();
                         }

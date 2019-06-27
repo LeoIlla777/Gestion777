@@ -83,7 +83,7 @@ namespace Lfc.Comprobantes.Facturas
                         {
                             object nomObj = this.Elemento.Registro["nombre"];
                             object pvObj = this.Elemento.Registro["pv"];
-                            int pvInt = pvObj != null ? int.Parse(pvObj.ToString()) : 0;
+                            int pvInt = pvObj != null ? int.Parse(pvObj.ToString()) : EntradaPV.ValueInt;
                             NuevoNumero.OldNumber = nomObj == null ? pvInt.ToString("0000") + "-00000000" : nomObj.ToString();
                             if (NuevoNumero.ShowDialog() == DialogResult.OK)
                             {
@@ -241,7 +241,7 @@ namespace Lfc.Comprobantes.Facturas
                     if (Lbl.Comprobantes.PuntoDeVenta.TodosPorNumero.ContainsKey(Res.PV))
                     {
                         Lbl.Comprobantes.PuntoDeVenta puntosVentas = Lbl.Comprobantes.PuntoDeVenta.TodosPorNumero[Res.PV];
-                        if (puntosVentas.Enumerar == 1 || (puntosVentas.Enumerar == 0 && !Res.Tipo.NumerarAlImprimir && !Res.Tipo.NumerarAlGuardar))
+                        if (puntosVentas.Enumerar == 1 || (puntosVentas.Enumerar == 0 && !Res.Tipo.NumerarAlImprimir && !Res.Tipo.NumerarAlGuardar))//Enumerar o (no imprimir y no guardar).
                         {
                             lblFecha.Visible = EntradaFecha.Visible = true;
                             EntradaFecha.Text = Res.Fecha.ToShortDateString();
@@ -326,6 +326,24 @@ namespace Lfc.Comprobantes.Facturas
 
             base.ActualizarControl();
 
+        }
+
+        public override void EntradaPV_TextChanged(object sender, EventArgs e)
+        {
+            if (Lbl.Comprobantes.PuntoDeVenta.TodosPorNumero.ContainsKey(EntradaPV.ValueInt))
+            {
+                Lbl.Comprobantes.PuntoDeVenta puntosVentas = Lbl.Comprobantes.PuntoDeVenta.TodosPorNumero[EntradaPV.ValueInt];
+                if (puntosVentas.Enumerar == 1 || (puntosVentas.Enumerar == 0 && !this.Tipo.NumerarAlImprimir && !this.Tipo.NumerarAlGuardar))
+                {
+                    lblFecha.Visible = EntradaFecha.Visible = true;
+                    EntradaFecha.Text = DateTime.Now.ToShortDateString();
+                }
+                else
+                {
+                    lblFecha.Visible = EntradaFecha.Visible = false;
+                    EntradaFecha.Text = "";
+                }
+            }
         }
 
         public override void ActualizarElemento()
@@ -676,6 +694,13 @@ Un cliente " + Comprob.Cliente.SituacionTributaria.ToString() + @" debería llev
         private void EntradaCliente_TextChanged(object sender, System.EventArgs e)
         {
             EntradaProductos.CargarPersona = this.EntradaCliente.ValueInt.ToString();
+
+            if (EntradaCliente.ValueInt!=0)
+            {
+                Lfx.Data.Row ClientePV = this.Connection.FirstRowFromSelect("SELECT numero FROM pvs WHERE id_persona=" + EntradaCliente.ValueInt.ToString());
+                if (ClientePV != null)
+                    EntradaPV.ValueInt = ClientePV.Fields["numero"].ValueInt;
+            }
         }
 
 

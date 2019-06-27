@@ -282,8 +282,17 @@ namespace Lbl.Comprobantes
                     }
                 }
 
+        public int Persona {
+            get {
+                return this.GetFieldValue<int>("id_persona");
+            }
+            set {
+                this.Registro["id_persona"] = value;
+            }
+        }
 
-                public override Lfx.Types.OperationResult Guardar()
+
+        public override Lfx.Types.OperationResult Guardar()
                 {
                         qGen.IStatement Comando;
                         if (this.Existe == false) {
@@ -317,8 +326,9 @@ namespace Lbl.Comprobantes
                         Comando.ColumnValues.AddWithValue("bps", this.FiscalBps);
                         Comando.ColumnValues.AddWithValue("variante", (int)this.Variante);
                         Comando.ColumnValues.AddWithValue("enumerar", (int)this.Enumerar);
+                        Comando.ColumnValues.AddWithValue("id_persona", (int)this.Persona);
 
-                        this.AgregarTags(Comando);
+            this.AgregarTags(Comando);
 
                         Connection.ExecuteNonQuery(Comando);
 

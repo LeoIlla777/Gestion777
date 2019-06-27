@@ -1,31 +1,32 @@
 namespace Lfc
 {
-        partial class FormularioListado
+    partial class FormularioListado
+    {
+        protected Lui.Forms.TextBox EntradaBuscar;
+        protected System.Windows.Forms.Timer TimerBuscar;
+        protected Lui.Forms.Label EtiquetaListadoVacio;
+        protected Lui.Forms.Button BotonCrear;
+
+        // Requerido por el Diseñador de Windows Forms
+        private System.ComponentModel.IContainer components = null;
+
+        // Limpiar los recursos que se estén utilizando.
+        protected override void Dispose(bool disposing)
         {
-                protected Lui.Forms.TextBox EntradaBuscar;
-                protected System.Windows.Forms.Timer TimerBuscar;
-                protected Lui.Forms.Label EtiquetaListadoVacio;
-                protected Lui.Forms.Button BotonCrear;
-
-                // Requerido por el Diseñador de Windows Forms
-                private System.ComponentModel.IContainer components = null;
-
-                // Limpiar los recursos que se estén utilizando.
-                protected override void Dispose(bool disposing)
+            if (disposing)
+            {
+                if (components != null)
                 {
-                        if (disposing) {
-                                if (components != null) {
-                                        components.Dispose();
-                                }
-                        }
-
-                        base.Dispose(disposing);
+                    components.Dispose();
                 }
+            }
 
-                private void InitializeComponent()
-                {
+            base.Dispose(disposing);
+        }
+
+        private void InitializeComponent()
+        {
             this.components = new System.ComponentModel.Container();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormularioListado));
             this.EntradaBuscar = new Lui.Forms.TextBox();
             this.TimerBuscar = new System.Windows.Forms.Timer(this.components);
             this.EtiquetaListadoVacio = new Lui.Forms.Label();
@@ -60,7 +61,7 @@ namespace Lfc
             // 
             // EtiquetaListadoVacio
             // 
-            this.EtiquetaListadoVacio.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.EtiquetaListadoVacio.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.EtiquetaListadoVacio.AutoEllipsis = true;
             this.EtiquetaListadoVacio.Location = new System.Drawing.Point(332, 192);
@@ -101,21 +102,23 @@ namespace Lfc
             this.ClientSize = new System.Drawing.Size(864, 447);
             this.Controls.Add(this.EtiquetaListadoVacio);
             this.Controls.Add(this.EntradaBuscar);
-            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Margin = new System.Windows.Forms.Padding(6);
             this.MinimumSize = new System.Drawing.Size(795, 486);
             this.Name = "FormularioListado";
             this.Text = "Listado";
+            this.Activated += new System.EventHandler(this.FormularioListado_Activated);
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.FormularioListado_FormClosed);
             this.Controls.SetChildIndex(this.PanelContadores, 0);
             this.Controls.SetChildIndex(this.PicEsperar, 0);
             this.Controls.SetChildIndex(this.EntradaBuscar, 0);
             this.Controls.SetChildIndex(this.EtiquetaCantidad, 0);
             this.Controls.SetChildIndex(this.Listado, 0);
             this.Controls.SetChildIndex(this.EtiquetaListadoVacio, 0);
+            this.PanelAcciones.Controls.Add(BotonCrear);
             this.PanelContadores.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.PicEsperar)).EndInit();
             this.ResumeLayout(false);
 
-                }
         }
+    }
 }
