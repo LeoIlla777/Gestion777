@@ -85,6 +85,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Articulos\ImprimirBarras.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Articulos\ImprimirBarras.Designer.cs">
+      <DependentUpon>ImprimirBarras.cs</DependentUpon>
+    </Compile>
     <Compile Include="Articulos\Inicio.Designer.cs">
       <DependentUpon>Inicio.cs</DependentUpon>
     </Compile>
@@ -818,6 +824,10 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\BarCode\BarCode.csproj">
+      <Project>{575f550f-acfa-4bc4-9c6d-5f30afe97bec}</Project>
+      <Name>BarCode</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Lbl\Lbl.csproj">
       <Project>{56f39851-6542-405c-9f47-e8414b757ef6}</Project>
       <Name>Lbl</Name>
@@ -844,6 +854,9 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Articulos\ImprimirBarras.resx">
+      <DependentUpon>ImprimirBarras.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Articulos\Inicio.resx">
       <DependentUpon>Inicio.cs</DependentUpon>
     </EmbeddedResource>
