@@ -9,11 +9,8 @@ UPDATE documentos_tipos SET tipobase='Lbl.Comprobantes.Recibo'
 UPDATE "sys_permisos_objetos" SET "clase"='Lazaro\\Base\\Persona' WHERE "tipo"='Lbl.Personas.Persona';
 UPDATE "sys_permisos_objetos" SET "clase"='Global' WHERE "tipo"='Global';
 
---UPDATE "documentos_tipos" SET "imprimir_repetir"=0 WHERE "id_tipo"=3;
-
 UPDATE sys_config SET fecha=NOW() WHERE fecha IS NULL;
 
---Actualiza el alicuota si es nulo.
 UPDATE comprob_detalle cd 
 	SET id_alicuota = 
 		COALESCE(
@@ -23,7 +20,7 @@ UPDATE comprob_detalle cd
     WHERE id_alicuota IS NULL
 		AND id_articulo IS NOT NULL;
 
---Actualiza el iva de las facturas B.
+
 UPDATE comprob_detalle cd 
 	SET cd.iva=cd.precio-cd.precio/(1+(SELECT COALESCE(al.porcentaje, 0)/100 FROM alicuotas al WHERE al.id_alicuota=cd.id_alicuota))
 	    WHERE cd.iva=0
@@ -34,7 +31,8 @@ UPDATE comprob_detalle cd
 			WHERE comprob.tipo_fac IN ('FB', 'NCB', 'NDB') AND comprob.compra=0
 				AND personas.id_ciudad NOT IN (SELECT id_ciudad FROM ciudades WHERE id_provincia=24)
         );
---Corrige el total e iva del comprobante.
+
+
 UPDATE comprob c SET
 	total=(SELECT SUM(cd.total) FROM comprob_detalle cd WHERE cd.id_comprob=c.id_comprob) * (1-c.descuento/100),
 	iva=(SELECT SUM(cd.iva) FROM comprob_detalle cd WHERE cd.id_comprob=c.id_comprob) * (1-c.descuento/100)
@@ -45,4 +43,4 @@ UPDATE sys_plantillas SET defxml=REPLACE(defxml, '{Importes}', '{Articulos.Impor
 UPDATE sys_plantillas SET defxml=REPLACE(defxml, '{Detalles}', '{Articulos.Detalles}');
 UPDATE sys_plantillas SET defxml=REPLACE(defxml, '{Cantidades}', '{Articulos.Cantidades}');
 
-SET FOREIGN_KEY_CHECKS=1;S
+SET FOREIGN_KEY_CHECKS=1;

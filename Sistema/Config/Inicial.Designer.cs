@@ -39,12 +39,16 @@ namespace Lazaro.WinMain.Config
             this.pictureBox8 = new System.Windows.Forms.PictureBox();
             this.label11 = new Lui.Forms.Label();
             this.PanelPruebaServidor = new Lui.Forms.Panel();
+            this.btnNueva = new System.Windows.Forms.Button();
+            this.btnReintentar = new System.Windows.Forms.Button();
             this.label12 = new Lui.Forms.Label();
             this.pictureBox7 = new System.Windows.Forms.PictureBox();
             this.EtiquetaPruebaError = new Lui.Forms.Label();
             this.EtiquetaPruebaResultado = new Lui.Forms.Label();
             this.EtiquetaEncab = new Lui.Forms.Label();
             this.PanelPassword = new Lui.Forms.Panel();
+            this.txtContraseña = new System.Windows.Forms.TextBox();
+            this.label4 = new System.Windows.Forms.Label();
             this.pictureBox12 = new System.Windows.Forms.PictureBox();
             this.label17 = new Lui.Forms.Label();
             this.PanelDatosEmpresa = new Lui.Forms.Panel();
@@ -60,10 +64,6 @@ namespace Lazaro.WinMain.Config
             this.label19 = new Lui.Forms.Label();
             this.pictureBox15 = new System.Windows.Forms.PictureBox();
             this.label20 = new Lui.Forms.Label();
-            this.btnReintentar = new System.Windows.Forms.Button();
-            this.btnNueva = new System.Windows.Forms.Button();
-            this.label4 = new System.Windows.Forms.Label();
-            this.txtContraseña = new System.Windows.Forms.TextBox();
             this.LowerPanel.SuspendLayout();
             this.PanelLogo.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
@@ -86,7 +86,7 @@ namespace Lazaro.WinMain.Config
             this.LowerPanel.FlowDirection = System.Windows.Forms.FlowDirection.RightToLeft;
             this.LowerPanel.Location = new System.Drawing.Point(0, 358);
             this.LowerPanel.Name = "LowerPanel";
-            this.LowerPanel.Padding = new System.Windows.Forms.Padding(12, 12, 12, 12);
+            this.LowerPanel.Padding = new System.Windows.Forms.Padding(12);
             this.LowerPanel.Size = new System.Drawing.Size(634, 64);
             this.LowerPanel.TabIndex = 50;
             // 
@@ -159,10 +159,10 @@ namespace Lazaro.WinMain.Config
             // pictureBox2
             // 
             this.pictureBox2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.pictureBox2.Image = global::Lazaro.Properties.Resources.icono_120_v;
-            this.pictureBox2.Location = new System.Drawing.Point(20, 218);
+            this.pictureBox2.Image = global::Lazaro.Properties.Resources.Winrar;
+            this.pictureBox2.Location = new System.Drawing.Point(-2, 45);
             this.pictureBox2.Name = "pictureBox2";
-            this.pictureBox2.Size = new System.Drawing.Size(24, 120);
+            this.pictureBox2.Size = new System.Drawing.Size(100, 300);
             this.pictureBox2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
             this.pictureBox2.TabIndex = 51;
             this.pictureBox2.TabStop = false;
@@ -233,6 +233,28 @@ namespace Lazaro.WinMain.Config
             this.PanelPruebaServidor.Visible = false;
             this.PanelPruebaServidor.VisibleChanged += new System.EventHandler(this.PanelPruebaServidor_VisibleChanged);
             // 
+            // btnNueva
+            // 
+            this.btnNueva.Location = new System.Drawing.Point(373, 247);
+            this.btnNueva.Name = "btnNueva";
+            this.btnNueva.Size = new System.Drawing.Size(119, 50);
+            this.btnNueva.TabIndex = 72;
+            this.btnNueva.Text = "Nueva Instalación";
+            this.btnNueva.UseVisualStyleBackColor = true;
+            this.btnNueva.Visible = false;
+            this.btnNueva.Click += new System.EventHandler(this.btnNueva_Click);
+            // 
+            // btnReintentar
+            // 
+            this.btnReintentar.Location = new System.Drawing.Point(5, 247);
+            this.btnReintentar.Name = "btnReintentar";
+            this.btnReintentar.Size = new System.Drawing.Size(119, 50);
+            this.btnReintentar.TabIndex = 71;
+            this.btnReintentar.Text = "Reintentar";
+            this.btnReintentar.UseVisualStyleBackColor = true;
+            this.btnReintentar.Visible = false;
+            this.btnReintentar.Click += new System.EventHandler(this.btnReintentar_Click);
+            // 
             // label12
             // 
             this.label12.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
@@ -298,6 +320,25 @@ namespace Lazaro.WinMain.Config
             this.PanelPassword.Name = "PanelPassword";
             this.PanelPassword.Size = new System.Drawing.Size(496, 304);
             this.PanelPassword.TabIndex = 0;
+            // 
+            // txtContraseña
+            // 
+            this.txtContraseña.Font = new System.Drawing.Font("Segoe UI", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtContraseña.Location = new System.Drawing.Point(154, 127);
+            this.txtContraseña.Name = "txtContraseña";
+            this.txtContraseña.PasswordChar = '*';
+            this.txtContraseña.Size = new System.Drawing.Size(310, 33);
+            this.txtContraseña.TabIndex = 77;
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Font = new System.Drawing.Font("Segoe UI", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label4.Location = new System.Drawing.Point(17, 124);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(140, 32);
+            this.label4.TabIndex = 76;
+            this.label4.Text = "Contraseña:";
             // 
             // pictureBox12
             // 
@@ -472,47 +513,6 @@ namespace Lazaro.WinMain.Config
             this.label20.Text = "Por favor escriba los datos de su empresa. Estos datos pueden aparecer en las fac" +
     "turas o listados que imprima.";
             // 
-            // btnReintentar
-            // 
-            this.btnReintentar.Location = new System.Drawing.Point(5, 247);
-            this.btnReintentar.Name = "btnReintentar";
-            this.btnReintentar.Size = new System.Drawing.Size(119, 50);
-            this.btnReintentar.TabIndex = 71;
-            this.btnReintentar.Text = "Reintentar";
-            this.btnReintentar.UseVisualStyleBackColor = true;
-            this.btnReintentar.Visible = false;
-            this.btnReintentar.Click += new System.EventHandler(this.btnReintentar_Click);
-            // 
-            // btnNueva
-            // 
-            this.btnNueva.Location = new System.Drawing.Point(373, 247);
-            this.btnNueva.Name = "btnNueva";
-            this.btnNueva.Size = new System.Drawing.Size(119, 50);
-            this.btnNueva.TabIndex = 72;
-            this.btnNueva.Text = "Nueva Instalación";
-            this.btnNueva.UseVisualStyleBackColor = true;
-            this.btnNueva.Visible = false;
-            this.btnNueva.Click += new System.EventHandler(this.btnNueva_Click);
-            // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.Font = new System.Drawing.Font("Segoe UI", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label4.Location = new System.Drawing.Point(17, 124);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(140, 32);
-            this.label4.TabIndex = 76;
-            this.label4.Text = "Contraseña:";
-            // 
-            // txtContraseña
-            // 
-            this.txtContraseña.Font = new System.Drawing.Font("Segoe UI", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtContraseña.Location = new System.Drawing.Point(154, 127);
-            this.txtContraseña.Name = "txtContraseña";
-            this.txtContraseña.PasswordChar = '*';
-            this.txtContraseña.Size = new System.Drawing.Size(310, 33);
-            this.txtContraseña.TabIndex = 77;
-            // 
             // Inicial
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
@@ -530,7 +530,7 @@ namespace Lazaro.WinMain.Config
             this.ForeColor = System.Drawing.SystemColors.ControlText;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "Inicial";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Asistente de configuración";

@@ -378,5 +378,24 @@ namespace Lazaro.WinMain.Config
                     CurrentTab = 5;
                     this.MostrarPestanias();
                 }
+
+        private void btnEstructura_Click(object sender, System.EventArgs e)
+        {
+            using (Lui.Forms.YesNoDialog Pregunta = new Lui.Forms.YesNoDialog(@"¡Atención! Esto puede generar inconvenientes. Responda 'Sí' sólamente si es la primera vez que utiliza Gestión777 o está restaurando desde una copia de seguridad.", @"¿Desea preparar el almacén de datos?"))
+            {
+                Pregunta.DialogButtons = Lui.Forms.DialogButtons.YesNo;
+                if (Pregunta.ShowDialog() == DialogResult.OK)
+                {
+                    Lfx.Types.OperationResult Res;
+                    using (var Connection = Lfx.Workspace.Master.GetNewConnection("Preparar almacén de datos") as Lfx.Data.Connection)
+                    {
+                        Connection.RequiresTransaction = false;
+                        Res = Lfx.Workspace.Master.Prepare(null);
+                    }
+                    if (Res.Success == false)
+                        return;
+                }
+            }
+        }
     }
 }

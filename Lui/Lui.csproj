@@ -499,6 +499,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="gestion777.ico" />
+    <None Include="Resources\Winrar.bmp" />
     <None Include="Resources\icono-120-v.png" />
     <None Include="Resources\form.png" />
     <None Include="Resources\van.png" />

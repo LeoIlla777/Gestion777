@@ -216,6 +216,13 @@ namespace Lfc
                                 }));
 
                         Res.Add(new Lfx.Components.RegisteredType(
+                                typeof(Lbl.Entidades.Moneda),
+                                new Lfx.Components.ActionCollection() {
+                                        new Lfx.Components.Action("list", typeof(Lfc.Moneda.Inicio)),
+                                        new Lfx.Components.Action("edit", typeof(Lfc.Moneda.Editar))
+                                }));
+
+                        Res.Add(new Lfx.Components.RegisteredType(
                                 typeof(Lbl.Comprobantes.PuntoDeVenta),
                                 new Lfx.Components.ActionCollection() {
                                         new Lfx.Components.Action("list", typeof(Lfc.Pvs.Inicio)),

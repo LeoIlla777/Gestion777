@@ -531,7 +531,7 @@ Responda 'Sí' sólamente si es la primera vez que utiliza Gestión o está rest
                 Texto.AppendLine("Excepción no controlada: " + ex.ToString());
                 Texto.AppendLine("");
 
-                Texto.AppendLine("Gestion versión " + System.Diagnostics.FileVersionInfo.GetVersionInfo(Lfx.Environment.Folders.ApplicationFolder + "Lazaro.exe").ProductVersion + " del " + new System.IO.FileInfo(Lfx.Environment.Folders.ApplicationFolder + "Lazaro.exe").LastWriteTime.ToString(Lfx.Types.Formatting.DateTime.FullDateTimePattern));
+                Texto.AppendLine("Gestion versión " + System.Diagnostics.FileVersionInfo.GetVersionInfo(Lfx.Environment.Folders.ApplicationFolder + "Gestión777.exe").ProductVersion + " del " + new System.IO.FileInfo(Lfx.Environment.Folders.ApplicationFolder + "Gestión777.exe").LastWriteTime.ToString(Lfx.Types.Formatting.DateTime.FullDateTimePattern));
                 System.IO.DirectoryInfo Dir = new System.IO.DirectoryInfo(Lfx.Environment.Folders.ApplicationFolder);
                 foreach (System.IO.FileInfo DirItem in Dir.GetFiles("*.dll"))
                 {

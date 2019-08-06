@@ -88,7 +88,7 @@ namespace Lazaro.Base.Util.Impresion.Comprobantes
 
                                 case "VALORES":
                                         System.Text.StringBuilder Valores = new System.Text.StringBuilder();
-                                        if (Recibo.Pagos != null)
+                                        if (Recibo.Pagos != null && Recibo.Pagos.Count > 0)
                                         {
                                             foreach (Lbl.Comprobantes.Pago Pg in Recibo.Pagos)
                                             {
@@ -120,7 +120,7 @@ namespace Lazaro.Base.Util.Impresion.Comprobantes
                                                 }
                                             }
                                         }
-                                        else
+                                        else if (Recibo.Cobros != null && Recibo.Cobros.Count > 0)
                                         {
                                             foreach (Lbl.Comprobantes.Cobro Pg in Recibo.Cobros)
                                             {
@@ -158,9 +158,7 @@ namespace Lazaro.Base.Util.Impresion.Comprobantes
                                         {
                                             Valores.AppendLine("*********    COMPROBANTES    *********");
                                             foreach (Lbl.Comprobantes.ComprobanteImporte fac in Recibo.Facturas)
-                                            {
-                                                Valores.AppendLine(fac.Comprobante.Nombre);
-                                            }
+                                                Valores.AppendLine(fac.Comprobante.ToString());
                                         }
                                         return Valores.ToString();
                                 default:

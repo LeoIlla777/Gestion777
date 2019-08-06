@@ -132,6 +132,7 @@ namespace Lazaro.WinMain.Config
             this.label50 = new Lui.Forms.Label();
             this.label51 = new Lui.Forms.Label();
             this.label52 = new Lui.Forms.Label();
+            this.btnEstructura = new Lui.Forms.Button();
             this.FrmGeneral.SuspendLayout();
             this.panel1.SuspendLayout();
             this.FrmArticulos.SuspendLayout();
@@ -1220,6 +1221,7 @@ namespace Lazaro.WinMain.Config
             // 
             // panel3
             // 
+            this.panel3.Controls.Add(this.btnEstructura);
             this.panel3.Controls.Add(this.EntradaPVRC2);
             this.panel3.Controls.Add(this.label41);
             this.panel3.Controls.Add(this.label42);
@@ -1385,6 +1387,20 @@ namespace Lazaro.WinMain.Config
             this.label52.Text = "PV predeterminado";
             this.label52.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
+            // btnEstructura
+            // 
+            this.btnEstructura.DialogResult = System.Windows.Forms.DialogResult.None;
+            this.btnEstructura.Image = null;
+            this.btnEstructura.ImagePos = Lui.Forms.ImagePositions.Top;
+            this.btnEstructura.Location = new System.Drawing.Point(409, 341);
+            this.btnEstructura.Name = "btnEstructura";
+            this.btnEstructura.Size = new System.Drawing.Size(197, 50);
+            this.btnEstructura.SubLabelPos = Lui.Forms.SubLabelPositions.None;
+            this.btnEstructura.Subtext = "Tecla";
+            this.btnEstructura.TabIndex = 20;
+            this.btnEstructura.Text = "Actualizar estructura";
+            this.btnEstructura.Click += new System.EventHandler(this.btnEstructura_Click);
+            // 
             // Preferencias
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
@@ -1535,5 +1551,6 @@ namespace Lazaro.WinMain.Config
                 private Lui.Forms.Label label50;
                 private Lui.Forms.Label label51;
                 private Lui.Forms.Label label52;
+        private Lui.Forms.Button btnEstructura;
     }
 }

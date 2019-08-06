@@ -46,22 +46,22 @@ namespace Lbl.Notificaciones
 
                 public void Iniciar()
                 {
-                        try {
-                                qGen.Select SelUltimoId = new qGen.Select("sys_mensajeria");
-                                SelUltimoId.Columns = new qGen.SqlIdentifierCollection() { "MAX(id_ultimomensaje)" };
-                                SelUltimoId.WhereClause = new qGen.Where();
-                                SelUltimoId.WhereClause.AddWithValue("id_usuario", Lbl.Sys.Config.Actual.UsuarioConectado.Id);
+                        //try {
+                        //        qGen.Select SelUltimoId = new qGen.Select("sys_mensajeria");
+                        //        SelUltimoId.Columns = new qGen.SqlIdentifierCollection() { "MAX(id_ultimomensaje)" };
+                        //        SelUltimoId.WhereClause = new qGen.Where();
+                        //        SelUltimoId.WhereClause.AddWithValue("id_usuario", Lbl.Sys.Config.Actual.UsuarioConectado.Id);
 
-                                this.LastMessageId = this.Connection.FieldInt(SelUltimoId);
+                        //        this.LastMessageId = this.Connection.FieldInt(SelUltimoId);
 
-                                this.PollTimer = new System.Timers.Timer();
-                                this.PollTimer.Interval = Lfx.Workspace.Master.SlowLink ? 67000 : 7000;
-                                this.PollTimer.Elapsed += new System.Timers.ElapsedEventHandler(this.PollTimer_Elapsed);
-                                this.PollTimer.Start();
-                        } catch {
-                                //if (Lfx.Environment.SystemInformation.DesignMode)
-                                        //throw;
-                        }
+                        //        this.PollTimer = new System.Timers.Timer();
+                        //        this.PollTimer.Interval = Lfx.Workspace.Master.SlowLink ? 67000 : 7000;
+                        //        this.PollTimer.Elapsed += new System.Timers.ElapsedEventHandler(this.PollTimer_Elapsed);
+                        //        this.PollTimer.Start();
+                        //} catch {
+                        //        //if (Lfx.Environment.SystemInformation.DesignMode)
+                        //                //throw;
+                        //}
                 }
 
                 private void PollTimer_Elapsed(Object sender, System.Timers.ElapsedEventArgs e)

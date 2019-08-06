@@ -175,21 +175,21 @@ namespace Lfc.Comprobantes.Compra
 
 		private void BotonPedido_Click(object sender, System.EventArgs e)
 		{
-                        TipoComprob = "PD";
+            TipoComprob = "PD";
 			this.DialogResult = DialogResult.OK;
 			this.Hide();
 		}
 
 		private void BotonArribo_Click(System.Object sender, System.EventArgs e)
 		{
-                        TipoComprob = "PD";
+            TipoComprob = "R";
 			this.DialogResult = DialogResult.OK;
 			this.Hide();
 		}
 
 		private void BotonFactura_Click(object sender, System.EventArgs e)
 		{
-                        TipoComprob = "FP";
+            TipoComprob = "FP";
 			this.DialogResult = DialogResult.OK;
 			this.Hide();
 		}
@@ -216,7 +216,7 @@ namespace Lfc.Comprobantes.Compra
 					break;
 
 				case "RP":
-                                case "R":
+                case "R":
 					this.BotonRemito.Focus();
 					break;
 

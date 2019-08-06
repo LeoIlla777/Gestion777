@@ -54,6 +54,10 @@ namespace Lbl.Comprobantes
                 {
                         if (tipo.NombreTipoLbl == "Lbl.Comprobantes.Remito")
                             tipo.NombreTipoLbl = "Lbl.Comprobantes.RemitoCompra";
+
+                        if (tipo.NombreTipoLbl == "Lbl.Comprobantes.Factura")
+                            tipo.NombreTipoLbl = "Lbl.Comprobantes.ComprobanteDeCompra";
+
                         Lbl.Comprobantes.ComprobanteConArticulos Res = base.Convertir(tipo);
                         Res.Compra = true;
                         Res.Fecha = DateTime.Now;

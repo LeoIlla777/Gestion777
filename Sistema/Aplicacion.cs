@@ -23,7 +23,7 @@ namespace Lazaro.WinMain
                 [EnvironmentPermissionAttribute(SecurityAction.LinkDemand, Unrestricted = true)]
                 public static string Version()
                 {
-                        System.Diagnostics.FileVersionInfo Ver = System.Diagnostics.FileVersionInfo.GetVersionInfo(Lfx.Environment.Folders.ApplicationFolder + "Lazaro.exe");
+                        System.Diagnostics.FileVersionInfo Ver = System.Diagnostics.FileVersionInfo.GetVersionInfo(Lfx.Environment.Folders.ApplicationFolder + "Gestión777.exe");
                         return Ver.ProductVersion.ToString();
                 }
 
@@ -753,7 +753,7 @@ Responda 'Sí' sólamente si es la primera vez que utiliza Gestión777 o está r
                         Texto.AppendLine("Excepción no controlada: " + ex.ToString());
                         Texto.AppendLine("");
 
-                        Texto.AppendLine("Lazaro versión " + System.Diagnostics.FileVersionInfo.GetVersionInfo(Lfx.Environment.Folders.ApplicationFolder + "Lazaro.exe").ProductVersion + " del " + new System.IO.FileInfo(Lfx.Environment.Folders.ApplicationFolder + "Lazaro.exe").LastWriteTime.ToString(Lfx.Types.Formatting.DateTime.FullDateTimePattern));
+                        Texto.AppendLine("Gestión777 versión " + System.Diagnostics.FileVersionInfo.GetVersionInfo(Lfx.Environment.Folders.ApplicationFolder + "Gestión777.exe").ProductVersion + " del " + new System.IO.FileInfo(Lfx.Environment.Folders.ApplicationFolder + "Gestión777.exe").LastWriteTime.ToString(Lfx.Types.Formatting.DateTime.FullDateTimePattern));
                         System.IO.DirectoryInfo Dir = new System.IO.DirectoryInfo(Lfx.Environment.Folders.ApplicationFolder);
                         foreach (System.IO.FileInfo DirItem in Dir.GetFiles("*.dll")) {
                                 Texto.AppendLine(DirItem.Name + " versión " + System.Diagnostics.FileVersionInfo.GetVersionInfo(DirItem.FullName).ProductVersion + " del " + new System.IO.FileInfo(DirItem.FullName).LastWriteTime.ToString(Lfx.Types.Formatting.DateTime.FullDateTimePattern));

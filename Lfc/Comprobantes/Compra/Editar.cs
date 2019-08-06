@@ -215,7 +215,7 @@ namespace Lfc.Comprobantes.Compra
 
         public override bool PuedeEditar()
         {
-            return true;//!this.Elemento.Existe;
+            return !this.Elemento.Existe;
         }
 
         public override bool PuedeImprimir()
@@ -294,6 +294,7 @@ namespace Lfc.Comprobantes.Compra
 
         private void BotonConvertir_Click(object sender, EventArgs e)
         {
+            //EntradaTipo.TextKey == "NP" || EntradaTipo.TextKey == "PD"
             using (Lfc.Comprobantes.Compra.Crear FormularioConvertir = new Lfc.Comprobantes.Compra.Crear())
             {
                 if (FormularioConvertir.ShowDialog() == DialogResult.OK)
@@ -306,8 +307,7 @@ namespace Lfc.Comprobantes.Compra
                         try
                         {
                             System.Data.IDbTransaction tran = this.Elemento.Connection.BeginTransaction();
-                            this.Elemento.Connection.ExecuteNonQuery(@"UPDATE comprob SET estado = 100
-						                                WHERE id_comprob=" + this.Elemento.Id);
+                            this.Elemento.Connection.ExecuteNonQuery(@"UPDATE comprob SET estado = 100 WHERE id_comprob=" + this.Elemento.Id);
                             tran.Commit();
                         }
                         catch (Exception ex2)
@@ -353,6 +353,8 @@ namespace Lfc.Comprobantes.Compra
                         NuevoComprob = Comprob.Convertir(NuevoTipo);
                         NuevoComprob.Numero = 10;
                     }
+                    if (Comprob.TipoFac == "R")
+                        NuevoComprob.IdRemito = Comprob.Id;
                     Lfc.FormularioEdicion FormularioEdicion = Lfc.Instanciador.InstanciarFormularioEdicion(NuevoComprob);
                     FormularioEdicion.MdiParent = this.ParentForm.MdiParent;
                     FormularioEdicion.Show();

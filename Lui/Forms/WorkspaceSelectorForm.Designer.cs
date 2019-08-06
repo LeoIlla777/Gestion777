@@ -46,6 +46,7 @@ namespace Lui.Forms
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.Espacios.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.Espacios.Font = new System.Drawing.Font("Segoe UI", 10F);
             this.Espacios.IntegralHeight = false;
             this.Espacios.ItemHeight = 17;
             this.Espacios.Location = new System.Drawing.Point(124, 57);
@@ -68,11 +69,11 @@ namespace Lui.Forms
             // 
             // PictureBox1
             // 
-            this.PictureBox1.Image = global::Lui.Properties.Resources.icono_120_v;
-            this.PictureBox1.Location = new System.Drawing.Point(20, 114);
+            this.PictureBox1.Image = global::Lui.Properties.Resources.Winrar;
+            this.PictureBox1.Location = new System.Drawing.Point(12, 3);
             this.PictureBox1.Name = "PictureBox1";
-            this.PictureBox1.Size = new System.Drawing.Size(24, 120);
-            this.PictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
+            this.PictureBox1.Size = new System.Drawing.Size(83, 243);
+            this.PictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.PictureBox1.TabIndex = 51;
             this.PictureBox1.TabStop = false;
             // 
@@ -87,14 +88,13 @@ namespace Lui.Forms
             this.Controls.Add(this.PanelLogo);
             this.ForeColor = System.Drawing.Color.Black;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.Margin = new System.Windows.Forms.Padding(2);
             this.Name = "WorkspaceSelectorForm";
             this.Text = "Espacio de trabajo";
             this.Controls.SetChildIndex(this.PanelLogo, 0);
             this.Controls.SetChildIndex(this.label1, 0);
             this.Controls.SetChildIndex(this.Espacios, 0);
             this.PanelLogo.ResumeLayout(false);
-            this.PanelLogo.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.PictureBox1)).EndInit();
             this.ResumeLayout(false);
 

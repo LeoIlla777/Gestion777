@@ -3,3 +3,7 @@
 * Ahora se ve mejor en pantallas de alta resolución (HiDPI).
 * Nuevo instalador local, que no requiere privilegios para actualizar.
 * Nueva fuente predeterminada (Segoe UI).
+
+*** 2019-07-11
+
+* Se agrego en el punto de venta la persona que se encuentra relacionada.

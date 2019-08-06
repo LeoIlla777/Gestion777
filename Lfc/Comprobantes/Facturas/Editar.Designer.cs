@@ -26,11 +26,11 @@ namespace Lfc.Comprobantes.Facturas
             this.btnQuitarPago = new Lui.Forms.Button();
             this.EtiquetaValoresImporte = new Lui.Forms.Label();
             this.panelMultiPago = new Lui.Forms.Panel();
+            this.EntradaFormaPagoTicket = new Lui.Forms.ComboBox();
             this.btnCerrarPanel = new Lui.Forms.Button();
             this.label12 = new Lui.Forms.Label();
             this.EntradaFecha = new Lui.Forms.TextBox();
             this.lblFecha = new Lui.Forms.Label();
-            this.EntradaFormaPagoTicket = new Lui.Forms.ComboBox();
             this.PanelFormaPago.SuspendLayout();
             this.PanelComprobanteOriginal.SuspendLayout();
             this.panelMultiPago.SuspendLayout();
@@ -61,7 +61,7 @@ namespace Lfc.Comprobantes.Facturas
             // 
             // EntradaFormaPago
             // 
-            this.EntradaFormaPago.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+            this.EntradaFormaPago.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.EntradaFormaPago.AutoTab = true;
             this.EntradaFormaPago.CanCreate = true;
@@ -96,7 +96,7 @@ namespace Lfc.Comprobantes.Facturas
             this.EntradaTipo.SetData = new string[] {
         "Factura A|FA"};
             this.EntradaTipo.Size = new System.Drawing.Size(116, 25);
-            this.EntradaTipo.TabIndex = 11;
+            this.EntradaTipo.TabIndex = 7;
             this.EntradaTipo.TextKey = "FA";
             this.EntradaTipo.TextChanged += new System.EventHandler(this.EntradaTipo_TextChanged);
             this.EntradaTipo.Leave += new System.EventHandler(this.EntradaTipo_Leave);
@@ -130,7 +130,7 @@ namespace Lfc.Comprobantes.Facturas
             // 
             // PanelFormaPago
             // 
-            this.PanelFormaPago.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+            this.PanelFormaPago.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.PanelFormaPago.Controls.Add(this.EntradaFormaPago);
             this.PanelFormaPago.Controls.Add(this.Label2);
@@ -142,8 +142,8 @@ namespace Lfc.Comprobantes.Facturas
             // 
             // ListaPagos
             // 
-            this.ListaPagos.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-            | System.Windows.Forms.AnchorStyles.Left)
+            this.ListaPagos.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.ListaPagos.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.ValoresTipoPagoId,
@@ -185,7 +185,7 @@ namespace Lfc.Comprobantes.Facturas
             // 
             // PanelComprobanteOriginal
             // 
-            this.PanelComprobanteOriginal.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+            this.PanelComprobanteOriginal.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.PanelComprobanteOriginal.Controls.Add(this.EtiquetaComprobanteOriginal);
             this.PanelComprobanteOriginal.Controls.Add(this.EntradaComprobanteOriginal);
@@ -206,7 +206,7 @@ namespace Lfc.Comprobantes.Facturas
             // 
             // EntradaComprobanteOriginal
             // 
-            this.EntradaComprobanteOriginal.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+            this.EntradaComprobanteOriginal.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.EntradaComprobanteOriginal.AutoTab = true;
             this.EntradaComprobanteOriginal.CanCreate = true;
@@ -265,7 +265,7 @@ namespace Lfc.Comprobantes.Facturas
             // 
             // panelMultiPago
             // 
-            this.panelMultiPago.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+            this.panelMultiPago.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.panelMultiPago.BackColor = System.Drawing.Color.Wheat;
             this.panelMultiPago.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
@@ -280,6 +280,21 @@ namespace Lfc.Comprobantes.Facturas
             this.panelMultiPago.Size = new System.Drawing.Size(240, 211);
             this.panelMultiPago.TabIndex = 59;
             this.panelMultiPago.Visible = false;
+            // 
+            // EntradaFormaPagoTicket
+            // 
+            this.EntradaFormaPagoTicket.AlwaysExpanded = false;
+            this.EntradaFormaPagoTicket.AutoSize = true;
+            this.EntradaFormaPagoTicket.Location = new System.Drawing.Point(196, 32);
+            this.EntradaFormaPagoTicket.Name = "EntradaFormaPagoTicket";
+            this.EntradaFormaPagoTicket.SetData = new string[] {
+        "No controla pago|0",
+        "Efectivo|1",
+        "Cuenta corriente|3"};
+            this.EntradaFormaPagoTicket.Size = new System.Drawing.Size(176, 25);
+            this.EntradaFormaPagoTicket.TabIndex = 1;
+            this.EntradaFormaPagoTicket.TextKey = "0";
+            this.EntradaFormaPagoTicket.Visible = false;
             // 
             // btnCerrarPanel
             // 
@@ -299,7 +314,7 @@ namespace Lfc.Comprobantes.Facturas
             // 
             // label12
             // 
-            this.label12.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+            this.label12.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.label12.AutoSize = true;
             this.label12.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
@@ -330,21 +345,6 @@ namespace Lfc.Comprobantes.Facturas
             this.lblFecha.TabIndex = 61;
             this.lblFecha.Text = "Fecha";
             this.lblFecha.Visible = false;
-            // 
-            // EntradaFormaPagoTicket
-            // 
-            this.EntradaFormaPagoTicket.AlwaysExpanded = false;
-            this.EntradaFormaPagoTicket.AutoSize = true;
-            this.EntradaFormaPagoTicket.Location = new System.Drawing.Point(196, 32);
-            this.EntradaFormaPagoTicket.Name = "EntradaFormaPagoTicket";
-            this.EntradaFormaPagoTicket.SetData = new string[] {
-        "No controla pago|0",
-        "Efectivo|1",
-        "Cuenta corriente|3"};
-            this.EntradaFormaPagoTicket.Size = new System.Drawing.Size(176, 25);
-            this.EntradaFormaPagoTicket.TabIndex = 62;
-            this.EntradaFormaPagoTicket.TextKey = "0";
-            this.EntradaFormaPagoTicket.Visible = false;
             // 
             // Editar
             // 

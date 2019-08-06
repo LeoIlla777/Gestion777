@@ -44,6 +44,7 @@ namespace Lfx.Data
                                         Def = "MEDIUMINT";
                                         break;
                                 case ColumnTypes.DateTime:
+                                case ColumnTypes.Date:
                                         Def = "$DATETIME$";
                                         break;
                                 case ColumnTypes.VarChar:
@@ -61,7 +62,7 @@ namespace Lfx.Data
                                 case ColumnTypes.TinyInt:
                                         Def = "$TINYINT$";
                                         break;
-				case ColumnTypes.Currency:
+				                case ColumnTypes.Currency:
                                 case ColumnTypes.Numeric:
                                         Def = "NUMERIC";
                                         break;
@@ -191,7 +192,14 @@ namespace Lfx.Data
                                                 } else {
                                                         Def += " DEFAULT " + this.DefaultValue + "";
                                                 }
-                                                break;  
+                                                break;
+                                        case ColumnTypes.Date:
+                                        case ColumnTypes.DateTime:
+                                            if (this.DefaultValue != null && this.DefaultValue.Length > 0)
+                                                Def += " DEFAULT " + this.DefaultValue;
+                                            else
+                                                Def += " DEFAULT NULL";
+                                            break;
                                         default:
                                                 if (this.DefaultValue != null && this.DefaultValue.Length > 0)
                                                         Def += " DEFAULT " + this.DefaultValue;

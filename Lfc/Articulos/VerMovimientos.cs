@@ -33,16 +33,20 @@ namespace Lfc.Articulos
                                 Detalle["desdesituacion"] = Lfx.Data.Connection.ConvertDBNullToZero(Detalle["desdesituacion"]);
                                 Detalle["haciasituacion"] = Lfx.Data.Connection.ConvertDBNullToZero(Detalle["haciasituacion"]);
 
-                                if (System.Convert.ToInt32(Detalle["desdesituacion"]) != 0) {
-                                        if (SituacionCache.ContainsKey(System.Convert.ToInt32(Detalle["desdesituacion"])) == false)
-                                                SituacionCache[System.Convert.ToInt32(Detalle["desdesituacion"])] = this.Connection.FieldString("SELECT nombre FROM articulos_situaciones WHERE id_situacion=" + Detalle["desdesituacion"].ToString());
-                                        DesdeSituacion = SituacionCache[(int)Detalle["desdesituacion"]];
+                                int dSit = System.Convert.ToInt32(Detalle["desdesituacion"]);
+
+                                if (dSit != 0) {
+                                        if (SituacionCache.ContainsKey(dSit) == false)
+                                                SituacionCache[dSit] = this.Connection.FieldString("SELECT nombre FROM articulos_situaciones WHERE id_situacion=" + Detalle["desdesituacion"].ToString());
+                                        DesdeSituacion = SituacionCache[dSit];
                                 }
 
-                                if (System.Convert.ToInt32(Detalle["haciasituacion"]) != 0) {
-                                        if (SituacionCache.ContainsKey((int)Detalle["haciasituacion"]) == false)
-                                                SituacionCache[(int)Detalle["haciasituacion"]] = this.Connection.FieldString("SELECT nombre FROM articulos_situaciones WHERE id_situacion=" + Detalle["haciasituacion"].ToString());
-                                        HaciaSituacion = SituacionCache[(int)Detalle["haciasituacion"]];
+                                int hSit = System.Convert.ToInt32(Detalle["haciasituacion"]);
+
+                                if (hSit != 0) {
+                                        if (SituacionCache.ContainsKey(hSit) == false)
+                                                SituacionCache[hSit] = this.Connection.FieldString("SELECT nombre FROM articulos_situaciones WHERE id_situacion=" + Detalle["haciasituacion"].ToString());
+                                        HaciaSituacion = SituacionCache[hSit];
                                 }
 
                                 itm = Listado.Items.Add(System.Convert.ToString(Detalle["id_movim"]));
@@ -53,6 +57,18 @@ namespace Lfc.Articulos
                                 itm.SubItems.Add(new ListViewItem.ListViewSubItem(itm, HaciaSituacion));
                                 itm.SubItems.Add(new ListViewItem.ListViewSubItem(itm, Lfx.Types.Formatting.FormatNumber(System.Convert.ToDecimal(Detalle["saldo"]), Lbl.Sys.Config.Articulos.Decimales)));
                                 itm.SubItems.Add(new ListViewItem.ListViewSubItem(itm, System.Convert.ToString(Detalle["obs"])));
+                                switch (hSit)
+                                {
+                                    case 997:
+                                    case 998:
+                                    case 999:
+                                    case 1002:
+                                        itm.ForeColor = Color.Red;
+                                        break;
+                                    default:
+                                        itm.ForeColor = Color.Black;
+                                        break;
+                                }                
                         }
                         Listado.EndUpdate();
                         if (itm != null) {

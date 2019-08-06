@@ -292,7 +292,7 @@ namespace Lfx.Data
                                                                         Columna.DefaultValue = null;
                                                                 break;
                                                         case ColumnTypes.DateTime:
-                                                                Columna.DefaultValue = null;
+                                                                    Columna.DefaultValue = null;
                                                                 break;
                                                         default:
                                                                 Columna.DefaultValue = "";

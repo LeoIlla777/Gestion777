@@ -722,7 +722,7 @@ namespace Lbl.Comprobantes
         {
             if (this.Tipo.MueveExistencias != 0)
             {
-                if (this.Tipo.EsRemito || (this.Tipo.EsFacturaNCoND && this.IdRemito == 0))
+                if (this.Tipo.EsRemito || ((this.Tipo.EsFacturaNCoND || this.Tipo.EsTicketX) && this.IdRemito == 0))
                 {
                     // Es un Remito, factura, NC o ND
                     // Resta lo facturado del stock
@@ -1333,6 +1333,10 @@ namespace Lbl.Comprobantes
             EliminarDetallesViejos.WhereClause = new qGen.Where("id_comprob", this.Id);
             this.Connection.ExecuteNonQuery(EliminarDetallesViejos);
 
+            string empresaIva = Lfx.Workspace.Master.CurrentConfig.Empresa.IVA.ToLower();
+            Lbl.Impuestos.Alicuota AliPre = Lbl.Sys.Config.Empresa.AlicuotaPredeterminada;
+            Impuestos.SituacionIva ivaCliente = this.Cliente.ObtenerSituacionIva();
+
             int i = 1;
             for (int Pasada = 1; Pasada <= 2; Pasada++)
             {
@@ -1374,9 +1378,8 @@ namespace Lbl.Comprobantes
                         Comando.ColumnValues.AddWithValue("cantidad", Art.Cantidad);
                         Comando.ColumnValues.AddWithValue("precio", Art.ImporteUnitario);
                         Comando.ColumnValues.AddWithValue("nogravado", Art.ImporteNoGravado);
-                        if (Lfx.Workspace.Master.CurrentConfig.Empresa.IVA.ToLower() != "exento" && Art.Articulo == null && this.Cliente.ObtenerSituacionIva() == Impuestos.SituacionIva.Exento)
+                        if (empresaIva != "exento" && Art.Articulo == null && ivaCliente == Impuestos.SituacionIva.Exento)
                         {
-                            Lbl.Impuestos.Alicuota AliPre = Lbl.Sys.Config.Empresa.AlicuotaPredeterminada;
                             decimal alicuota = Art.Alicuota != null ? Art.Alicuota.Porcentaje : AliPre.Porcentaje;
                             decimal ivaSiCorresponde = Art.ImporteUnitario - (Art.ImporteUnitario / (1 + (alicuota / 100)));
                             Comando.ColumnValues.AddWithValue("iva", Art.ImporteIvaUnitario);
@@ -1393,6 +1396,7 @@ namespace Lbl.Comprobantes
                         }
                         else
                             Comando.ColumnValues.AddWithValue("costo", Art.Costo);
+
                         Comando.ColumnValues.AddWithValue("importe", Art.ImporteAImprimir);
                         Comando.ColumnValues.AddWithValue("total", Art.ImporteTotalConIvaFinal);
                         Comando.ColumnValues.AddWithValue("series", Art.DatosSeguimiento);
